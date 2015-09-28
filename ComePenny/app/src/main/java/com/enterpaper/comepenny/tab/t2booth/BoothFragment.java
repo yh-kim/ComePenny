@@ -1,6 +1,7 @@
 package com.enterpaper.comepenny.tab.t2booth;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activity.BoothDetailActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 import java.util.ArrayList;
@@ -67,7 +68,9 @@ public class BoothFragment extends Fragment {
         main_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(rootView.getContext(), "test" + position, Toast.LENGTH_SHORT).show();
+                Intent company = new Intent(rootView.getContext(), BoothDetailActivity.class);
+                startActivity(company);
+                getActivity().overridePendingTransition(0, 0);
             }
         });
 
