@@ -1,26 +1,72 @@
 package com.enterpaper.comepenny.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.util.BackPressCloseHandler;
+import com.enterpaper.comepenny.util.SetFont;
 
 
 public class MainActivity extends ActionBarActivity {
     Toolbar mToolBar;
+    private BackPressCloseHandler backPressCloseHandler;
+    ImageView imgMyInfo,imgSetting;
+
+    static public ViewPager pager;
+    PagerSlidingTabStrip tabsStrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Toolbar 생성
+        // 취소버튼 눌렀을 때 핸들러
+        backPressCloseHandler = new BackPressCloseHandler(this);
+
+        // Text 폰트 지정
+        SetFont.setGlobalFont(this, getWindow().getDecorView());
+
+        // 레이아웃 객체 생성
+        initLayout();
+
+        // Toolbar 생성
         initToolbar();
 
+        // 탭 생성
+        initTab();
     }
+
+
+    private void initLayout(){
+        imgMyInfo = (ImageView)findViewById(R.id.img_main_myinfo);
+        imgSetting = (ImageView)findViewById(R.id.img_main_setting);
+
+        imgMyInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itMyInfo = new Intent(getApplicationContext(), MyInfoActivity.class);
+                startActivity(itMyInfo);
+                overridePendingTransition(0,0);
+            }
+        });
+
+        imgSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itSetting = new Intent(getApplicationContext(), SettingActivity.class);
+                startActivity(itSetting);
+                overridePendingTransition(0,0);
+            }
+        });
+    }
+
 
     private void initToolbar(){
         //액션바 객체 생성
@@ -37,21 +83,41 @@ public class MainActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+    private void initTab(){
+        pager = (ViewPager) this.findViewById(R.id.pager);
+        pager.setAdapter(new ComePennyFragmentPagerAdapter(getSupportFragmentManager()));
 
-        return true;
+        /* 큰아이콘 탭
+        */
+        tabsStrip = (PagerSlidingTabStrip)this.findViewById(R.id.tabsStrip);
+        tabsStrip.setViewPager(pager);
+
+
+
+        tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+
+
+        });
+
     }
 
+    //취소버튼 눌렀을 때
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        //핸들러 작동
+        backPressCloseHandler.onBackPressed();
     }
-
 }
