@@ -14,8 +14,9 @@
         <!--
         -->
         <ImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
+            android:layout_marginLeft="6dp"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
             android:gravity="left"
             android:layout_gravity="left"
             android:id="@+id/btn_booth_back"
@@ -28,17 +29,11 @@
             android:layout_gravity="center"
             android:id="@+id/tv_logo_name"
             android:text="Costco"
-            android:textColor="#ced2d3"
+            android:textSize="20dp"
+            android:textColor="#ffffff"
             android:clickable="false"
             android:focusable="false"
             android:longClickable="false"/>
-
-        <ImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:layout_gravity="right|center"
-            android:id="@+id/btn_booth_write"
-            android:src="@drawable/booth_write"/>
 
     </android.support.v7.widget.Toolbar>
 

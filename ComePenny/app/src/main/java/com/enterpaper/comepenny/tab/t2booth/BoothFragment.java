@@ -90,6 +90,7 @@ public class BoothFragment extends Fragment {
         return rootView;
     }
 
+    // 리스트 추가
     private void initMainList(){
 
         for(int i=0; i<16;i++){

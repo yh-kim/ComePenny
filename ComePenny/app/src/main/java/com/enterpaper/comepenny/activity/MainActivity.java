@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.tab.ComePennyFragmentPagerAdapter;
 import com.enterpaper.comepenny.util.BackPressCloseHandler;
 import com.enterpaper.comepenny.util.SetFont;
 

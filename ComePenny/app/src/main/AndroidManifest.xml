@@ -41,6 +41,9 @@
 
         <activity android:name=".activity.BoothDetailActivity">
         </activity>
+
+        <activity android:name=".activity.IdeaDetailActivity">
+        </activity>
     </application>
 
 </manifest>

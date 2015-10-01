@@ -9,26 +9,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.util.SetFont;
 
 import java.util.ArrayList;
 
 /**
  * Created by Kim on 2015-07-14.
  */
-public class MenuAdapter extends ArrayAdapter<MenuListItem> {
+
+public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
     //LayoutInflater -> XML을 동적으로 만들 때 필요
     private LayoutInflater inflater = null;
     //Context -> Activity Class의 객체
-    private Context expoContext = null;
-    private Context context;
+    private Context context = null;
 
-    public MenuAdapter(Context context, int resource, ArrayList<MenuListItem> objects) {
+    public IdeaAdapter(Context context, int resource, ArrayList<IdeaListItem> objects) {
         super(context, resource, objects);
 
         //context는 함수를 호출한 activiy
         //resource는 row_xxx.xml 의 정보
         this.context = context;
-        this.expoContext = context;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -37,41 +37,46 @@ public class MenuAdapter extends ArrayAdapter<MenuListItem> {
     //List 하나마다 getView가 한번 실행된다
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+      //  aq = new AQuery(convertView);
         //position -> List번호
         ViewHolder holder;
 
         //XML 파일이 비어있는 상태라면
-        if(convertView == null){
+        if (convertView == null) {
             //layout 설정
-            convertView = inflater.inflate(R.layout.row_menu,null);
+            convertView = inflater.inflate(R.layout.row_idea, null);
+            //TextView 폰트 지정
+            SetFont.setGlobalFont(context, convertView);
 
             holder = new ViewHolder();
 
             //row에 있는 정보들을 holder로 가져옴
-            holder.img = (ImageView)convertView.findViewById(R.id.menu_img);
-            holder.title = (TextView)convertView.findViewById(R.id.menu_title);
 
+            holder.img = (ImageView) convertView.findViewById(R.id.iv_company);
+            holder.title = (TextView) convertView.findViewById(R.id.tv_idea);
+            holder.UserId = (TextView) convertView.findViewById(R.id.tv_UserId);
+            holder.ViewCount = (TextView) convertView.findViewById(R.id.tv_count_view);
+            holder.LikeCount = (TextView) convertView.findViewById(R.id.tv_count_like);
             convertView.setTag(holder);
         }
 
 
-        holder = (ViewHolder)convertView.getTag();
+        holder = (ViewHolder) convertView.getTag();
 
-        MenuListItem item = getItem(position);
+        IdeaListItem item = getItem(position);
 
-
-
-        holder.img.setImageResource(item.getImg());
+       // holder.img.setImageBitmap(item.getImg());
         holder.title.setText(item.getTitle());
-
+        holder.UserId.setText(item.getUserId());
+        holder.ViewCount.setText(item.getViewCount());
+        holder.LikeCount.setText(item.getLikeCount());
 
         return convertView;
-
     }
 
     class ViewHolder {
         ImageView img;
-        TextView title;
+        TextView title, UserId, ViewCount, LikeCount;
     }
+
 }

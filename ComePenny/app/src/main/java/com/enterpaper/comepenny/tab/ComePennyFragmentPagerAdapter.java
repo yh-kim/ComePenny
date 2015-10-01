@@ -1,4 +1,4 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.tab;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
