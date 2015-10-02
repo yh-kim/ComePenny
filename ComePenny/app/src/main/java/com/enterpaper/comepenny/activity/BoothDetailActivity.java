@@ -112,7 +112,6 @@ public class BoothDetailActivity extends ActionBarActivity {
         btnBoothBack = (ImageView)findViewById(R.id.btn_booth_back);
         btnBoothInfo = (ImageView)header.findViewById(R.id.btn_booth_info);
         btnBoothInfoClose = (ImageView)header.findViewById(R.id.btn_booth_info_close);
-
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
 
     }
