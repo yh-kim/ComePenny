@@ -90,6 +90,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
+        
         //액션바 숨김
         actionBar.hide();
 
