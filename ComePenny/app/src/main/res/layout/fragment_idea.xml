@@ -5,6 +5,7 @@
     android:background="#e5e5e5">
 
         <ListView
+            android:listSelector="@android:color/transparent"
             android:paddingTop="4dp"
             android:scrollbars="none"
             android:layout_width="match_parent"
@@ -18,7 +19,6 @@
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:src="@drawable/main_write"
-
             />
 
 </FrameLayout>

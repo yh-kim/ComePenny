@@ -28,7 +28,6 @@ public class BoothFragment extends Fragment {
     // ArrayList
     ArrayList<BoothItem> arr_list = new ArrayList<BoothItem>();
 
-
     public static Fragment newInstance() {
         Fragment fragment = new BoothFragment();
         Bundle bundle = new Bundle();

@@ -1,6 +1,5 @@
 package com.enterpaper.comepenny.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,33 +25,19 @@ public class IdeaDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idea_detail);
 
-
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         //Toolbar 생성
         initToolbar();
-        scrollView_mainidea_detail = (ScrollView)findViewById(R.id.scrollView_mainidea_detail);
-        Img_company = (ImageView) findViewById(R.id.Img_company);
-        btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
-        btn_pick = (ImageButton) findViewById(R.id.btn_pick);
-        btn_modify = (TextView) findViewById(R.id.btn_modify);
-        btn_delete = (TextView) findViewById(R.id.btn_delete);
-        tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-        tv_ideatitle = (TextView) findViewById(R.id.tv_ideatitle);
-        tv_Writer = (TextView) findViewById(R.id.tv_Writer);
-        tv_view = (TextView) findViewById(R.id.tv_view);
-        tv_like = (TextView) findViewById(R.id.tv_like);
-        tv_ideaoriginal = (TextView) findViewById(R.id.tv_ideaoriginal);
+
+
+        // 레이아웃 객체 생성
+        initLayout();
 
         btn_ideaback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-
-                overridePendingTransition(0, 0);
                 finish();
             }
         });
@@ -86,6 +71,22 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    // layout
+    private void initLayout(){
+        scrollView_mainidea_detail = (ScrollView)findViewById(R.id.scrollView_mainidea_detail);
+        Img_company = (ImageView) findViewById(R.id.Img_company);
+        btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
+        btn_pick = (ImageButton) findViewById(R.id.btn_pick);
+        btn_modify = (TextView) findViewById(R.id.btn_modify);
+        btn_delete = (TextView) findViewById(R.id.btn_delete);
+        tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
+        tv_ideatitle = (TextView) findViewById(R.id.tv_ideatitle);
+        tv_Writer = (TextView) findViewById(R.id.tv_Writer);
+        tv_view = (TextView) findViewById(R.id.tv_view);
+        tv_like = (TextView) findViewById(R.id.tv_like);
+        tv_ideaoriginal = (TextView) findViewById(R.id.tv_ideaoriginal);
     }
 
     private void initToolbar() {

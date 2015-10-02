@@ -76,7 +76,6 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();
 
-
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -87,6 +86,7 @@ public class IdeaFragment extends Fragment {
             }
 
         });
+
         lvMainIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -95,7 +95,7 @@ public class IdeaFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+                fab.attachToListView(lvMainIdea);
             }
         });
 
