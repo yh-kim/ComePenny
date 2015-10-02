@@ -93,7 +93,8 @@ public class IdeaFragment extends Fragment {
                 //testestttest
 
                 ///testesttest
-
+                //miritest
+                
             }
 
             @Override
