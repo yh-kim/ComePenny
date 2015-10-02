@@ -92,6 +92,8 @@ public class IdeaFragment extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 //testestttest
 
+                ///testesttest
+
             }
 
             @Override
