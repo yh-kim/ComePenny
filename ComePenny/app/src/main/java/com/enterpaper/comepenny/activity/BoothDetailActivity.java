@@ -103,7 +103,6 @@ public class BoothDetailActivity extends ActionBarActivity {
         dataList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             dataList.add(new IdeaListItem(1234, "IdeaTitle", "jihoon1234", "1233", "4321"));
-
         }
     }
 
