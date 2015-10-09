@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activity.IdeaDetailActivity;
@@ -18,17 +22,24 @@ import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kim on 2015-09-26.
  */
 public class IdeaFragment extends Fragment {
-    View rootView;
+    View rootView, popular_view;
+    TextView test;
     ListView lvMainIdea;
+    RecyclerView recyclerView;
     FloatingActionButton fab;
     private Intent intent = new Intent();
     IdeaAdapter adapters;
+    IdeaPopularAdapter adapter;
     ArrayList<IdeaListItem> dataList = new ArrayList<>();
+    LinearLayout recycler_info;
+    List<IdeaPopularListItem> items = new ArrayList<>();
+    LinearLayoutManager layoutmanager;
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -45,7 +56,6 @@ public class IdeaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -56,6 +66,20 @@ public class IdeaFragment extends Fragment {
         SetFont.setGlobalFont(rootView.getContext(), rootView);
 
         lvMainIdea = (ListView) rootView.findViewById(R.id.lv_main_idea);
+
+
+        //헤더 생성
+        popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
+        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
+        recyclerView = (RecyclerView)popular_view.findViewById(R.id.recyclerview);
+        //recyclerView.setOnClickListener();
+        // 레이아웃 객체 생성
+        initLayout();
+
+
+        //헤더설정
+        lvMainIdea.addHeaderView(popular_view);
+
         fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.attachToListView(lvMainIdea);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +91,7 @@ public class IdeaFragment extends Fragment {
             }
         });
 
-        addItemsidea();
+        addItemsIdea();
 
         // Adapter 생성
         adapters = new IdeaAdapter(rootView.getContext(), R.layout.row_idea, dataList);
@@ -76,13 +100,21 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();
 
+//        recyclerview.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+
+
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(0,0);
+                getActivity().overridePendingTransition(0, 0);
             }
 
         });
@@ -90,11 +122,7 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                //testestttest
 
-                ///testesttest
-                //miritest
-                
             }
 
             @Override
@@ -107,11 +135,33 @@ public class IdeaFragment extends Fragment {
     }
 
     // 리스트 아이템 추가
-    private void addItemsidea() {
+    private void addItemsIdea() {
         dataList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             dataList.add(new IdeaListItem(1234, "IdeaTitle", "jihoon1234", "1233", "4321"));
 
         }
     }
+
+    // layout
+    private void initLayout() {
+        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
+        recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(popular_view.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        items = new ArrayList<>();
+        adapter = new IdeaPopularAdapter(popular_view.getContext(), items, R.layout.row_idea_popular);
+        recyclerView.setAdapter(adapter);
+
+
+        for (int i = 0; i < 10; i++) {
+            items.add(new IdeaPopularListItem(R.drawable.ex1, "Lego"));
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
 }

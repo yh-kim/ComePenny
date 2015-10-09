@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:scaleType="centerCrop"
             android:id="@+id/iv_company"
             android:layout_width="100dp"
             android:layout_height="100dp"

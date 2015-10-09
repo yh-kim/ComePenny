@@ -2,7 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/booth_detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#0c2044">
 
+            <!--
+            -->
+            <ImageView
+                android:layout_marginLeft="6dp"
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:gravity="left"
+                android:layout_gravity="left"
+                android:id="@+id/btn_booth_back"
+                android:src="@drawable/booth_back"/>
+
+
+
+            <ImageView
+                android:layout_width="93dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:id="@+id/img_logo"
+                android:clickable="false"
+                android:focusable="false"
+                android:longClickable="false"
+                android:src="@drawable/main_comepenny"/>
+        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
