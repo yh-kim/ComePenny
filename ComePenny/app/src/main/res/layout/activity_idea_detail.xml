@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/tv_logo_name"
-            android:text="Costco"
+            android:text="Lego"
             android:textSize="20sp"
             android:textColor="#ffffff"
             android:clickable="false"

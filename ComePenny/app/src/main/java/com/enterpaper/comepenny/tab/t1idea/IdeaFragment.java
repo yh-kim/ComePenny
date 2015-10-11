@@ -72,7 +72,7 @@ public class IdeaFragment extends Fragment {
         popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView)popular_view.findViewById(R.id.recyclerview);
-        //recyclerView.setOnClickListener();
+
         // 레이아웃 객체 생성
         initLayout();
 
@@ -99,14 +99,6 @@ public class IdeaFragment extends Fragment {
         // Adapter와 GirdView를 연결
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();
-
-//        recyclerview.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
 
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
