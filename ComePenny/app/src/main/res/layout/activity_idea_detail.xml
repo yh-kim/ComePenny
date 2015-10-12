@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/mainidea_toolbar"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#0c2044">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:gravity="left"
-            android:layout_gravity="left"
-            android:id="@+id/btn_ideaback"
-            android:src="@drawable/booth_back"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/mainidea_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#0c2044"
+            >
+
+            <!--
+            -->
+            <ImageView
+                android:id="@+id/btn_ideaback"
+                android:layout_width="12dp"
+                android:layout_height="20dp"
+                android:layout_gravity="left"
+                android:layout_marginLeft="6dp"
+                android:gravity="left"
+                android:src="@drawable/booth_back" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/tv_logo_name"
-            android:text="Lego"
-            android:textSize="20sp"
-            android:textColor="#ffffff"
-            android:clickable="false"
-            android:focusable="false"
-            android:longClickable="false"/>
+            <TextView
+                android:id="@+id/tv_logo_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:focusable="false"
+                android:longClickable="false"
+                android:text="Lego"
+                android:textColor="#ffffff"
+                android:textSize="20dp" />
+        </android.support.v7.widget.Toolbar>
+    </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scrollView_mainidea_detail"

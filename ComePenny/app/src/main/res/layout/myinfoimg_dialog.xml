@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@drawable/myinfo_divideline" />
+
+    <TableRow
+        android:id="@+id/row1"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/setting_setting">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="사진앨범"
+            android:textSize="17sp" />
+    </TableRow>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/myinfo_divideline" />
+
+    <TableRow
+        android:id="@+id/row2"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/setting_setting">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="카메라"
+            android:textSize="17sp" />
+    </TableRow>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/myinfo_divideline" />
+
+    <TableRow
+        android:id="@+id/row3"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/setting_setting">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:text="기본이미지"
+            android:textSize="17sp" />
+    </TableRow>
+
+</LinearLayout>

@@ -1,21 +1,31 @@
 package com.enterpaper.comepenny.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
@@ -34,14 +44,15 @@ import java.util.List;
 public class MyInfoActivity extends Activity {
 
     View myinfoview;
-    TextView tv_id, tv_usermail;
-    ImageView btn_myinfo_back;
+    TextView tv_id, tv_usermail, mDialogTitleView;
+    ImageView btn_myinfo_back, mTitleImageView;
     ListView lv_mywrite;
     ImageView img_user, myInfo_divideline;
     private Intent intent = new Intent();
     IdeaAdapter myadapters;
     ArrayList<IdeaListItem> mydataList = new ArrayList<>();
-    LinearLayout myinfo;
+    LinearLayout myinfo, mTitleViewGroup;
+    AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +62,7 @@ public class MyInfoActivity extends Activity {
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        btn_myinfo_back = (ImageView)findViewById(R.id.btn_myinfo_back);
+        btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
         btn_myinfo_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +70,7 @@ public class MyInfoActivity extends Activity {
             }
         });
 
-        lv_mywrite = (ListView)findViewById(R.id.lv_mywrite);
+        lv_mywrite = (ListView) findViewById(R.id.lv_mywrite);
 
 
         //헤더 생성
@@ -71,7 +82,7 @@ public class MyInfoActivity extends Activity {
 
 
         //헤더설정, 헤더부분 리스트뷰리스너작동막기
-        lv_mywrite.addHeaderView(myinfoview,myadapters,false);
+        lv_mywrite.addHeaderView(myinfoview, myadapters, false);
 
 
         addItemsMyIdea();
@@ -123,11 +134,111 @@ public class MyInfoActivity extends Activity {
     private void initLayout() {
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
         img_user = (ImageView) myinfoview.findViewById(R.id.img_user);
+        //dialog 호출
+        img_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog = createDialog();
+
+            }
+        });
+
+
         myInfo_divideline = (ImageView) myinfoview.findViewById(R.id.myInfo_divideline);
         tv_id = (TextView) myinfoview.findViewById(R.id.tv_id);
         tv_usermail = (TextView) myinfoview.findViewById(R.id.tv_usermail);
 
 
     }
+
+    //dialog
+    private AlertDialog createDialog() {
+        final View innerView = getLayoutInflater().inflate(R.layout.myinfoimg_dialog, null);
+
+        TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
+        TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
+        TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
+
+
+        row1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest1", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+        row2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest2", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+        row3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest3", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+
+        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+        ab.setTitle("사진선택");
+        // ab.setCustomTitle(mTitleViewGroup);
+
+//        //다이얼로그 타이틀 변경 - ViewGroup을 정의
+//        mTitleViewGroup = new LinearLayout(this);
+//        mTitleViewGroup.setOrientation(LinearLayout.HORIZONTAL);
+//보여줄 Icon에 대한 image를 정의하고 해당되는 Image즉 Icon을 setting.
+//        mTitleImageView = new ImageView(this);
+//        mTitleImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//        Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawble.info);
+//        mTitleImageView.setImageBitmap(bm);
+//제목에 표시될 부분을 별도의 textview처리
+//
+//        mDialogTitleView = new TextView(this);
+//        mDialogTitleView.setTextSize(20);
+//        mDialogTitleView.setBackgroundColor(Color.LTGRAY);
+//        mDialogTitleView.setTextColor(Color.BLUE);
+////두개의 view를(icon+제목 text)를 하나의 viewgroup에 add한다.
+////icon의 크기가 커서 layoutparm을 이요하여 실제 절반보다 크기줄임
+        // mTitleViewGroup.addView(mTitleImageView,0,new ViewGroup.LayoutParams(24,24));
+//        mTitleViewGroup.addView(mDialogTitleView);
+
+
+        ab.setView(innerView);
+        ab.setCancelable(true);
+        Dialog mDialog = ab.create();
+        //dialog크기조절
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.copyFrom(mDialog.getWindow().getAttributes());
+        params.width = 800;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.setAttributes(params);
+
+        return ab.create();
+    }
+
+    /**
+     * 다이얼로그 종료
+     */
+    private void setDismiss(AlertDialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
 
 }
