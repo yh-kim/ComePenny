@@ -1,16 +1,21 @@
-package com.enterpaper.comepenny.activities;
+package com.enterpaper.comepenny.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
@@ -24,17 +29,17 @@ import java.util.ArrayList;
  * Created by Kim on 2015-09-16.
  */
 public class MyInfoActivity extends Activity {
-    Toolbar mToolBar;
 
     View myinfoview;
-    TextView tv_id, tv_usermail;
-    ImageView btn_myinfo_back;
+    TextView tv_id, tv_usermail, mDialogTitleView;
+    ImageView btn_myinfo_back, mTitleImageView;
     ListView lv_mywrite;
     ImageView img_user, myInfo_divideline;
     private Intent intent = new Intent();
     IdeaAdapter myadapters;
     ArrayList<IdeaListItem> mydataList = new ArrayList<>();
-    LinearLayout myinfo;
+    LinearLayout myinfo, mTitleViewGroup;
+    AlertDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,7 @@ public class MyInfoActivity extends Activity {
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        btn_myinfo_back = (ImageView)findViewById(R.id.btn_myinfo_back);
+        btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
         btn_myinfo_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +57,7 @@ public class MyInfoActivity extends Activity {
             }
         });
 
-        lv_mywrite = (ListView)findViewById(R.id.lv_mywrite);
+        lv_mywrite = (ListView) findViewById(R.id.lv_mywrite);
 
 
         //헤더 생성
@@ -64,7 +69,7 @@ public class MyInfoActivity extends Activity {
 
 
         //헤더설정, 헤더부분 리스트뷰리스너작동막기
-        lv_mywrite.addHeaderView(myinfoview,myadapters,false);
+        lv_mywrite.addHeaderView(myinfoview, myadapters, false);
 
 
         addItemsMyIdea();
@@ -114,12 +119,18 @@ public class MyInfoActivity extends Activity {
 
     // layout
     private void initLayout() {
-        //툴바 설정
-        mToolBar = (Toolbar) findViewById(R.id.myinfo_toolbar);
-        mToolBar.setContentInsetsAbsolute(0, 0);
-
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
         img_user = (ImageView) myinfoview.findViewById(R.id.img_user);
+        //dialog 호출
+        img_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog = createDialog();
+
+            }
+        });
+
+
         myInfo_divideline = (ImageView) myinfoview.findViewById(R.id.myInfo_divideline);
         tv_id = (TextView) myinfoview.findViewById(R.id.tv_id);
         tv_usermail = (TextView) myinfoview.findViewById(R.id.tv_usermail);
@@ -127,9 +138,71 @@ public class MyInfoActivity extends Activity {
 
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(0, 0);
+    //dialog
+    private AlertDialog createDialog() {
+        final View innerView = getLayoutInflater().inflate(R.layout.myinfoimg_dialog, null);
+        TableRow dialogtitle = (TableRow)innerView.findViewById(R.id.dialogtitle);
+        TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
+        TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
+        TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
+
+
+        row1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest1", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+        row2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest2", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+        row3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getApplicationContext(), "dialogtest3", Toast.LENGTH_SHORT)
+                        .show();
+//                doTakePhotoAction();
+//                setDismiss(mDialog);
+            }
+        });
+
+        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+        ab.setView(innerView);
+        ab.setCancelable(true);
+        Dialog mDialog = ab.create();
+        //dialog크기조절
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.copyFrom(mDialog.getWindow().getAttributes());
+        params.width = 800;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.setAttributes(params);
+
+        return ab.create();
     }
+
+    /**
+     * 다이얼로그 종료
+     */
+    private void setDismiss(AlertDialog dialog) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+
 }

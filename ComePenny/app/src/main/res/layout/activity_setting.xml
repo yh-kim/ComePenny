@@ -2,12 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/setting_toolbar"
@@ -18,13 +14,14 @@
             <!--
             -->
             <ImageView
-                android:id="@+id/btn_setting_back"
+                android:layout_marginLeft="6dp"
                 android:layout_width="12dp"
                 android:layout_height="20dp"
-                android:layout_gravity="left"
-                android:layout_marginLeft="6dp"
                 android:gravity="left"
-                android:src="@drawable/booth_back" />
+                android:layout_gravity="left"
+                android:id="@+id/btn_setting_back"
+                android:src="@drawable/booth_back"/>
+
 
 
             <TextView
@@ -32,7 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="12dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:longClickable="false"
@@ -40,67 +36,66 @@
                 android:textColor="#ffffff"
                 android:textSize="17sp" />
         </android.support.v7.widget.Toolbar>
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@drawable/setting_background"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <LinearLayout
+            android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:src="@drawable/setting_setting"
-            android:id="@+id/btn_logout"
-            android:layout_marginBottom="13dp">
+            android:layout_marginBottom="13dp"
+            android:src="@drawable/setting_setting">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginTop="13dp"
                 android:text="로그아웃"
+
                 android:textColor="#000000"
                 android:textSize="17sp"
 
-                android:layout_marginLeft="9dp"
-                android:layout_marginTop="13dp"
-
                 />
-            </LinearLayout>
+        </LinearLayout>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/setting_divideline"
-            />
+            android:src="@drawable/setting_divideline" />
 
         <LinearLayout
+            android:id="@+id/btn_version"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:src="@drawable/setting_setting"
-            android:id="@+id/btn_version"
             android:orientation="horizontal"
-            >
+            android:src="@drawable/setting_setting">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="버전"
-                android:textColor="#000000"
-                android:textSize="17sp"
+                android:layout_marginBottom="13dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                />
+                android:text="버전"
+                android:textColor="#000000"
+                android:textSize="17sp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="1.0.0"
-                android:textColor="#959595"
-                android:textSize="17sp"
-                android:gravity="right"
+                android:layout_marginBottom="13dp"
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="13dp"
-                android:layout_marginBottom="13dp"
-                />
+                android:gravity="right"
+                android:text="1.0.0"
+                android:textColor="#959595"
+                android:textSize="17sp" />
 
         </LinearLayout>
     </LinearLayout>
