@@ -154,7 +154,7 @@ public class MyInfoActivity extends Activity {
     //dialog
     private AlertDialog createDialog() {
         final View innerView = getLayoutInflater().inflate(R.layout.myinfoimg_dialog, null);
-
+        TableRow dialogtitle = (TableRow)innerView.findViewById(R.id.dialogtitle);
         TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
         TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
         TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
@@ -192,29 +192,6 @@ public class MyInfoActivity extends Activity {
         });
 
         AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setTitle("사진선택");
-        // ab.setCustomTitle(mTitleViewGroup);
-
-//        //다이얼로그 타이틀 변경 - ViewGroup을 정의
-//        mTitleViewGroup = new LinearLayout(this);
-//        mTitleViewGroup.setOrientation(LinearLayout.HORIZONTAL);
-//보여줄 Icon에 대한 image를 정의하고 해당되는 Image즉 Icon을 setting.
-//        mTitleImageView = new ImageView(this);
-//        mTitleImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawble.info);
-//        mTitleImageView.setImageBitmap(bm);
-//제목에 표시될 부분을 별도의 textview처리
-//
-//        mDialogTitleView = new TextView(this);
-//        mDialogTitleView.setTextSize(20);
-//        mDialogTitleView.setBackgroundColor(Color.LTGRAY);
-//        mDialogTitleView.setTextColor(Color.BLUE);
-////두개의 view를(icon+제목 text)를 하나의 viewgroup에 add한다.
-////icon의 크기가 커서 layoutparm을 이요하여 실제 절반보다 크기줄임
-        // mTitleViewGroup.addView(mTitleImageView,0,new ViewGroup.LayoutParams(24,24));
-//        mTitleViewGroup.addView(mDialogTitleView);
-
-
         ab.setView(innerView);
         ab.setCancelable(true);
         Dialog mDialog = ab.create();
