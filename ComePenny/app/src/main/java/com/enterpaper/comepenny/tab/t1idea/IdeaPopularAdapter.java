@@ -1,21 +1,21 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activity.BoothDetailActivity;
+import com.enterpaper.comepenny.tab.t2booth.BoothDetailActivity;
 
 import java.util.List;
 
@@ -49,11 +49,10 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, item.getRecycle_title(), Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(v.getContext(), BoothDetailActivity.class);
-                    v.getContext().startActivity(intent);
-
+                    Activity activity = (Activity) context;
+                    Intent intent = new Intent(context, BoothDetailActivity.class);
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(0, 0);
 
             }
         });

@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activity.BoothDetailActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 import java.util.ArrayList;

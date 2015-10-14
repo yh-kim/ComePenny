@@ -1,17 +1,12 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,19 +14,17 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
+import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.SetFont;
-import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Kim on 2015-09-16.
  */
 public class MyInfoActivity extends Activity {
+    Toolbar mToolBar;
 
     View myinfoview;
     TextView tv_id, tv_usermail;
@@ -121,6 +114,10 @@ public class MyInfoActivity extends Activity {
 
     // layout
     private void initLayout() {
+        //툴바 설정
+        mToolBar = (Toolbar) findViewById(R.id.myinfo_toolbar);
+        mToolBar.setContentInsetsAbsolute(0, 0);
+
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
         img_user = (ImageView) myinfoview.findViewById(R.id.img_user);
         myInfo_divideline = (ImageView) myinfoview.findViewById(R.id.myInfo_divideline);
@@ -130,4 +127,9 @@ public class MyInfoActivity extends Activity {
 
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
+    }
 }

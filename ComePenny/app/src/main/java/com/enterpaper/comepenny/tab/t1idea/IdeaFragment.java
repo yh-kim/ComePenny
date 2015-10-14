@@ -16,8 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activity.IdeaDetailActivity;
-import com.enterpaper.comepenny.activity.WriteActivity;
+import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
 
