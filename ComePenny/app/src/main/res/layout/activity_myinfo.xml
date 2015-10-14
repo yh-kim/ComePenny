@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/mainidea_toolbar"
+            android:id="@+id/myinfo_toolbar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#0c2044">
+
 
             <!--
             -->
@@ -32,6 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="12dp"
                 android:clickable="false"
                 android:focusable="false"
                 android:longClickable="false"
@@ -42,12 +43,11 @@
     </RelativeLayout>
 
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#e5e5e5"
-        android:orientation="vertical">
 
+    <FrameLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e5e5e5">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -55,12 +55,12 @@
 
 
             <ListView
-                android:id="@+id/lv_mywrite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:listSelector="@android:color/transparent"
                 android:paddingTop="4dp"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/lv_mywrite" />
 
 
         </LinearLayout>

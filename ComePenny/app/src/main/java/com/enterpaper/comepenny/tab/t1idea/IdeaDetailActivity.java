@@ -1,4 +1,4 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.tab.t1idea;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

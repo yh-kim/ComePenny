@@ -1,4 +1,4 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.tab.t2booth;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -40,6 +40,8 @@ public class BoothDetailActivity extends ActionBarActivity {
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
+
+        SetFont.setGlobalFont(header.getContext(),header);
 
         //Toolbar 생성
         initToolbar();

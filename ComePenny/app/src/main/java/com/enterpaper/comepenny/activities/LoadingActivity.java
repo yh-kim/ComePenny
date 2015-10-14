@@ -1,4 +1,4 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -64,6 +64,12 @@ public class LoadingActivity extends Activity {
         Timer timer = new Timer();
         //몇초 후에 실행해라(splashDelay 초 후에 task를 실행해라)
         timer.schedule(task, splashDelay);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
     }
 
 }

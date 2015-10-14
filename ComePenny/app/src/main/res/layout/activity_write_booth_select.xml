@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e5e5e5">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/write_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#0c2044">
+
+        <ImageView
+            android:id="@+id/btn_write_booth_select_back"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="6dp"
+            android:gravity="left"
+            android:src="@drawable/booth_back" />
+
+
+        <ImageView
+            android:layout_width="93dp"
+            android:layout_height="21dp"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            android:longClickable="false"
+            android:src="@drawable/main_comepenny" />
+    </android.support.v7.widget.Toolbar>
+
+
+</LinearLayout>
