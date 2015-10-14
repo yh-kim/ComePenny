@@ -8,10 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,6 +168,7 @@ public class MyInfoActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(), "dialogtest1", Toast.LENGTH_SHORT)
                         .show();
+
 //                doTakePhotoAction();
 //                setDismiss(mDialog);
             }
@@ -216,6 +219,32 @@ public class MyInfoActivity extends Activity {
             dialog.dismiss();
         }
     }
+    private void doTakePhotoAction()
+    {
+        Log.i(TAG, "doTakePhotoAction()");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Crop된 이미지를 저장할 파일의 경로를 생성
+        mImageCaptureUri = createSaveCropFile();
+        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
+        startActivityForResult(intent, PICK_FROM_CAMERA);
+    }
+
+    /**
+     * 앨범 호출 하기
+     */
+    private void doTakeAlbumAction()
+    {
+        Log.i(TAG, "doTakeAlbumAction()");
+        // 앨범 호출
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+        startActivityForResult(intent, PICK_FROM_ALBUM);
+    }
+
+    /**
+     * Result Code
+     */
+    @Override
 
 
 }
