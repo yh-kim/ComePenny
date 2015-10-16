@@ -1,4 +1,4 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
