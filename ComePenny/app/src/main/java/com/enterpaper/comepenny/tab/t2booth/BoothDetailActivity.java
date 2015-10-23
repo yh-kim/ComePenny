@@ -119,6 +119,16 @@ public class BoothDetailActivity extends ActionBarActivity {
 
     }
 
+    //취소버튼 눌렀을 때
+    @Override
+    public void onBackPressed() {
+        if(lyBoothInfo.getVisibility() == View.VISIBLE){
+            lyBoothInfo.setVisibility(View.INVISIBLE);
+            return;
+        }
+        super.onBackPressed();
+    }
+
     @Override
     public void finish() {
         super.finish();
