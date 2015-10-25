@@ -36,6 +36,12 @@
 
         <activity android:name=".tab.t1idea.IdeaDetailActivity">
         </activity>
+
+        <activity android:name=".activities.LoginActivity" android:windowSoftInputMode="stateHidden">
+        </activity>
+
+        <activity android:name=".activities.SignUpActivity" android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>

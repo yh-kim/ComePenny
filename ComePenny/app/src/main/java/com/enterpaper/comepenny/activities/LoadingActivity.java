@@ -14,7 +14,7 @@ import java.util.TimerTask;
  * Created by Kim on 2015-08-08.
  */
 public class LoadingActivity extends Activity {
-    private long splashDelay = 500;
+    private long splashDelay = 400;
 
     //onCreate
     @Override
@@ -31,23 +31,19 @@ public class LoadingActivity extends Activity {
                 //register값이 저장되있는 회원이 있나 파일에서가져옴
                 String register = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
 
-                /*
                 //회원이 없을때
                 if(register.equals("")){
                     //로그인 activity 이동
-                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-                    startActivity(intent);
+                    Intent itLogin = new Intent(getApplicationContext(),LoginActivity.class);
+                    startActivity(itLogin);
+                    overridePendingTransition(0, 0);
                 }
                 //회원가입이 되어있을 때
                 else{
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
+                    Intent itMain = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(itMain);
+                    overridePendingTransition(0, 0);
                 }
-                */
-
-                Intent itMain = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(itMain);
-                overridePendingTransition(0, 0);
 
                 finish();
             }
