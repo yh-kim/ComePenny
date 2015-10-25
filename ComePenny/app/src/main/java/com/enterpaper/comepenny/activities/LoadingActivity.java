@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.DataUtil;
-import com.enterpaper.comepenny.util.GCMManagement;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,11 +21,6 @@ public class LoadingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
-        // GCM 을 사용할 수 없다면
-        if(!GCMManagement.checkPlayServices(this)){
-
-        }
 
         //Logo를 보여주는 쓰레드 (타이머)
         //2초 후에 run메소드가 실행됨
