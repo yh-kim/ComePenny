@@ -146,7 +146,7 @@ public class SignUpActivity extends Activity{
     }
 
     /**
-     * HTTP 연결 Thread 생성 클래스
+     * HTTP 연결 SignUp Thread 생성 클래스
      */
     private class NetworkSignUp extends AsyncTask<String, String, Integer> {
         // JSON 받아오는 객체
