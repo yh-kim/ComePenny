@@ -1,7 +1,8 @@
-package com.enterpaper.comepenny.activity;
+package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
+import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.SetFont;
@@ -55,6 +57,9 @@ public class MyInfoActivity extends Activity {
     ArrayList<IdeaListItem> mydataList = new ArrayList<>();
     LinearLayout myinfo, mTitleViewGroup;
     AlertDialog mDialog;
+    private static final int PICK_FROM_CAMERA = 0;
+    private static final int PICK_FROM_GALLERY = 1;
+    private static final int CROP_FROM_CAMERA = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,37 +158,71 @@ public class MyInfoActivity extends Activity {
 
     }
 
+
     //dialog
     private AlertDialog createDialog() {
         final View innerView = getLayoutInflater().inflate(R.layout.myinfoimg_dialog, null);
-        TableRow dialogtitle = (TableRow)innerView.findViewById(R.id.dialogtitle);
-        TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
-        TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
-        TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
+        TableRow dialogtitle = (TableRow) innerView.findViewById(R.id.dialogtitle);
+        TableRow row1_gallery = (TableRow) innerView.findViewById(R.id.row1);
+        TableRow row2_camera = (TableRow) innerView.findViewById(R.id.row2);
+        TableRow row3_basic = (TableRow) innerView.findViewById(R.id.row3);
 
 
-        row1.setOnClickListener(new View.OnClickListener() {
+        row1_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Toast.makeText(getApplicationContext(), "dialogtest1", Toast.LENGTH_SHORT)
                         .show();
+                Intent intent = new Intent();
+                // Gallery 호출
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+               // 잘라내기 셋팅
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 0);
+                intent.putExtra("aspectY", 0);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 150);
+                try {
+                    intent.putExtra("return-data", true);
+                    startActivityForResult(Intent.createChooser(intent,
+                    "Complete action using"), PICK_FROM_GALLERY);
+                   } catch (ActivityNotFoundException e) {
+                   // Do nothing for now
+                   }
 
 //                doTakePhotoAction();
 //                setDismiss(mDialog);
             }
         });
-        row2.setOnClickListener(new View.OnClickListener() {
+        row2_camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Toast.makeText(getApplicationContext(), "dialogtest2", Toast.LENGTH_SHORT)
                         .show();
+                // 카메라 호출
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
+
+                // 이미지 잘라내기 위한 크기
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 0);
+                intent.putExtra("aspectY", 0);
+                intent.putExtra("outputX", 200);
+                intent.putExtra("outputY", 150);
+                try {
+                    intent.putExtra("return-data", true);
+                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_GALLERY);
+                } catch (ActivityNotFoundException e) {
+                    // Do nothing for now
+                }
 //                doTakePhotoAction();
 //                setDismiss(mDialog);
             }
         });
-        row3.setOnClickListener(new View.OnClickListener() {
+        row3_basic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -211,6 +250,24 @@ public class MyInfoActivity extends Activity {
         return ab.create();
     }
 
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_FROM_CAMERA) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap photo = extras.getParcelable("data");
+                img_user.setImageBitmap(photo);
+            }
+        }
+        if (requestCode == PICK_FROM_GALLERY) {
+            Bundle extras2 = data.getExtras();
+            if (extras2 != null) {
+                Bitmap photo = extras2.getParcelable("data");
+                img_user.setImageBitmap(photo);
+            }
+        }
+    }
+
     /**
      * 다이얼로그 종료
      */
@@ -219,32 +276,5 @@ public class MyInfoActivity extends Activity {
             dialog.dismiss();
         }
     }
-    private void doTakePhotoAction()
-    {
-        Log.i(TAG, "doTakePhotoAction()");
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Crop된 이미지를 저장할 파일의 경로를 생성
-        mImageCaptureUri = createSaveCropFile();
-        intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-        startActivityForResult(intent, PICK_FROM_CAMERA);
-    }
-
-    /**
-     * 앨범 호출 하기
-     */
-    private void doTakeAlbumAction()
-    {
-        Log.i(TAG, "doTakeAlbumAction()");
-        // 앨범 호출
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-        startActivityForResult(intent, PICK_FROM_ALBUM);
-    }
-
-    /**
-     * Result Code
-     */
-    @Override
-
 
 }
