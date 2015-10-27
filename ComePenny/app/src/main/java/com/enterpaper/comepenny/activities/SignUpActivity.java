@@ -213,7 +213,9 @@ public class SignUpActivity extends Activity{
             if(result == 0){
                 try {
                     String user_id = jObject.getString("user_id");
+
                     DataUtil.setAppPreferences(SignUpActivity.this, "user_id", user_id);
+                    DataUtil.setAppPreferences(SignUpActivity.this, "user_email", email);
 
                     Intent itMain = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(itMain);
