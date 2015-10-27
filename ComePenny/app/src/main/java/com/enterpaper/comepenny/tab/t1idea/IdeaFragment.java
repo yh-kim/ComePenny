@@ -28,7 +28,6 @@ import java.util.List;
  */
 public class IdeaFragment extends Fragment {
     View rootView, popular_view;
-    TextView test;
     ListView lvMainIdea;
     RecyclerView recyclerView;
     FloatingActionButton fab;
