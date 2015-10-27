@@ -33,9 +33,13 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
+
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
+
+import com.enterpaper.comepenny.util.DataUtil;
+
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -154,7 +158,7 @@ public class MyInfoActivity extends Activity {
         myInfo_divideline = (ImageView) myinfoview.findViewById(R.id.myInfo_divideline);
         tv_id = (TextView) myinfoview.findViewById(R.id.tv_id);
         tv_usermail = (TextView) myinfoview.findViewById(R.id.tv_usermail);
-
+        tv_usermail.setText(DataUtil.getAppPreferences(getApplicationContext(),"user_email"));
 
     }
 
@@ -275,6 +279,13 @@ public class MyInfoActivity extends Activity {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
     }
 
 }

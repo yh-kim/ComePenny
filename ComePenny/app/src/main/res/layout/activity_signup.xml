@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_signup"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background">
+
+
+    <RelativeLayout
+        android:layout_marginTop="230dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signup_relative">
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="144dp"
+            android:src="@drawable/login_box"
+            android:id="@+id/imagezxvView" />
+
+        <LinearLayout
+            android:layout_width="230dp"
+            android:layout_height="144dp"
+            android:orientation="vertical">
+
+
+        <EditText
+            android:layout_marginTop="1dp"
+            android:layout_marginLeft="48dp"
+            android:background="@drawable/login_bar_text"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:textSize="16sp"
+            android:inputType="textEmailAddress"
+            android:id="@+id/e_signup_email"
+            android:hint="E-mail address"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+            <EditText
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/login_bar_text"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:textSize="16sp"
+                android:id="@+id/e_signup_passwd"
+                android:inputType="textPassword"
+                android:hint="Password"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="48dp"
+                android:background="@drawable/login_bar_text"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:textSize="16sp"
+                android:id="@+id/e_signup_passwd_confirm"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:background="@drawable/join_button"
+        android:layout_marginTop="9dp"
+        android:layout_width="280dp"
+        android:layout_height="48dp"
+        android:id="@+id/btn_sighup" />
+
+    </LinearLayout>
+</ScrollView>

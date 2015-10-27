@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background">
+
+    <RelativeLayout
+        android:layout_marginTop="230dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/log_relative">
+        <ImageView
+            android:layout_width="280dp"
+            android:layout_height="96dp"
+            android:src="@drawable/login_bar"
+            android:id="@+id/imageView" />
+
+        <LinearLayout
+            android:layout_width="230dp"
+            android:layout_height="96dp"
+            android:layout_marginLeft="48dp"
+            android:orientation="vertical">
+
+
+        <EditText
+            android:layout_marginTop="1dp"
+            android:background="@drawable/login_bar_text"
+            android:layout_width="230dp"
+            android:layout_height="45dp"
+            android:textSize="16sp"
+            android:inputType="textEmailAddress"
+            android:id="@+id/e_log_email"
+            android:hint="E-mail address"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+            <EditText
+                android:layout_marginTop="4dp"
+                android:background="@drawable/login_bar_text"
+                android:layout_width="230dp"
+                android:layout_height="45dp"
+                android:textSize="16sp"
+                android:id="@+id/e_log_passwd"
+                android:inputType="textPassword"
+                android:hint="password"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:background="@drawable/login_button"
+        android:layout_marginTop="9dp"
+        android:layout_width="280dp"
+        android:layout_height="48dp"
+        android:id="@+id/btn_login" />
+
+    
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="29dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="비밀번호 찾기"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:id="@+id/tv_findPW" />
+
+
+        <TextView
+            android:layout_marginLeft="68dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="16sp"
+            android:textColor="#ffffff"
+            android:id="@+id/tv_SignUp" />
+
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

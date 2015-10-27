@@ -12,6 +12,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.ComePennyFragmentPagerAdapter;
 import com.enterpaper.comepenny.util.BackPressCloseHandler;
+import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 
@@ -27,6 +28,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 액티비티 추가
+        new BaseActivity().actList.add(MainActivity.this);
 
         // 취소버튼 눌렀을 때 핸들러
         backPressCloseHandler = new BackPressCloseHandler(this);
