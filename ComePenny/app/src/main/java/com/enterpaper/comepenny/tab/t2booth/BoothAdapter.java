@@ -52,13 +52,11 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
             holder = new ViewHolder();
 
             //row에 있는 정보들을 holder로 가져옴
-//            holder.img = (ImageView)convertView.findViewById(R.id.img_content);
-//            holder.txt_name = (TextView)convertView.findViewById(R.id.txt_name);
-//            holder.txt_content = (TextView)convertView.findViewById(R.id.txt_content);
-//            holder.txt_hit = (TextView)convertView.findViewById(R.id.txt_content_hit);
-//            holder.txt_love = (TextView)convertView.findViewById(R.id.txt_content_love_hit);
-//            holder.txt_content_title = (TextView)convertView.findViewById(R.id.txt_content_title);
-//            holder.test_layout = (RelativeLayout) convertView.findViewById(R.id.test_layout);
+           // holder.test_layout = (RelativeLayout) convertView.findViewById(R.id.test_layout);
+            holder.img = (ImageView) convertView.findViewById(R.id.img_main_company);
+           // holder.name = (TextView) convertView.findViewById(R.id.tv_UserId);
+            holder.likeNum = (TextView) convertView.findViewById(R.id.txt_boothmain_like);
+            holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
 
             convertView.setTag(holder);
 
@@ -70,20 +68,14 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
 
         BoothItem item = getItem(position);
 
-//        holder.test_layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getContext(), position + "입니다", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        //holder.img.setImageBitmap(item.getBoothimg());
+        //holder.name.setText(item.getName());
+        //holder.booth_id.setText(item.get
+        holder.likeNum.setText(item.getLikeNum()+"");
+        holder.ideaNum.setText(item.getIdeaNum()+"");
 
-//        holder.img.setImageBitmap(item.getImg());
-//        holder.txt_name.setText(item.getName());
-//        holder.txt_content.setText(item.getDetail());
-//        holder.txt_hit.setText(item.getHit());
-//        holder.txt_love.setText(item.getLove());
-//        holder.txt_content_title.setText(item.getExpo()+" / " + item.getBooth());
-
+        //image 셋팅(불러옴)
+        // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
         return convertView;
 
     }
@@ -92,10 +84,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
     class ViewHolder {
         RelativeLayout test_layout;
         ImageView img;
-        TextView txt_name;
-        TextView txt_content;
-        TextView txt_hit;
-        TextView txt_love;
-        TextView txt_content_title;
+        TextView likeNum,ideaNum;
+
     }
 }

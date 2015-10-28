@@ -136,7 +136,7 @@ public class MyInfoActivity extends Activity {
     private void addItemsMyIdea() {
         mydataList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            mydataList.add(new IdeaListItem(1234, "IdeaTitle", "jihoon1234", "1233", "4321"));
+            mydataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", "1233", "4321"));
 
         }
     }
@@ -178,23 +178,7 @@ public class MyInfoActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(), "dialogtest1", Toast.LENGTH_SHORT)
                         .show();
-                Intent intent = new Intent();
-                // Gallery 호출
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-               // 잘라내기 셋팅
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                    "Complete action using"), PICK_FROM_GALLERY);
-                   } catch (ActivityNotFoundException e) {
-                   // Do nothing for now
-                   }
+
 
 //                doTakePhotoAction();
 //                setDismiss(mDialog);
@@ -206,22 +190,7 @@ public class MyInfoActivity extends Activity {
 
                 Toast.makeText(getApplicationContext(), "dialogtest2", Toast.LENGTH_SHORT)
                         .show();
-                // 카메라 호출
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
 
-                // 이미지 잘라내기 위한 크기
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent, "Complete action using"), PICK_FROM_GALLERY);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
 //                doTakePhotoAction();
 //                setDismiss(mDialog);
             }
