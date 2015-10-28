@@ -159,7 +159,7 @@ public class LoginActivity extends Activity {
 
                 http_post = new HttpPost("http://54.199.176.234/login.php");
 
-                // 데이터 담음
+                // 데이터 담음 키,value
                 name_value.add(new BasicNameValuePair("email", email));
                 name_value.add(new BasicNameValuePair("passwd", passwd));
 

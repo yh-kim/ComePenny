@@ -27,6 +27,10 @@ import java.util.List;
  * Created by Kim on 2015-09-26.
  */
 public class IdeaFragment extends Fragment {
+    int row_cnt = 8;
+    int count = 0;
+    int offset = 0;
+    boolean is_scroll = true;
     View rootView, popular_view;
     ListView lvMainIdea;
     RecyclerView recyclerView;
@@ -71,8 +75,8 @@ public class IdeaFragment extends Fragment {
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView)popular_view.findViewById(R.id.recyclerview);
 
-        // 레이아웃 객체 생성
-        initLayout();
+        // 헤더레이아웃 객체 생성
+        inithearLayout();
 
 
         //헤더설정
@@ -96,7 +100,7 @@ public class IdeaFragment extends Fragment {
 
         // Adapter와 GirdView를 연결
         lvMainIdea.setAdapter(adapters);
-        adapters.notifyDataSetChanged();
+        adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
 
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -118,23 +122,28 @@ public class IdeaFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 fab.attachToListView(lvMainIdea);
+
+
+
             }
         });
 
         return rootView;
     }
 
+
+
     // 리스트 아이템 추가
     private void addItemsIdea() {
         dataList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            dataList.add(new IdeaListItem(1234, "IdeaTitle", "jihoon1234", "1233", "4321"));
+            dataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", "1233", "4321"));
 
         }
     }
 
     // layout
-    private void initLayout() {
+    private void inithearLayout() {
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(popular_view.getContext());
@@ -153,5 +162,7 @@ public class IdeaFragment extends Fragment {
         }
         adapter.notifyDataSetChanged();
     }
+
+
 
 }
