@@ -66,10 +66,10 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         IdeaListItem item = getItem(position);
 
        // holder.img.setImageBitmap(item.getImg());
-        holder.title.setText(item.getTitle());
+        holder.title.setText(item.getContent());
         holder.UserId.setText(item.getUserId());
-        holder.ViewCount.setText(item.getViewCount());
-        holder.LikeCount.setText(item.getLikeCount());
+        holder.ViewCount.setText(item.getViewCount()+"");
+       // holder.LikeCount.setText(item.getLiekeCount()+"");
 
         return convertView;
     }

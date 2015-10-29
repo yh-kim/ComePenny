@@ -136,7 +136,7 @@ public class MyInfoActivity extends Activity {
     private void addItemsMyIdea() {
         mydataList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            mydataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", "1233", "4321"));
+            mydataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", 1233, 4321));
 
         }
     }
