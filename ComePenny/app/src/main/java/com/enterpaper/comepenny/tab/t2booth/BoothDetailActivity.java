@@ -1,12 +1,17 @@
 package com.enterpaper.comepenny.tab.t2booth;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -14,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.MyInfoActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
+import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -39,14 +46,12 @@ import java.util.List;
  */
 public class BoothDetailActivity extends ActionBarActivity {
     int booth_id;
-
     int row_cnt = 8;
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
-
     ListView lvBoothDetailIdea;
-    TextView tv_logo_name,booth_main_idea,booth_explanation;
+    TextView tv_logo_name, booth_main_idea, booth_explanation;
 
     IdeaAdapter adapters;
     ArrayList<IdeaListItem> dataList = new ArrayList<>();
@@ -56,20 +61,21 @@ public class BoothDetailActivity extends ActionBarActivity {
     LinearLayout lyBoothInfo;
     View header;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booth_detail);
+
         //boothFragment에서 intent할때 보낸 값 받기
         Intent intent = getIntent();
         booth_id = intent.getExtras().getInt("booth_id");
-
+        //리스트부분
+        lvBoothDetailIdea = (ListView)findViewById(R.id.lv_booth_detail_idea);
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_booth_detail_header, null, false);
-
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
-
         SetFont.setGlobalFont(header.getContext(), header);
 
         //Toolbar 생성
@@ -80,17 +86,54 @@ public class BoothDetailActivity extends ActionBarActivity {
 
         // 헤더 설정
         lvBoothDetailIdea.addHeaderView(header);
-        new NetworkGetBoothinfo().execute("");
-        //////////////
-        addItemsidea();
 
         // Adapter 생성
         adapters = new IdeaAdapter(getApplicationContext(), R.layout.row_idea, dataList);
 
         // Adapter와 GirdView를 연결
         lvBoothDetailIdea.setAdapter(adapters);
-
         adapters.notifyDataSetChanged();
+
+
+        new NetworkGetBoothIdeaList().execute("");
+        new NetworkGetBoothinfo().execute("");
+        lvBoothDetailIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+                Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
+                startActivity(booth_ideas);
+                overridePendingTransition(0, 0);
+
+
+            }
+
+        });
+
+
+        lvBoothDetailIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+                    //서버로부터 받아온 List개수를 count
+                    //지금까지 받아온 개수를 offset
+                    if (count != 0 && offset % row_cnt == 0) {
+                        if (is_scroll) {
+                            //스크롤 멈추게 하는거
+                            is_scroll = false;
+                            new NetworkGetBoothIdeaList().execute("");
+                        }
+                    }
+                }
+
+            }
+        });
 
         btnBoothInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +156,7 @@ public class BoothDetailActivity extends ActionBarActivity {
                 finish();
             }
         });
+
     }
 
     private void initToolbar() {
@@ -131,25 +175,17 @@ public class BoothDetailActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    // 리스트 아이템 추가
-    private void addItemsidea() {
-        dataList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            dataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", "1233", "4321"));
-        }
-    }
 
     // layout
     private void initLayout() {
-        tv_logo_name = (TextView)findViewById(R.id.tv_logo_name);
-        booth_explanation =(TextView)header.findViewById(R.id.booth_explanation);
-        booth_main_idea =(TextView)header.findViewById(R.id.booth_main_idea);
+        tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
+        booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
+        booth_main_idea = (TextView) header.findViewById(R.id.booth_main_idea);
         lyBoothInfo = (LinearLayout) header.findViewById(R.id.booth_info);
         btnBoothBack = (ImageView) findViewById(R.id.btn_booth_back);
         btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
         btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
-
 
     }
 
@@ -168,6 +204,29 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.finish();
         overridePendingTransition(0, 0);
     }
+
+
+    //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    public void onResume() {
+        super.onResume();
+
+        //초기화 & 쓰레드 실행
+        initlist();
+
+    }
+
+    //Initlist (초기화 메소드)
+    public void initlist() {
+        //초기화
+        is_scroll = true;
+        offset = 0;
+        dataList.clear();
+
+        //쓰레드 실행
+       // new NetworkGetBoothIdeaList().execute("");
+        return;
+    }
+
 
     //헤더정보가져오기 - HTTP연결 Thread 생성 클래스
     class NetworkGetBoothinfo extends AsyncTask<String, String, Integer> {
@@ -228,11 +287,11 @@ public class BoothDetailActivity extends ActionBarActivity {
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
                 http_post = new HttpPost(
-                        "http://54.199.176.234/get_booth_info.php");
+                        "http://54.199.176.234/api/get_booth_info.php");
 
                 //서버에 보낼 데이터
                 // data를 담음
-                name_value.add(new BasicNameValuePair("booth_id", booth_id+""));
+                name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
@@ -246,7 +305,7 @@ public class BoothDetailActivity extends ActionBarActivity {
                         new InputStreamReader(
                                 response.getEntity().getContent(), "UTF-8"), 8);
                 StringBuilder builder = new StringBuilder();
-                for (String line = null; (line = reader.readLine()) != null;) {
+                for (String line = null; (line = reader.readLine()) != null; ) {
                     builder.append(line).append("\n");
                 }
 
@@ -267,4 +326,126 @@ public class BoothDetailActivity extends ActionBarActivity {
         }
 
     }
+
+    // boothideas list HTTP연결 Thread 생성 클래스
+    class NetworkGetBoothIdeaList extends AsyncTask<String, String, Integer> {
+        private String err_msg = "Network error.";
+
+        // JSON에서 받아오는 객체
+        private JSONObject jObjects;
+
+        // AsyncTask 실행되는거
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            return processing();
+        }
+
+
+        // AsyncTask 실행완료 후에 구동 (Data를 받은것을 Activity에 갱신하는 작업을 하면돼)
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            // 지금 코드에서는 result가 0이면 정상적인 상황
+            if (result == 0) {
+                Log.i("Network Data", jObjects.toString());
+
+                // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
+                // jObject에서 데이터를 뽑아내자
+                try {
+                    // 가져오는 값의 개수를 가져옴
+                    count = jObjects.getInt("cnt");
+                    offset = offset + count;
+                    JSONArray ret_arr = jObjects.getJSONArray("ret");
+                    for (int index = 0; index < ret_arr.length(); index++) {
+                        JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
+
+                        String user_id = obj_boothIdeas.getString("user_id");
+                        String content = obj_boothIdeas.getString("content");
+                        int hit = obj_boothIdeas.getInt("hit");
+
+
+                        // Item 객체로 만들어야함
+                        IdeaListItem items = new IdeaListItem("img", "content", "user_id", hit, 1234);
+
+                        // Item 객체를 ArrayList에 넣는다
+                        dataList.add(items);
+
+                        // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
+                        adapters.notifyDataSetChanged();
+                    }
+
+                    // scroll 할 수 있게함
+                    is_scroll = true;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+            // Error 상황
+            else {
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+                // 요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
+                http_client.getParams().setParameter("http.connection.timeout",
+                        7000);
+
+                // data를 Post방식으로 보냄
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost(
+                        "http://54.199.176.234/api/get_booth_ideas.php");
+
+//                        //서버에 보낼 데이터
+                // data를 담음
+                name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
+//                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
+//                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
+//                        // 데이터를 받아올 시작점
+//                        name_value.add(new BasicNameValuePair("offset", offset + ""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
+                        name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+                // 실행
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // 우리가 사용하는 결과
+                jObjects = new JSONObject(builder.toString());
+
+                // err가 0이면 정상적인 처리
+                // err가 0이 아닐시 오류발생
+                if (jObjects.getInt("err") > 0) {
+                    return jObjects.getInt("err");
+                }
+            } catch (Exception e) {
+                // 오류발생시
+                Log.i(err_msg, e.toString());
+                return 100;
+            }
+            return 0;
+        }
+
+    }
+
 }

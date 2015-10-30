@@ -8,10 +8,18 @@ import android.graphics.Bitmap;
  */
 public class IdeaListItem {
     private String img;
-    private String title;
+    private String content;
     private String UserId;
-    private String ViewCount;
-    private String LikeCount;
+    private int ViewCount;
+    private int LiekeCount;
+
+    public IdeaListItem(String img, String content, String userId, int viewCount, int liekeCount) {
+        this.img = img;
+        this.content = content;
+        UserId = userId;
+        ViewCount = viewCount;
+        LiekeCount = liekeCount;
+    }
 
     public String getImg() {
         return img;
@@ -21,12 +29,12 @@ public class IdeaListItem {
         this.img = img;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContent() {
+        return content;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getUserId() {
@@ -37,28 +45,19 @@ public class IdeaListItem {
         UserId = userId;
     }
 
-    public String getViewCount() {
+    public int getViewCount() {
         return ViewCount;
     }
 
-    public void setViewCount(String viewCount) {
+    public void setViewCount(int viewCount) {
         ViewCount = viewCount;
     }
 
-    public String getLikeCount() {
-        return LikeCount;
+    public int getLiekeCount() {
+        return LiekeCount;
     }
 
-    public void setLikeCount(String likeCount) {
-        LikeCount = likeCount;
-    }
-
-    public IdeaListItem(String img, String title, String userId, String viewCount, String likeCount) {
-        this.img = img;
-
-        this.title = title;
-        UserId = userId;
-        ViewCount = viewCount;
-        LikeCount = likeCount;
+    public void setLiekeCount(int liekeCount) {
+        LiekeCount = liekeCount;
     }
 }

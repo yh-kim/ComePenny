@@ -225,7 +225,7 @@ public class BoothFragment extends Fragment {
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
                 http_post = new HttpPost(
-                        "http://54.199.176.234/get_booth_list.php");
+                        "http://54.199.176.234/api/get_booth_list.php");
 
 //                        //서버에 보낼 데이터
 //                        // data를 담음
