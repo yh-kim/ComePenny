@@ -157,7 +157,7 @@ public class LoginActivity extends Activity {
 
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
-                http_post = new HttpPost("http://54.199.176.234/login.php");
+                http_post = new HttpPost("http://54.199.176.234/api/login.php");
 
                 // 데이터 담음 키,value
                 name_value.add(new BasicNameValuePair("email", email));

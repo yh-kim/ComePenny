@@ -169,7 +169,7 @@ public class SignUpActivity extends Activity{
 
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
-                http_post = new HttpPost("http://54.199.176.234/signup.php");
+                http_post = new HttpPost("http://54.199.176.234/api/signup.php");
 
                 // 데이터 담음
                 name_value.add(new BasicNameValuePair("email", email));
