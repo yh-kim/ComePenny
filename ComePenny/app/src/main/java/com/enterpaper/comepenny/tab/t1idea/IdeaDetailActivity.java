@@ -1,6 +1,5 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 public class IdeaDetailActivity extends ActionBarActivity {
@@ -112,8 +110,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
     @Override
     public void finish() {
         super.finish();
-        Intent itSetting = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(itSetting);
         overridePendingTransition(0, 0);
     }
 
