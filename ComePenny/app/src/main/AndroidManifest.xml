@@ -16,10 +16,11 @@
 
         <activity android:name=".activities.MyInfoActivity">
         </activity>
-
+        IdeaFragment
         <activity android:name=".activities.SettingActivity">
         </activity>
-
+        <activity android:name=".activities.WriteBoothActivity">
+        </activity>
         <activity android:name=".activities.WriteActivity"  android:windowSoftInputMode="adjustPan">
         </activity>
 
@@ -36,7 +37,8 @@
 
         <activity android:name=".tab.t1idea.IdeaDetailActivity">
         </activity>
-
+        <fragement android:name=".tab.t1idea.IdeaFragment">
+        </fragement>
         <activity android:name=".activities.LoginActivity" android:windowSoftInputMode="stateHidden">
         </activity>
 

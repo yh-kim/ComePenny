@@ -1,29 +1,27 @@
-package com.enterpaper.comepenny.tab.t1idea;
+package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.WriteActivity;
-import com.enterpaper.comepenny.activities.WriteBoothActivity;
+import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
+import com.enterpaper.comepenny.tab.t2booth.BoothAdapter;
+import com.enterpaper.comepenny.tab.t2booth.BoothDetailActivity;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
+import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
+import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -40,96 +38,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Kim on 2015-09-26.
+ * Created by kimmiri on 2015. 10. 30..
  */
-public class IdeaFragment extends Fragment {
+public class WriteBoothActivity extends ActionBarActivity{
     int row_cnt = 8;
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
-    View rootView, popular_view;
-    ListView lvMainIdea;
-    RecyclerView recyclerView;
-    FloatingActionButton fab;
-    private Intent intent = new Intent();
-    IdeaAdapter adapters;
-    IdeaPopularAdapter adapter;
-    ArrayList<IdeaListItem> dataList = new ArrayList<>();
-    LinearLayout recycler_info;
-    List<IdeaPopularListItem> items = new ArrayList<>();
-    LinearLayoutManager layoutmanager;
 
-    public static Fragment newInstance() {
-        Fragment fragment = new IdeaFragment();
-        Bundle bundle = new Bundle();
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+
+    ImageView btn_select_back;
+    Toolbar mToolBar;
+    GridView booth_list;
+
+    // Adapter
+    WriteBoothAdapter adapter_sel_booth;
+    // ArrayList
+    ArrayList<BoothItem> arr_list = new ArrayList<BoothItem>();
+
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        setContentView(R.layout.activity_write_booth_select);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_idea, container, false);
+        //TextView 폰트 지정
+        SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        // frgment 폰트 설정
-        SetFont.setGlobalFont(rootView.getContext(), rootView);
-
-        lvMainIdea = (ListView) rootView.findViewById(R.id.lv_main_idea);
+        // layout 생성
+        initLayout();
+        initlist();
 
 
-        //헤더 생성
-        popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
-        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
-        recyclerView = (RecyclerView)popular_view.findViewById(R.id.recyclerview);
-
-        // 헤더레이아웃 객체 생성
-        inithearLayout();
-
-
-        //헤더설정
-        lvMainIdea.addHeaderView(popular_view);
-
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
-        fab.attachToListView(lvMainIdea);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent itWrite = new Intent(rootView.getContext(), WriteBoothActivity.class);
-                startActivity(itWrite);
-                getActivity().overridePendingTransition(0, 0);
-            }
-        });
-
-        addItemsIdea();
+        booth_list = (GridView)findViewById(R.id.gv_select_booth);
+        btn_select_back =(ImageView)findViewById(R.id.btn_select_back);
 
         // Adapter 생성
-        adapters = new IdeaAdapter(rootView.getContext(), R.layout.row_idea, dataList);
+        adapter_sel_booth = new WriteBoothAdapter(getApplicationContext(), R.layout.write_row_booth, arr_list);
 
         // Adapter와 GirdView를 연결
-        lvMainIdea.setAdapter(adapters);
-        adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
+        booth_list.setAdapter(adapter_sel_booth);
 
-        lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter_sel_booth.notifyDataSetChanged();
 
+        booth_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
-                intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(0, 0);
-            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent company = new Intent(getApplicationContext(), WriteActivity.class);
+                company.putExtra("booth_id", arr_list.get(position).getBooth_id());
+                startActivity(company);
+                finish();
 
+                overridePendingTransition(0, 0);
+            }
         });
 
-        lvMainIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
+        booth_list.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
@@ -137,53 +101,78 @@ public class IdeaFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                fab.attachToListView(lvMainIdea);
 
+                if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+                    //서버로부터 받아온 List개수를 count
+                    //지금까지 받아온 개수를 offset
+                    if (count != 0 && offset % row_cnt == 0) {
+                        if (is_scroll) {
+                            //스크롤 멈추게 하는거
+                            is_scroll = false;
+                            new NetworkGetBoothList().execute("");
+                        }
+                    }
+                }
 
 
             }
         });
+        btn_select_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        return rootView;
+                finish();
+                overridePendingTransition(0, 0);
+
+            }
+        });
+
+
+
+
+
+    }
+
+    //Initlist (초기화 메소드)
+    public void initlist(){
+        //초기화
+        is_scroll = true;
+        offset = 0;
+        arr_list.clear();
+
+        //쓰레드 실행
+        new NetworkGetBoothList().execute("");
+        return;
+    }
+
+
+    private void initLayout(){
+        //액션바 객체 생성
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //액션바 설정
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        //액션바 숨김
+        actionBar.hide();
+
+        //툴바 설정
+        mToolBar = (Toolbar) findViewById(R.id.write_select_toolbar);
+        mToolBar.setContentInsetsAbsolute(0, 0);
+
     }
 
 
 
-    // 리스트 아이템 추가
-    private void addItemsIdea() {
-        dataList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            dataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", 1233, 4321));
-
-        }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, 0);
     }
-
-    // layout
-    private void inithearLayout() {
-        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
-        recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(popular_view.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-
-        items = new ArrayList<>();
-        adapter = new IdeaPopularAdapter(popular_view.getContext(), items, R.layout.row_idea_popular);
-        recyclerView.setAdapter(adapter);
-
-
-//        for (int i = 0; i < 10; i++) {
-//            items.add(new IdeaPopularListItem(R.drawable.ex1, "Lego"));
-//
-//        }
-        adapter.notifyDataSetChanged();
-
-        new NetworkGetPopularBoothList().execute("");
-    }
-
 
     // HTTP연결 Thread 생성 클래스
-    class NetworkGetPopularBoothList extends AsyncTask<String, String, Integer> {
+    class NetworkGetBoothList extends AsyncTask<String, String, Integer> {
         private String err_msg = "Network error.";
 
         // JSON에서 받아오는 객체
@@ -217,16 +206,17 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-
+                        int ideaNum = obj.getInt("idea_num");
+                        int likeNum =obj.getInt("like_num");
 
                         // Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id,R.drawable.ex1);
+                        BoothItem item = new BoothItem("img","name",booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
-                        items.add(item);
+                        arr_list.add(item);
 
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
-                        adapter.notifyDataSetChanged();
+                        adapter_sel_booth.notifyDataSetChanged();
                     }
 
                     // scroll 할 수 있게함
@@ -239,7 +229,7 @@ public class IdeaFragment extends Fragment {
             }
             // Error 상황
             else {
-                Toast.makeText(getContext(), "Error",
+                Toast.makeText(getApplicationContext(), "Error",
                         Toast.LENGTH_SHORT).show();
             }
         }
@@ -300,6 +290,5 @@ public class IdeaFragment extends Fragment {
         }
 
     }
-
 
 }

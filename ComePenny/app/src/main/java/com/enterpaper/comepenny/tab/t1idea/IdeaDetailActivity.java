@@ -1,5 +1,6 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 public class IdeaDetailActivity extends ActionBarActivity {
@@ -24,6 +26,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idea_detail);
+        //idea_id받기
+
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -39,6 +43,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 finish();
+                overridePendingTransition(0, 0);
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +112,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     @Override
     public void finish() {
         super.finish();
+        Intent itSetting = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(itSetting);
         overridePendingTransition(0, 0);
     }
 
