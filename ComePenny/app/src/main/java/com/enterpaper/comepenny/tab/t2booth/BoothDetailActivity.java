@@ -1,15 +1,12 @@
 package com.enterpaper.comepenny.tab.t2booth;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -19,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.MyInfoActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
@@ -92,7 +88,8 @@ public class BoothDetailActivity extends ActionBarActivity {
 
         // Adapter와 GirdView를 연결
         lvBoothDetailIdea.setAdapter(adapters);
-        adapters.notifyDataSetChanged();
+
+        initlist();
 
 
         new NetworkGetBoothIdeaList().execute("");
@@ -104,8 +101,6 @@ public class BoothDetailActivity extends ActionBarActivity {
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
                 startActivity(booth_ideas);
                 overridePendingTransition(0, 0);
-
-
             }
 
         });
@@ -211,7 +206,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-        initlist();
+//        initlist();
 
     }
 

@@ -1,6 +1,5 @@
 package com.enterpaper.comepenny.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,12 +14,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
-import com.enterpaper.comepenny.tab.t2booth.BoothAdapter;
-import com.enterpaper.comepenny.tab.t2booth.BoothDetailActivity;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -87,9 +82,9 @@ public class WriteBoothActivity extends ActionBarActivity{
                 Intent company = new Intent(getApplicationContext(), WriteActivity.class);
                 company.putExtra("booth_id", arr_list.get(position).getBooth_id());
                 startActivity(company);
+                overridePendingTransition(0, 0);
                 finish();
 
-                overridePendingTransition(0, 0);
             }
         });
 

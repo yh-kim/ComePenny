@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
-import com.enterpaper.comepenny.tab.t2booth.BoothDetailActivity;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -78,12 +76,6 @@ public class WriteActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Intent itMain = new Intent(getApplicationContext(), IdeaDetailActivity.class);
-                // itMain.putExtra("idea_id",idea_id);//booth_id를어떻게넘겨줄지
-                startActivity(itMain);
-                overridePendingTransition(0, 0);
-                new BaseActivity().closeActivity();
-                finish();
 
                 onSignUp();
             }
@@ -93,7 +85,7 @@ public class WriteActivity extends Activity {
     }
 
     private void onSignUp() {
-       // new NetworkWriteSignUp().execute();
+        new NetworkWriteSignUp().execute();
 
     }
 
@@ -110,94 +102,94 @@ public class WriteActivity extends Activity {
     }
 
 
-//    private class NetworkWriteSignUp extends AsyncTask<String, String, Integer> {
-//        // JSON 받아오는 객체
-//        private JSONObject jObject;
-//
-//        @Override
-//        protected Integer doInBackground(String... params) {
-//            return processing();
-//        }
-//
-//        // 서버 연결
-//        private Integer processing() {
-//            try {
-//                HttpClient http_client = new DefaultHttpClient();
-//
-//                // 요청 후 7초 이내에 응답없으면 timeout 발생
-//                http_client.getParams().setParameter("http.connection.timeout", 7000);
-//                // post 방식
-//                HttpPost http_post = null;
-//
-//                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
-//
-//                http_post = new HttpPost("http://54.199.176.234/api/write_idea");
-//
-//                // 데이터 담음
-//                name_value.add(new BasicNameValuePair("content", content));
-//                name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
-//                name_value.add(new BasicNameValuePair("user_id", user_id));
-//
-//                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
-//                http_post.setEntity(entityRequest);
-//
-//
-//                // 서버 전송
-//                HttpResponse response = http_client.execute(http_post);
-//
-//                // 받는 부분
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
-//                StringBuilder builder = new StringBuilder();
-//                for (String line = null; (line = reader.readLine()) != null; ) {
-//                    builder.append(line).append("\n");
-//
-//                    //err
-//                    //idea_id받기
-//                }
-//
-//                // json
-//                jObject = new JSONObject(builder.toString());
-//
-//
-//                // 0이면 정상, 0이 아니면 오류 발생
-//                if (jObject.getInt("err") > 0) {
-//                    return jObject.getInt("err");
-//                }
-//
-//            } catch (Exception e) {
-//                // 오류발생시
-//                e.printStackTrace();
-//                return 100;
-//            }
-//            return 0;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Integer result) {
-//
-//            // 정상적으로 글쓰기
-//            if (result == 0) {
-//                try {
+    private class NetworkWriteSignUp extends AsyncTask<String, String, Integer> {
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout", 7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/write_idea.php");
+
+                // 데이터 담음
+                name_value.add(new BasicNameValuePair("content", content));
+                name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
+                name_value.add(new BasicNameValuePair("user_id", user_id));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e) {
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            // 정상적으로 글쓰기
+            if (result == 0) {
+                try {
+                    //idea_id받기
 //                    String idea_id = jObject.getString("idea_id");
-//
-//                    // 여기서인텐트하기
-//                    Intent itMain = new Intent(getApplicationContext(), IdeaDetailActivity.class);
+                    jObject.getInt("err");
+
+
+
+                    // 여기서인텐트하기
+                    Intent itIdeaDetail = new Intent(getApplicationContext(), IdeaDetailActivity.class);
 //                    itMain.putExtra("idea_id",idea_id);//booth_id를어떻게넘겨줄지
-//                    startActivity(itMain);
-//                    overridePendingTransition(0, 0);
-//                    new BaseActivity().closeActivity();
-//                    finish();
-//                    return;
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//
-//    }
+                    startActivity(itIdeaDetail);
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
 
 }

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
@@ -21,10 +20,8 @@ import com.enterpaper.comepenny.util.SetFont;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +81,7 @@ public class BoothFragment extends Fragment {
         // Adapter와 GirdView를 연결
         main_list.setAdapter(adapter);
 
-        adapter.notifyDataSetChanged();
+        initlist();
 
         main_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -133,7 +130,7 @@ public class BoothFragment extends Fragment {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-        initlist();
+//        initlist();
 
     }
     //Initlist (초기화 메소드)
