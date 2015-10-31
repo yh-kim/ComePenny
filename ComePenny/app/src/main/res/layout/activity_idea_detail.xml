@@ -14,7 +14,7 @@
             android:id="@+id/mainidea_toolbar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="#0c2044"
+            android:background="#29c5e4"
             >
 
             <!--

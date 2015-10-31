@@ -153,7 +153,7 @@ public class IdeaFragment extends Fragment {
     private void addItemsIdea() {
         dataList = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            dataList.add(new IdeaListItem("1234", "IdeaTitle", "jihoon1234", 1233, 4321));
+            dataList.add(new IdeaListItem("1234", "적외선으로 상대의 위치를 추적하는 적외선 탐색 추적 장비와 야간에도 적을 물리친다.  ", "jihoon1234", 1233, 4321));
 
         }
     }
@@ -170,12 +170,6 @@ public class IdeaFragment extends Fragment {
         items = new ArrayList<>();
         adapter = new IdeaPopularAdapter(popular_view.getContext(), items, R.layout.row_idea_popular);
         recyclerView.setAdapter(adapter);
-
-
-//        for (int i = 0; i < 10; i++) {
-//            items.add(new IdeaPopularListItem(R.drawable.ex1, "Lego"));
-//
-//        }
         adapter.notifyDataSetChanged();
 
         new NetworkGetPopularBoothList().execute("");

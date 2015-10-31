@@ -9,7 +9,7 @@
         android:id="@+id/write_select_toolbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#0c2044">
+        android:background="#29c5e4">
 
         <ImageView
             android:id="@+id/btn_select_back"
@@ -28,7 +28,7 @@
             android:clickable="false"
             android:focusable="false"
             android:longClickable="false"
-            android:src="@drawable/main_comepenny" />
+            android:src="@drawable/logo" />
     </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"

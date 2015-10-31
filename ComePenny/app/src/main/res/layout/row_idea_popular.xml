@@ -19,8 +19,8 @@
             android:orientation="vertical"
             android:background="#ffffff">
             <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="167dp"
+                android:layout_height="167dp"
                 android:id="@+id/recycle_image"/>
 
         </LinearLayout>

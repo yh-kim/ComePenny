@@ -45,7 +45,6 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
         final IdeaPopularListItem item = items.get(position);
         Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
         holder.recycle_image.setBackground(drawable);
-      //  holder.recycle_title.setText(item.getRecycle_title());
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,13 +67,11 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView recycle_image;
-      //  TextView recycle_title;
         CardView cardview;
 
         public ViewHolder(View itemView) {
             super(itemView);
             recycle_image = (ImageView) itemView.findViewById(R.id.recycle_image);
-           // recycle_title = (TextView) itemView.findViewById(R.id.recycle_title);
             cardview = (CardView) itemView.findViewById(R.id.cardview);
         }
 
