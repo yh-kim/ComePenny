@@ -1,8 +1,6 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 
-import android.graphics.Bitmap;
-
 /**
  * Created by Kim on 2015-07-14.
  */
@@ -12,6 +10,25 @@ public class IdeaListItem {
     private String UserId;
     private int ViewCount;
     private int LiekeCount;
+    private int idea_id;
+
+    public int getIdea_id() {
+        return idea_id;
+    }
+
+    public void setIdea_id(int idea_id) {
+        this.idea_id = idea_id;
+    }
+
+
+    public IdeaListItem(int id, String img, String content, String userId, int viewCount, int liekeCount) {
+        idea_id = id;
+        this.img = img;
+        this.content = content;
+        UserId = userId;
+        ViewCount = viewCount;
+        LiekeCount = liekeCount;
+    }
 
     public IdeaListItem(String img, String content, String userId, int viewCount, int liekeCount) {
         this.img = img;

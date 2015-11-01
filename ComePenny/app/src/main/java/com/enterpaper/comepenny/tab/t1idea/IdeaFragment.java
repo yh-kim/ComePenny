@@ -15,13 +15,10 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
-import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -121,8 +118,9 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
+                intent.putExtra("idea_id", dataList.get(position).getIdea_id());
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
             }

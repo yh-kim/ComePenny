@@ -97,8 +97,9 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
+                booth_ideas.putExtra("idea_id", dataList.get(position).getIdea_id());
                 startActivity(booth_ideas);
                 overridePendingTransition(0, 0);
             }
@@ -356,12 +357,13 @@ public class BoothDetailActivity extends ActionBarActivity {
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
 
+                        int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", "content", "user_id", hit, 1234);
+                        IdeaListItem items = new IdeaListItem(idea_id,"img", "content", "user_id", hit, 1234);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
