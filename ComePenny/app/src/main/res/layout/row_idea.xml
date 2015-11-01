@@ -75,7 +75,8 @@
                 android:text="적외선으로 상대의 위치를 추적하는 적외선 탐색 추적 장비와 야간에도 적을 물리친다.  " />
 
             <ImageView
-                android:layout_width="380dp"
+                android:layout_marginRight="5dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="6dp"
@@ -124,7 +125,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingRight="9dp">
 
                     <TextView
                         android:layout_width="wrap_content"

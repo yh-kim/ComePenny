@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.enterpaper.comepenny.R;
@@ -124,5 +125,7 @@ public class MainActivity extends ActionBarActivity {
     public void onBackPressed() {
         //핸들러 작동
         backPressCloseHandler.onBackPressed();
+        Toast.makeText(getApplicationContext(), "한 번 더 누르면 앱이 종료됩니다", Toast.LENGTH_SHORT)
+                .show();
     }
 }
