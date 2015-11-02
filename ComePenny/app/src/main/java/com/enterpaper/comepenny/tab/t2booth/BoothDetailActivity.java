@@ -97,8 +97,9 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int i, long arg3) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
+                booth_ideas.putExtra("idea_id", dataList.get(position).getIdea_id());
                 startActivity(booth_ideas);
                 overridePendingTransition(0, 0);
             }
@@ -215,7 +216,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         //초기화
         is_scroll = true;
         offset = 0;
-        dataList.clear();
+//        dataList.clear();
 
         //쓰레드 실행
        // new NetworkGetBoothIdeaList().execute("");
@@ -356,20 +357,22 @@ public class BoothDetailActivity extends ActionBarActivity {
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
 
-                        String user_id = obj_boothIdeas.getString("user_id");
+                        int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", "content", "user_id", hit, 1234);
+                        IdeaListItem items = new IdeaListItem(idea_id,"img", "content", "user_id", hit, 1234);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
 
+
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapters.notifyDataSetChanged();
                     }
+
 
                     // scroll 할 수 있게함
                     is_scroll = true;
@@ -399,11 +402,13 @@ public class BoothDetailActivity extends ActionBarActivity {
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
                 http_post = new HttpPost(
-                        "http://54.199.176.234/api/get_booth_ideas.php");
+                        "http://54.199.176.234/api/get_idea_list.php");
 
 //                        //서버에 보낼 데이터
                 // data를 담음
                 name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
+
+                name_value.add(new BasicNameValuePair("offset", offset + ""));
 //                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
 //                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
 //                        // 데이터를 받아올 시작점

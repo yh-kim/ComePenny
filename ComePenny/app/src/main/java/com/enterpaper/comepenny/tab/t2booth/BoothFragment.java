@@ -103,17 +103,17 @@ public class BoothFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                if((firstVisibleItem + visibleItemCount) == totalItemCount){
-                    //서버로부터 받아온 List개수를 count
-                    //지금까지 받아온 개수를 offset
-                    if(count != 0 && offset % row_cnt == 0){
-                        if(is_scroll){
-                            //스크롤 멈추게 하는거
-                            is_scroll = false;
-                            new NetworkGetBoothList().execute("");
-                        }
-                    }
-                }
+//                if((firstVisibleItem + visibleItemCount) == totalItemCount){
+//                    //서버로부터 받아온 List개수를 count
+//                    //지금까지 받아온 개수를 offset
+//                    if(count != 0 && offset % row_cnt == 0){
+//                        if(is_scroll){
+//                            //스크롤 멈추게 하는거
+//                            is_scroll = false;
+//                            new NetworkGetBoothList().execute("");
+//                        }
+//                    }
+//                }
 
 
 
