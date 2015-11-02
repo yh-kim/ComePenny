@@ -414,10 +414,6 @@ public class BoothDetailActivity extends ActionBarActivity {
                 // data를 담음
                 name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
-//                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-//                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-//                        // 데이터를 받아올 시작점
-//                        name_value.add(new BasicNameValuePair("offset", offset + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");

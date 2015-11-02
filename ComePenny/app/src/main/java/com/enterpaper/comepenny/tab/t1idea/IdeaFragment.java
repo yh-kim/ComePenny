@@ -50,13 +50,13 @@ public class IdeaFragment extends Fragment {
     ListView lvMainIdea;
     RecyclerView recyclerView;
     FloatingActionButton fab;
-    private Intent intent = new Intent();
     IdeaAdapter adapters;
     IdeaPopularAdapter adapter;
     ArrayList<IdeaListItem> dataList = new ArrayList<>();
     LinearLayout recycler_info;
     List<IdeaPopularListItem> items = new ArrayList<>();
     LinearLayoutManager layoutmanager;
+    private Intent intent = new Intent();
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -132,12 +132,22 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                fab.attachToListView(lvMainIdea);
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                fab.attachToListView(lvMainIdea);
+                //서버로부터 받아온 List개수를 count
+                //지금까지 받아온 개수를 offset
+                if (count != 0 && offset % row_cnt == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetMainIdeaList().execute("");
+                    }
+                }
+
+
 
 
             }
@@ -193,8 +203,8 @@ public class IdeaFragment extends Fragment {
                 // jObject에서 데이터를 뽑아내자
                 try {
                     // 가져오는 값의 개수를 가져옴
-                    count = jObject.getInt("cnt");
-                    offset = offset + count;
+//                    count = jObject.getInt("cnt");
+//                    offset = offset + count;
                     JSONArray ret_arr = jObject.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj = ret_arr.getJSONObject(index);
@@ -212,8 +222,8 @@ public class IdeaFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                     }
 
-                    // scroll 할 수 있게함
-                    is_scroll = true;
+//                    // scroll 할 수 있게함
+//                    is_scroll = true;
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -314,6 +324,7 @@ public class IdeaFragment extends Fragment {
                     // 가져오는 값의 개수를 가져옴
                     count = jObjects.getInt("cnt");
                     offset = offset + count;
+
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
@@ -326,7 +337,7 @@ public class IdeaFragment extends Fragment {
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
@@ -367,13 +378,11 @@ public class IdeaFragment extends Fragment {
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_idea_list.php");
 
-
-                // data를 담음//서버에 보낼 데이터
-                // 데이터를 받아올 시작점
+//                        //서버에 보낼 데이터
+                // data를 담음
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
-//                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-                name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-//
+
+
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
                 http_post.setEntity(entityRequest);

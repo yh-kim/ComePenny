@@ -129,13 +129,10 @@ public class MyInfoActivity extends Activity {
                 intent.setClass(getApplicationContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", mydataList.get(position - 1).getIdea_id());
                 startActivity(intent);
-               overridePendingTransition(0, 0);
+                overridePendingTransition(0, 0);
             }
 
         });
-
-
-
 
 
         lv_mywrite.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -146,10 +143,17 @@ public class MyInfoActivity extends Activity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (count != 0 && offset % row_cnt == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetMylikeIdeaList().execute("");
+                    }
+                }
+
 
             }
         });
-
 
 
         return;
@@ -197,7 +201,7 @@ public class MyInfoActivity extends Activity {
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, user_id, hit, like_num,idea_id);
+                        IdeaListItem items = new IdeaListItem("img", content, user_id, hit, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         mydataList.add(items);
@@ -238,16 +242,14 @@ public class MyInfoActivity extends Activity {
 
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_idea_list.php");
-                String user_id = DataUtil.getAppPreferences(getApplicationContext(),"user_id");
+                String user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
 
 //                        //서버에 보낼 데이터
                 // data를 담음
-                name_value.add(new BasicNameValuePair("offset", offset + ""));
                 name_value.add(new BasicNameValuePair("user_id", user_id));
-//                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-                        // 데이터를 받아올 시작점
-                        name_value.add(new BasicNameValuePair("offset", offset + ""));
+//
+                // 데이터를 받아올 시작점
+                name_value.add(new BasicNameValuePair("offset", offset + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
@@ -284,10 +286,6 @@ public class MyInfoActivity extends Activity {
     }
 
 
-
-
-
-
     // layout
     private void initLayout() {
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
@@ -305,7 +303,7 @@ public class MyInfoActivity extends Activity {
         myInfo_divideline = (ImageView) myinfoview.findViewById(R.id.myInfo_divideline);
         tv_id = (TextView) myinfoview.findViewById(R.id.tv_id);
         tv_usermail = (TextView) myinfoview.findViewById(R.id.tv_usermail);
-        tv_usermail.setText(DataUtil.getAppPreferences(getApplicationContext(),"user_email"));
+        tv_usermail.setText(DataUtil.getAppPreferences(getApplicationContext(), "user_email"));
 
     }
 
