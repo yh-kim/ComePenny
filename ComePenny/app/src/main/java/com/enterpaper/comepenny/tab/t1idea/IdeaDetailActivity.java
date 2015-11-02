@@ -36,10 +36,10 @@ import java.util.List;
 public class IdeaDetailActivity extends ActionBarActivity {
     private ScrollView scrollView_mainidea_detail;
     Toolbar mToolBar;
-    ImageView Img_company, btn_ideaback;
+    ImageView  btn_ideaback;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
-    TextView tv_logo_name, tv_ideatitle, tv_Writer, tv_view, tv_like, tv_ideaoriginal,btn_modify, btn_delete;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal,btn_modify, btn_delete;
     int pick_boolean = 0;
     View header;
     int idea_id;
@@ -94,11 +94,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
 
         scrollView_mainidea_detail = (ScrollView)header.findViewById(R.id.scrollView_mainidea_detail);
-        Img_company = (ImageView) header.findViewById(R.id.Img_company);
         btn_pick = (ImageButton) header.findViewById(R.id.btn_pick);
         btn_modify = (TextView) header.findViewById(R.id.btn_modify);
         btn_delete = (TextView) header.findViewById(R.id.btn_delete);
-        tv_ideatitle = (TextView) header.findViewById(R.id.tv_ideatitle);
         tv_Writer = (TextView) header.findViewById(R.id.tv_Writer);
         tv_view = (TextView) header.findViewById(R.id.tv_view);
         tv_like = (TextView) header.findViewById(R.id.tv_like);
