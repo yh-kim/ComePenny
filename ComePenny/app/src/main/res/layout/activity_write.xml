@@ -41,35 +41,6 @@
             android:layout_alignBottom="@+id/write_top_layout"
             android:layout_centerHorizontal="true"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/write_photo_btn" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/write_video_btn" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/write_link_btn" />
-
-            </LinearLayout>
-
             <ImageView
                 android:id="@+id/btn_write_write"
                 android:layout_width="wrap_content"
@@ -89,7 +60,7 @@
             <EditText
                 android:id="@+id/edit_content"
                 android:layout_width="match_parent"
-                android:layout_height="410dp"
+                android:layout_height="450dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
