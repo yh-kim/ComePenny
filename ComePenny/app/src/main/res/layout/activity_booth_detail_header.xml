@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:focusable="false">
 
     <RelativeLayout
         android:paddingTop="4dp"
         android:paddingRight="4dp"
         android:paddingLeft="4dp"
         android:layout_width="match_parent"
-        android:layout_height="352dp">
+        android:layout_height="352dp"
+        android:clickable="false"
+        android:focusable="false">
 
         <ImageView
             android:scaleType="centerCrop"
@@ -64,7 +68,8 @@
             android:src="@drawable/booth_info"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            />
 
         <LinearLayout
             android:id="@+id/booth_info"

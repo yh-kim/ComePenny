@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -53,7 +54,7 @@ public class BoothDetailActivity extends ActionBarActivity {
     ArrayList<IdeaListItem> dataList = new ArrayList<>();
 
     Toolbar mToolBar;
-    ImageView btnBoothBack, btnBoothInfo, btnBoothInfoClose;
+    ImageView btnBoothBack, btnBoothInfo, btnBoothInfoClose,img_booth;
     LinearLayout lyBoothInfo;
     View header;
 
@@ -70,6 +71,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea = (ListView)findViewById(R.id.lv_booth_detail_idea);
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_booth_detail_header, null, false);
+       // header.selec
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
         SetFont.setGlobalFont(header.getContext(), header);
@@ -80,8 +82,8 @@ public class BoothDetailActivity extends ActionBarActivity {
         // 레이아웃 객체 생성
         initLayout();
 
-        // 헤더 설정
-        lvBoothDetailIdea.addHeaderView(header);
+        // 헤더 설정, 헤더에 리스트뷰리스너막음 + position-1
+        lvBoothDetailIdea.addHeaderView(header,adapters,false);
 
         // Adapter 생성
         adapters = new IdeaAdapter(getApplicationContext(), R.layout.row_idea, dataList);
@@ -99,7 +101,7 @@ public class BoothDetailActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
-                booth_ideas.putExtra("idea_id", dataList.get(position).getIdea_id());
+                booth_ideas.putExtra("idea_id", dataList.get(position-1).getIdea_id());//헤더를 position0으로인식하기때문
                 startActivity(booth_ideas);
                 overridePendingTransition(0, 0);
             }
@@ -182,6 +184,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
         btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
+        img_booth = (ImageView)header.findViewById(R.id.img_booth);
 
     }
 
@@ -360,10 +363,12 @@ public class BoothDetailActivity extends ActionBarActivity {
                         int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
+                        int like_num = obj_boothIdeas.getInt("like_num");
+                        String user_id = obj_boothIdeas.getString("email");
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(idea_id,"img", "content", "user_id", hit, 1234);
+                        IdeaListItem items = new IdeaListItem(idea_id,"img", content, user_id, hit, like_num);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
@@ -407,7 +412,6 @@ public class BoothDetailActivity extends ActionBarActivity {
 //                        //서버에 보낼 데이터
                 // data를 담음
                 name_value.add(new BasicNameValuePair("booth_id", booth_id + ""));
-
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
 //                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
 //                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));

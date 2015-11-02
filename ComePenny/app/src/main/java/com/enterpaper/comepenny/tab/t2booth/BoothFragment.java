@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
@@ -183,6 +184,7 @@ public class BoothFragment extends Fragment {
                         int booth_id = obj.getInt("id");
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
+
 
                         // Item 객체로 만들어야함
                         BoothItem item = new BoothItem("img","name",booth_id,ideaNum,likeNum);

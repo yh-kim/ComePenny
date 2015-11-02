@@ -69,7 +69,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         holder.title.setText(item.getContent());
         holder.UserId.setText(item.getUserId());
         holder.ViewCount.setText(item.getViewCount()+"");
-       // holder.LikeCount.setText(item.getLiekeCount()+"");
+        holder.LikeCount.setText(item.getLikeCount()+"");
 
         return convertView;
     }

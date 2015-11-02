@@ -68,7 +68,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
 
         BoothItem item = getItem(position);
 
-        //holder.img.setImageBitmap(item.getBoothimg());
+      //  holder.img.setText(R.drawable.ex1);
         //holder.name.setText(item.getName());
         //holder.booth_id.setText(item.get
         holder.likeNum.setText(item.getLikeNum()+"");

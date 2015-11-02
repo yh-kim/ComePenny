@@ -40,7 +40,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     TextView tv_logo_name, tv_ideatitle, tv_Writer, tv_view, tv_like, tv_ideaoriginal,btn_modify, btn_delete;
-    boolean pick_boolean = true;
+    int pick_boolean = 0;
     View header;
     int idea_id;
 
@@ -83,6 +83,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         initializeAction();
 
         new NetworkGetIdeainfo().execute();
+        new NetworkGetlike().execute();
 
     }
 
@@ -135,18 +136,20 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pick_boolean == true) {
-                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
-                    Toast.makeText(getApplicationContext(), "idea를 pick하겠습니다", Toast.LENGTH_SHORT)
-                            .show();
-                    pick_boolean = false;
+                onlike();
 
-                }else{
-                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
-                    Toast.makeText(getApplicationContext(), "pick 취소하겠습니다", Toast.LENGTH_SHORT)
-                            .show();
-                    pick_boolean = true;
-                }
+//                if (pick_boolean == 0) {
+//                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
+//                    Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
+//                            .show();
+//                    pick_boolean = 1;
+//
+//                } else {
+//                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
+//                    Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
+//                            .show();
+//                    pick_boolean = 0;
+//                }
             }
         });
 
@@ -168,6 +171,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
+    }
+   private void onlike(){
+        new NetworkGetlike().execute();
     }
 
 
@@ -251,11 +257,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
+                   // String email = jObject.get("user_email").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
 
-                    tv_logo_name.setText(booth_name);
+                   // tv_Writer.setText(email);
+                   tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
                     tv_view.setText(hit+"");
                     tv_like.setText(like_num+"");
@@ -265,6 +273,116 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     }
                     else{
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+            // Error 상황
+            else {
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    //like정보가져오기 - HTTP연결 Thread 생성 클래스
+    class NetworkGetlike extends AsyncTask<String, String, Integer> {
+        private String err_msg = "Network error.";
+
+        // JSON에서 받아오는 객체
+        private JSONObject jObject;
+
+        // AsyncTask 실행되는거
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            return processing();
+        }
+
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+                // 요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
+                http_client.getParams().setParameter("http.connection.timeout",
+                        7000);
+
+                // data를 Post방식으로 보냄
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost(
+                        "http://54.199.176.234/api/like.php");
+
+                //서버에 보낼 데이터
+                // data를 담음
+                name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(),"user_id")));
+                name_value.add(new BasicNameValuePair("is_like",pick_boolean+""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
+                        name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+                // 실행
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // 우리가 사용하는 결과
+//                jObject = new JSONObject(builder.toString());
+                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
+
+                // err가 0이면 정상적인 처리
+                // err가 0이 아닐시 오류발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+            } catch (Exception e) {
+                // 오류발생시
+                Log.i(err_msg, e.toString());
+                return 100;
+            }
+            return 0;
+        }
+
+        // AsyncTask 실행완료 후에 구동 (Data를 받은것을 Activity에 갱신하는 작업을 하면돼)
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            // 지금 코드에서는 result가 0이면 정상적인 상황
+            if (result == 0) {
+                Log.i("Network Data", jObject.toString());
+
+                // jObject에서 데이터를 뽑아내자
+                try {
+
+
+                    int is_like = jObject.getInt("is_like");
+
+
+                    if(is_like == 0){
+                        btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
+                        Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
+                                .show();
+                        pick_boolean = 1;
+                    }
+                    else{
+                        btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
+                        Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
+                                .show();
+                        pick_boolean = 0;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
