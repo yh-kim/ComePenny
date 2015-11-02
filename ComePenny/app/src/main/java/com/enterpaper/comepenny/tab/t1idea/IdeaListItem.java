@@ -9,7 +9,7 @@ public class IdeaListItem {
     private String content;
     private String UserId;
     private int ViewCount;
-    private int LiekeCount;
+    private int LikeCount;
     private int idea_id;
 
     public int getIdea_id() {
@@ -21,21 +21,21 @@ public class IdeaListItem {
     }
 
 
-    public IdeaListItem(int id, String img, String content, String userId, int viewCount, int liekeCount) {
+    public IdeaListItem(int id, String img, String content, String userId, int viewCount, int likeCount) {
         idea_id = id;
         this.img = img;
         this.content = content;
         UserId = userId;
         ViewCount = viewCount;
-        LiekeCount = liekeCount;
+        LikeCount = likeCount;
     }
 
-    public IdeaListItem(String img, String content, String userId, int viewCount, int liekeCount) {
+    public IdeaListItem(String img, String content, String userId, int viewCount, int likeCount) {
         this.img = img;
         this.content = content;
         UserId = userId;
         ViewCount = viewCount;
-        LiekeCount = liekeCount;
+        LikeCount = likeCount;
     }
 
     public String getImg() {
@@ -70,11 +70,11 @@ public class IdeaListItem {
         ViewCount = viewCount;
     }
 
-    public int getLiekeCount() {
-        return LiekeCount;
+    public int getLikeCount() {
+        return LikeCount;
     }
 
-    public void setLiekeCount(int liekeCount) {
-        LiekeCount = liekeCount;
+    public void setLikeCount(int liekeCount) {
+        LikeCount = liekeCount;
     }
 }

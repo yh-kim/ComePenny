@@ -55,7 +55,7 @@
                             android:id="@+id/tv_Writer"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="jihoon2341"
+                            android:text=" "
                             android:textColor="#535353"
                             android:textSize="12sp" />
 
@@ -79,7 +79,7 @@
                             android:id="@+id/tv_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1253"
+                            android:text=" "
                             android:textColor="#959595"
                             android:textSize="12sp" />
 
@@ -95,7 +95,7 @@
                             android:id="@+id/tv_like"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1233"
+                            android:text=" "
                             android:textColor="#959595"
                             android:textSize="12dp" />
 
@@ -120,7 +120,7 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="I am trying to understand. I am already to go out. I am just about to go to bed. I am calling to make a reservation. I am trying to understand. I am ready to go out. I am trying to understang. I and ready to go out. I am just about to go to bed."
+                    android:text=" "
                     android:textColor="#313131"
                     android:textSize="14sp" />
 
