@@ -197,7 +197,7 @@ public class MyInfoActivity extends Activity {
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(idea_id,"img", content, user_id, hit, like_num);
+                        IdeaListItem items = new IdeaListItem("img", content, user_id, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         mydataList.add(items);
@@ -220,6 +220,7 @@ public class MyInfoActivity extends Activity {
             else {
                 Toast.makeText(getApplicationContext(), "Error",
                         Toast.LENGTH_SHORT).show();
+
             }
         }
 
@@ -237,7 +238,7 @@ public class MyInfoActivity extends Activity {
 
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_idea_list.php");
-                String user_id = DataUtil.getAppPreferences(getApplicationContext(),"user_email");
+                String user_id = DataUtil.getAppPreferences(getApplicationContext(),"user_id");
 
 //                        //서버에 보낼 데이터
                 // data를 담음
@@ -245,8 +246,8 @@ public class MyInfoActivity extends Activity {
                 name_value.add(new BasicNameValuePair("user_id", user_id));
 //                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
 //                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-//                        // 데이터를 받아올 시작점
-//                        name_value.add(new BasicNameValuePair("offset", offset + ""));
+                        // 데이터를 받아올 시작점
+                        name_value.add(new BasicNameValuePair("offset", offset + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");

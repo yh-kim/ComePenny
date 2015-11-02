@@ -60,7 +60,7 @@
                 app:pstsTabPaddingLeftRight="14dp"
                 app:pstsDividerColor="#eeeeee"
                 app:pstsUnderlineColor="#ffffff"
-                app:pstsIndicatorColor="#0c2044"
+                app:pstsIndicatorColor="#29c5e4"
                 app:pstsIndicatorHeight="3dp"
                 app:pstsUnderlineHeight="0dp"
                 android:layout_height="40dp">

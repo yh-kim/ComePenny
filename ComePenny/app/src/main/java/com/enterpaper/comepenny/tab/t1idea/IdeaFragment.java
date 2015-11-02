@@ -123,6 +123,7 @@ public class IdeaFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", dataList.get(position-1).getIdea_id());
+                intent.putExtra("email",dataList.get(position-1).getEmail());
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
             }
@@ -323,11 +324,11 @@ public class IdeaFragment extends Fragment {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-                        String user_id = obj_boothIdeas.getString("email");
+                        String email = obj_boothIdeas.getString("email");
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(idea_id,"img", content, user_id, hit, like_num);
+                        IdeaListItem items = new IdeaListItem("img",content,email,hit,like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);

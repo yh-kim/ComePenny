@@ -54,7 +54,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
             holder.img = (ImageView) convertView.findViewById(R.id.iv_company);
             holder.title = (TextView) convertView.findViewById(R.id.tv_idea);
-            holder.UserId = (TextView) convertView.findViewById(R.id.tv_UserId);
+            holder.Email = (TextView) convertView.findViewById(R.id.tv_UserId);
             holder.ViewCount = (TextView) convertView.findViewById(R.id.tv_count_view);
             holder.LikeCount = (TextView) convertView.findViewById(R.id.tv_count_like);
             convertView.setTag(holder);
@@ -67,7 +67,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
        // holder.img.setImageBitmap(item.getImg());
         holder.title.setText(item.getContent());
-        holder.UserId.setText(item.getUserId());
+        holder.Email.setText(item.getEmail());
         holder.ViewCount.setText(item.getViewCount()+"");
         holder.LikeCount.setText(item.getLikeCount()+"");
 
@@ -76,7 +76,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
     class ViewHolder {
         ImageView img;
-        TextView title, UserId, ViewCount, LikeCount;
+        TextView title, UserId, ViewCount, LikeCount,Email;
     }
 
 }
