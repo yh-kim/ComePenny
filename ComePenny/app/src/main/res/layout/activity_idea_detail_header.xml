@@ -117,7 +117,7 @@
                     android:layout_marginBottom="31dp"
                     android:background="@drawable/detail_pickbutton_before" />
 
-              
+
 
             </LinearLayout>
         </LinearLayout>
