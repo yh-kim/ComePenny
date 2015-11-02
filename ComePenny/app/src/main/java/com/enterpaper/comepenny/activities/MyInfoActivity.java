@@ -65,7 +65,7 @@ import java.util.List;
  * Created by Kim on 2015-09-16.
  */
 public class MyInfoActivity extends Activity {
-    int row_cnt = 8;
+    int row_cnt = 6;
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
@@ -245,7 +245,7 @@ public class MyInfoActivity extends Activity {
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
                 name_value.add(new BasicNameValuePair("user_id", user_id));
 //                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-//                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
+                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
                         // 데이터를 받아올 시작점
                         name_value.add(new BasicNameValuePair("offset", offset + ""));
 

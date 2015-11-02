@@ -56,7 +56,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         //idea_id받기
         Intent itReceive = getIntent();
         idea_id = itReceive.getExtras().getInt("idea_id");
-       // email = itReceive.getExtras().getString("email");
+        email = itReceive.getExtras().getString("email");
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -264,7 +264,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
 
-                    //tv_Writer.setText(email);
+                    tv_Writer.setText(email);
                    tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
                     tv_view.setText(hit+"");

@@ -42,7 +42,7 @@ import java.util.List;
  * Created by Kim on 2015-09-26.
  */
 public class IdeaFragment extends Fragment {
-    int row_cnt = 8;
+    int row_cnt = 6;
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
@@ -88,7 +88,7 @@ public class IdeaFragment extends Fragment {
         //헤더 생성
         popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
-        recyclerView = (RecyclerView)popular_view.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
 
         // 헤더레이아웃 객체 생성
         inithearLayout();
@@ -109,7 +109,6 @@ public class IdeaFragment extends Fragment {
         });
 
 
-
         // Adapter 생성
         adapters = new IdeaAdapter(rootView.getContext(), R.layout.row_idea, dataList);
 
@@ -122,8 +121,8 @@ public class IdeaFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
-                intent.putExtra("idea_id", dataList.get(position-1).getIdea_id());
-                intent.putExtra("email",dataList.get(position-1).getEmail());
+                intent.putExtra("idea_id", dataList.get(position - 1).getIdea_id());
+                intent.putExtra("email", dataList.get(position - 1).getEmail());
                 startActivity(intent);
                 getActivity().overridePendingTransition(0, 0);
             }
@@ -139,7 +138,6 @@ public class IdeaFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 fab.attachToListView(lvMainIdea);
-
 
 
             }
@@ -205,7 +203,7 @@ public class IdeaFragment extends Fragment {
 
 
                         // Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id,R.drawable.ex1);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex1);
 
                         // Item 객체를 ArrayList에 넣는다
                         items.add(item);
@@ -264,7 +262,7 @@ public class IdeaFragment extends Fragment {
                         new InputStreamReader(
                                 response.getEntity().getContent(), "UTF-8"), 8);
                 StringBuilder builder = new StringBuilder();
-                for (String line = null; (line = reader.readLine()) != null;) {
+                for (String line = null; (line = reader.readLine()) != null; ) {
                     builder.append(line).append("\n");
                 }
 
@@ -328,7 +326,7 @@ public class IdeaFragment extends Fragment {
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img",content,email,hit,like_num,idea_id);
+                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
@@ -369,14 +367,13 @@ public class IdeaFragment extends Fragment {
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_idea_list.php");
 
-//                        //서버에 보낼 데이터
-                // data를 담음
+
+                // data를 담음//서버에 보낼 데이터
+                // 데이터를 받아올 시작점
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
 //                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-//                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-//                        // 데이터를 받아올 시작점
-//                        name_value.add(new BasicNameValuePair("offset", offset + ""));
-
+                name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
+//
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
                 http_post.setEntity(entityRequest);
@@ -410,7 +407,6 @@ public class IdeaFragment extends Fragment {
         }
 
     }
-
 
 
 }

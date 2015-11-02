@@ -169,6 +169,7 @@ public class WriteActivity extends Activity {
                 try {
                     //idea_id받기
                     int idea_id = jObject.getInt("idea_id");
+                    String email =DataUtil.getAppPreferences(getApplicationContext(),"user_email");
                     jObject.getInt("err");
 
 
@@ -176,7 +177,7 @@ public class WriteActivity extends Activity {
                     // 여기서인텐트하기
                     Intent itIdeaDetail = new Intent(getApplicationContext(), IdeaDetailActivity.class);
                     itIdeaDetail.putExtra("idea_id",idea_id);//booth_id를어떻게넘겨줄지
-                    
+                    itIdeaDetail.putExtra("email",email);
                     startActivity(itIdeaDetail);
                     overridePendingTransition(0, 0);
                     finish();
