@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
+import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -84,6 +85,7 @@ public class WriteBoothActivity extends ActionBarActivity{
                 startActivity(company);
                 overridePendingTransition(0, 0);
                 finish();
+
 
             }
         });
