@@ -43,6 +43,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     int pick_boolean = 0;
     View header;
     int idea_id;
+    String email;
 
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
@@ -55,6 +56,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         //idea_id받기
         Intent itReceive = getIntent();
         idea_id = itReceive.getExtras().getInt("idea_id");
+       // email = itReceive.getExtras().getString("email");
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -83,7 +85,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
         initializeAction();
 
         new NetworkGetIdeainfo().execute();
-        new NetworkGetlike().execute();
 
     }
 
@@ -136,20 +137,22 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_pick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onlike();
 
-//                if (pick_boolean == 0) {
-//                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
-//                    Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
-//                            .show();
-//                    pick_boolean = 1;
-//
-//                } else {
-//                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
-//                    Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
-//                            .show();
-//                    pick_boolean = 0;
-//                }
+                if (pick_boolean == 0) {
+                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
+                    Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
+                            .show();
+                    pick_boolean = 1;
+                    new NetworkGetlike().execute();
+
+
+                } else {
+                    btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
+                    Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
+                            .show();
+                    pick_boolean = 0;
+                    new NetworkGetlike().execute();
+                }
             }
         });
 
@@ -171,9 +174,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0, 0);
-    }
-   private void onlike(){
-        new NetworkGetlike().execute();
     }
 
 
@@ -257,21 +257,25 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
-                   // String email = jObject.get("user_email").toString();
+                   // String email = jObject.get("email").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
 
-                   // tv_Writer.setText(email);
+
+
+                    //tv_Writer.setText(email);
                    tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
                     tv_view.setText(hit+"");
                     tv_like.setText(like_num+"");
 
                     if(like == 1){
+                        pick_boolean=1;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
                     }
                     else{
+                        pick_boolean=0;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
                     }
                 } catch (JSONException e) {
@@ -321,7 +325,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 // data를 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
                 name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(),"user_id")));
-                name_value.add(new BasicNameValuePair("is_like",pick_boolean+""));
+                if(pick_boolean==1) {
+                    name_value.add(new BasicNameValuePair("is_like", 0+""));
+                }else{
+                    name_value.add(new BasicNameValuePair("is_like", 1+""));
+                }
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
@@ -366,27 +374,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 Log.i("Network Data", jObject.toString());
 
                 // jObject에서 데이터를 뽑아내자
-                try {
 
-
-                    int is_like = jObject.getInt("is_like");
-
-
-                    if(is_like == 0){
-                        btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
-                        Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
-                                .show();
-                        pick_boolean = 1;
-                    }
-                    else{
-                        btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
-                        Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
-                                .show();
-                        pick_boolean = 0;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 return;
             }
             // Error 상황

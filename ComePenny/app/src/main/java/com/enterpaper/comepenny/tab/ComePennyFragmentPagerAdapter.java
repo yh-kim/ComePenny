@@ -11,7 +11,7 @@ import com.enterpaper.comepenny.tab.t1idea.IdeaFragment;
  * Created by Kim on 2015-07-21.
  */
 public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"Idea", "Booth" };
+    private final String[] TITLES = {"Today's Homo", "Category" };
     Fragment frag =null;
     final int PAGE_COUNT = 2;
 

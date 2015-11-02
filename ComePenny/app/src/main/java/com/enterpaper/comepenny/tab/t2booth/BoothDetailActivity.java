@@ -43,7 +43,7 @@ import java.util.List;
  */
 public class BoothDetailActivity extends ActionBarActivity {
     int booth_id;
-    int row_cnt = 8;
+    int row_cnt = 6;
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
@@ -102,6 +102,7 @@ public class BoothDetailActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
                 booth_ideas.putExtra("idea_id", dataList.get(position-1).getIdea_id());//헤더를 position0으로인식하기때문
+                booth_ideas.putExtra("email",dataList.get(position-1).getEmail());
                 startActivity(booth_ideas);
                 overridePendingTransition(0, 0);
             }
@@ -364,11 +365,11 @@ public class BoothDetailActivity extends ActionBarActivity {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-                        String user_id = obj_boothIdeas.getString("email");
+                        String email = obj_boothIdeas.getString("email");
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(idea_id,"img", content, user_id, hit, like_num);
+                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
