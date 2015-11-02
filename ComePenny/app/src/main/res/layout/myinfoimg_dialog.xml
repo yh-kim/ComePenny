@@ -17,7 +17,7 @@
             android:text="사진 선택"
             android:textSize="19sp"
             android:textStyle="bold"
-            android:textColor="#0c2044"/>
+            android:textColor="#29c5e4"/>
 
 
     </TableRow>
@@ -25,7 +25,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#0c2044" />
+        android:background="#29c5e4" />
 
     <TableRow
         android:id="@+id/row1"
