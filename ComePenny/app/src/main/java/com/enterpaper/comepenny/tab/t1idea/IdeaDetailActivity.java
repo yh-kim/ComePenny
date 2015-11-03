@@ -247,7 +247,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     int like = jObject.getInt("like");
 
 
-
                     tv_Writer.setText(email);
                    tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
@@ -358,6 +357,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 Log.i("Network Data", jObject.toString());
 
                 // jObject에서 데이터를 뽑아내자
+                int like_num = 0;
+                try {
+                    like_num = jObject.getInt("like_num");
+                    tv_like.setText(like_num + "");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 return;
             }
