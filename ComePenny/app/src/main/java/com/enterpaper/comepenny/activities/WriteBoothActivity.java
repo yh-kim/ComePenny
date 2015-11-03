@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -42,7 +41,6 @@ public class WriteBoothActivity extends ActionBarActivity{
     int offset = 0;
     boolean is_scroll = true;
 
-
     ImageView btn_select_back;
     Toolbar mToolBar;
     GridView booth_list;
@@ -62,9 +60,40 @@ public class WriteBoothActivity extends ActionBarActivity{
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         // layout 생성
-        initLayout();
-        initlist();
+        initializeLayout();
 
+        initializeList();
+
+        initializeListener();
+    }
+
+    //Initlist (초기화 메소드)
+    public void initializeList(){
+        //초기화
+        is_scroll = true;
+        offset = 0;
+        arr_list.clear();
+
+        //쓰레드 실행
+        new NetworkGetBoothList().execute("");
+        return;
+    }
+
+
+    private void initializeLayout(){
+        //액션바 객체 생성
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        //액션바 설정
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(false);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        //액션바 숨김
+        actionBar.hide();
+
+        //툴바 설정
+        mToolBar = (Toolbar) findViewById(R.id.write_select_toolbar);
+        mToolBar.setContentInsetsAbsolute(0, 0);
 
         booth_list = (GridView)findViewById(R.id.gv_select_booth);
         btn_select_back =(ImageView)findViewById(R.id.btn_select_back);
@@ -76,7 +105,9 @@ public class WriteBoothActivity extends ActionBarActivity{
         booth_list.setAdapter(adapter_sel_booth);
 
         adapter_sel_booth.notifyDataSetChanged();
+    }
 
+    private void initializeListener(){
         booth_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -114,6 +145,7 @@ public class WriteBoothActivity extends ActionBarActivity{
 
             }
         });
+
         btn_select_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,43 +155,7 @@ public class WriteBoothActivity extends ActionBarActivity{
 
             }
         });
-
-
-
-
-
     }
-
-    //Initlist (초기화 메소드)
-    public void initlist(){
-        //초기화
-        is_scroll = true;
-        offset = 0;
-        arr_list.clear();
-
-        //쓰레드 실행
-        new NetworkGetBoothList().execute("");
-        return;
-    }
-
-
-    private void initLayout(){
-        //액션바 객체 생성
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        //액션바 설정
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
-
-        //액션바 숨김
-        actionBar.hide();
-
-        //툴바 설정
-        mToolBar = (Toolbar) findViewById(R.id.write_select_toolbar);
-        mToolBar.setContentInsetsAbsolute(0, 0);
-
-    }
-
 
 
     @Override

@@ -40,20 +40,24 @@ public class MainActivity extends ActionBarActivity {
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         // 레이아웃 객체 생성
-        initLayout();
+        initializeLayout();
+
+        initializeListener();
 
         // Toolbar 생성
-        initToolbar();
+        initializeToolbar();
 
         // 탭 생성
-        initTab();
+        initializeTab();
     }
 
 
-    private void initLayout(){
+    private void initializeLayout(){
         imgMyInfo = (ImageView)findViewById(R.id.img_main_myinfo);
         imgSetting = (ImageView)findViewById(R.id.img_main_setting);
+    }
 
+    private void initializeListener(){
         imgMyInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private void initToolbar(){
+    private void initializeToolbar(){
         //액션바 객체 생성
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //액션바 설정
@@ -89,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    private void initTab(){
+    private void initializeTab(){
         pager = (ViewPager) this.findViewById(R.id.pager);
         pager.setAdapter(new ComePennyFragmentPagerAdapter(getSupportFragmentManager()));
 

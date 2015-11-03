@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -77,10 +76,10 @@ public class BoothDetailActivity extends ActionBarActivity {
         SetFont.setGlobalFont(header.getContext(), header);
 
         //Toolbar 생성
-        initToolbar();
+        initializeToolbar();
 
         // 레이아웃 객체 생성
-        initLayout();
+        initializeLayout();
 
         // 헤더 설정, 헤더에 리스트뷰리스너막음 + position-1
         lvBoothDetailIdea.addHeaderView(header,adapters,false);
@@ -158,7 +157,7 @@ public class BoothDetailActivity extends ActionBarActivity {
 
     }
 
-    private void initToolbar() {
+    private void initializeToolbar() {
         //액션바 객체 생성
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //액션바 설정
@@ -176,7 +175,7 @@ public class BoothDetailActivity extends ActionBarActivity {
 
 
     // layout
-    private void initLayout() {
+    private void initializeLayout() {
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
         booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
         booth_main_idea = (TextView) header.findViewById(R.id.booth_main_idea);
@@ -211,7 +210,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-//        initlist();
+        initlist();
 
     }
 

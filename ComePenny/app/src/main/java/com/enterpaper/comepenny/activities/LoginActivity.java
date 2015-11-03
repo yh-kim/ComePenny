@@ -54,10 +54,12 @@ public class LoginActivity extends Activity {
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        initLayout();
+        initializeLayout();
+
+        initializeListener();
     }
 
-    private void initLayout(){
+    private void initializeLayout(){
         //스크린키보드
         keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -69,7 +71,9 @@ public class LoginActivity extends Activity {
 
         svLogin = (ScrollView)findViewById(R.id.sv_login);
         svLogin.setVerticalScrollBarEnabled(false);
+    }
 
+    private void initializeListener(){
         // 텍스트창 누르면 올라가는거
         e_log_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 

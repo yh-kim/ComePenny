@@ -30,13 +30,12 @@ public class SettingActivity extends Activity {
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         // layout 생성
-        initLayout();
+        initializeLayout();
 
-
-
+        initializeListener();
     }
 
-    private void initLayout(){
+    private void initializeLayout(){
         //툴바 설정
         mToolBar = (Toolbar) findViewById(R.id.setting_toolbar);
         mToolBar.setContentInsetsAbsolute(0, 0);
@@ -44,7 +43,9 @@ public class SettingActivity extends Activity {
         btn_setting_back = (ImageView) findViewById(R.id.btn_setting_back);
         btn_logout = (LinearLayout) findViewById(R.id.btn_logout);
         btn_version = (LinearLayout) findViewById(R.id.btn_version);
+    }
 
+    private void initializeListener(){
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

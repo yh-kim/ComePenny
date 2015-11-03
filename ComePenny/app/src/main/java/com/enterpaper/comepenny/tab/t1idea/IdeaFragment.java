@@ -1,6 +1,5 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -66,16 +65,6 @@ public class IdeaFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_idea, container, false);
 
@@ -84,14 +73,13 @@ public class IdeaFragment extends Fragment {
 
         lvMainIdea = (ListView) rootView.findViewById(R.id.lv_main_idea);
 
-
         //헤더 생성
         popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
 
         // 헤더레이아웃 객체 생성
-        inithearLayout();
+        initializeLayout();
 
 
         //헤더설정
@@ -108,7 +96,6 @@ public class IdeaFragment extends Fragment {
             }
         });
 
-
         // Adapter 생성
         adapters = new IdeaAdapter(rootView.getContext(), R.layout.row_idea, dataList);
 
@@ -116,6 +103,31 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
         new NetworkGetMainIdeaList().execute("");
+
+        initializeListener();
+
+        return rootView;
+    }
+
+
+    // headerlayout
+    private void initializeLayout() {
+        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
+        recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(popular_view.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        items = new ArrayList<>();
+        adapter = new IdeaPopularAdapter(popular_view.getContext(), items, R.layout.row_idea_popular);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        new NetworkGetPopularBoothList().execute("");
+    }
+
+    private void initializeListener(){
         lvMainIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -146,32 +158,8 @@ public class IdeaFragment extends Fragment {
                         new NetworkGetMainIdeaList().execute("");
                     }
                 }
-
-
-
-
             }
         });
-
-        return rootView;
-    }
-
-
-    // headerlayout
-    private void inithearLayout() {
-        recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
-        recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(popular_view.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-
-        items = new ArrayList<>();
-        adapter = new IdeaPopularAdapter(popular_view.getContext(), items, R.layout.row_idea_popular);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        new NetworkGetPopularBoothList().execute("");
     }
 
 
@@ -213,7 +201,7 @@ public class IdeaFragment extends Fragment {
 
 
                         // Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex1);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
 
                         // Item 객체를 ArrayList에 넣는다
                         items.add(item);

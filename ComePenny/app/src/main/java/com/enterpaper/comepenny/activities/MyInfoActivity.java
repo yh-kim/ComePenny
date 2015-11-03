@@ -1,49 +1,26 @@
 package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
-
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
-
+import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.DataUtil;
-
 import com.enterpaper.comepenny.util.SetFont;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -92,69 +69,24 @@ public class MyInfoActivity extends Activity {
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
-        btn_myinfo_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        lv_mywrite = (ListView) findViewById(R.id.lv_mywrite);
-
-
-        //헤더 생성
-        myinfoview = getLayoutInflater().inflate(R.layout.activity_myinfo_header, null, false);
-        myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
 
         // 레이아웃 객체 생성
-        initLayout();
-
+        initializeLayout();
 
         //헤더설정, 헤더부분 리스트뷰리스너작동막기
         lv_mywrite.addHeaderView(myinfoview, myadapters, false);
         // Adapter 생성
         myadapters = new IdeaAdapter(getApplicationContext(), R.layout.row_idea, mydataList);
 
+        initializeListener();
+
+
+
         // Adapter와 GirdView를 연결
         lv_mywrite.setAdapter(myadapters);
         myadapters.notifyDataSetChanged();
 
         new NetworkGetMylikeIdeaList().execute("");
-
-        lv_mywrite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                intent.setClass(getApplicationContext(), IdeaDetailActivity.class);
-                intent.putExtra("idea_id", mydataList.get(position - 1).getIdea_id());
-                startActivity(intent);
-                overridePendingTransition(0, 0);
-            }
-
-        });
-
-
-        lv_mywrite.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (count != 0 && offset % row_cnt == 0) {
-                    if (is_scroll) {
-                        //스크롤 멈추게 하는거
-                        is_scroll = false;
-                        new NetworkGetMylikeIdeaList().execute("");
-                    }
-                }
-
-
-            }
-        });
-
 
         return;
     }
@@ -287,8 +219,11 @@ public class MyInfoActivity extends Activity {
 
 
     // layout
-    private void initLayout() {
+    private void initializeLayout() {
+        //헤더 생성
+        myinfoview = getLayoutInflater().inflate(R.layout.activity_myinfo_header, null, false);
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);
+
         img_user = (ImageView) myinfoview.findViewById(R.id.img_user);
         //dialog 호출
 //        img_user.setOnClickListener(new View.OnClickListener() {
@@ -305,6 +240,51 @@ public class MyInfoActivity extends Activity {
         tv_usermail = (TextView) myinfoview.findViewById(R.id.tv_usermail);
         tv_usermail.setText(DataUtil.getAppPreferences(getApplicationContext(), "user_email"));
 
+
+        btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
+        btn_myinfo_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        lv_mywrite = (ListView) findViewById(R.id.lv_mywrite);
+    }
+
+    private void initializeListener(){
+        lv_mywrite.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intent.setClass(getApplicationContext(), IdeaDetailActivity.class);
+                intent.putExtra("idea_id", mydataList.get(position - 1).getIdea_id());
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+
+        });
+
+
+        lv_mywrite.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (count != 0 && offset % row_cnt == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetMylikeIdeaList().execute("");
+                    }
+                }
+
+
+            }
+        });
     }
 
 

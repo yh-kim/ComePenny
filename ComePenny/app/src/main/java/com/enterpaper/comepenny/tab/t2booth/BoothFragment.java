@@ -1,6 +1,5 @@
 package com.enterpaper.comepenny.tab.t2booth;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
@@ -41,7 +39,6 @@ public class BoothFragment extends Fragment {
     int offset = 0;
     boolean is_scroll = true;
 
-
     View rootView;
     GridView main_list;
     // Adapter
@@ -57,23 +54,22 @@ public class BoothFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_booth,container,false);
 
         // frgment 폰트 설정
         SetFont.setGlobalFont(rootView.getContext(), rootView);
 
+        initializeLayout();
+
+        initializeList();
+
+        initializeListener();
+
+        return rootView;
+    }
+
+    private void initializeLayout(){
         main_list = (GridView)rootView.findViewById(R.id.gv_main_booth);
 
         // Adapter 생성
@@ -81,9 +77,9 @@ public class BoothFragment extends Fragment {
 
         // Adapter와 GirdView를 연결
         main_list.setAdapter(adapter);
+    }
 
-        initlist();
-
+    private void initializeListener(){
         main_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -103,14 +99,8 @@ public class BoothFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-
-
             }
         });
-
-
-        return rootView;
     }
 
 
@@ -119,11 +109,11 @@ public class BoothFragment extends Fragment {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-//        initlist();
+//        initializeList();
 
     }
     //Initlist (초기화 메소드)
-    public void initlist(){
+    public void initializeList(){
         //초기화
         is_scroll = true;
         offset = 0;

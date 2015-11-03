@@ -11,7 +11,7 @@
         android:layout_width="174dp"
         android:layout_height="174dp"
         android:id="@+id/img_main_company"
-        android:src="@drawable/ex1"/>
+        android:src="@drawable/ex4"/>
 
     <LinearLayout
         android:background="@drawable/main_text_box"

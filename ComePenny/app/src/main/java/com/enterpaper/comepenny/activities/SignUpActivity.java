@@ -52,10 +52,12 @@ public class SignUpActivity extends Activity{
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
-        initLayout();
+        initializeLayout();
+
+        initializeListener();
     }
 
-    private void initLayout(){
+    private void initializeLayout(){
         //스크린키보드
         keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -65,6 +67,11 @@ public class SignUpActivity extends Activity{
 
         svSignUp = (ScrollView)findViewById(R.id.sv_signup);
         svSignUp.setVerticalScrollBarEnabled(false);
+
+        btn_sighup = (ImageView)findViewById(R.id.btn_sighup);
+    }
+
+    private void initializeListener(){
 
         // 텍스트창 누르면 올라가는거
         e_signup_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -82,8 +89,6 @@ public class SignUpActivity extends Activity{
 
             }
         });
-
-        btn_sighup = (ImageView)findViewById(R.id.btn_sighup);
 
         btn_sighup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,15 +133,10 @@ public class SignUpActivity extends Activity{
                     Toast.makeText(getApplicationContext(), "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                onSignUp();
+                // 서버에 요청
+                new NetworkSignUp().execute();
             }
         });
-    }
-
-    private void onSignUp(){
-        new NetworkSignUp().execute();
-
     }
 
     @Override

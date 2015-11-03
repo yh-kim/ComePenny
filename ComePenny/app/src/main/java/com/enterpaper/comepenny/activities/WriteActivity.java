@@ -49,17 +49,27 @@ public class WriteActivity extends Activity {
         Intent intent = getIntent();
         booth_id = intent.getExtras().getInt("booth_id");
 
-        btn_write_back = (ImageView) findViewById(R.id.btn_write_back);
-        btn_write_write = (ImageView) findViewById(R.id.btn_write_write);
-        edit_content = (EditText) findViewById(R.id.edit_content);
-
         user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         // layout 생성
-        initLayout();
+        initializeLayout();
 
+        initializeListener();
+    }
+
+    private void initializeLayout() {
+        //툴바 설정
+        mToolBar = (Toolbar) findViewById(R.id.write_toolbar);
+        mToolBar.setContentInsetsAbsolute(0, 0);
+
+        btn_write_back = (ImageView) findViewById(R.id.btn_write_back);
+        btn_write_write = (ImageView) findViewById(R.id.btn_write_write);
+        edit_content = (EditText) findViewById(R.id.edit_content);
+    }
+
+    private void initializeListener(){
         btn_write_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,22 +87,10 @@ public class WriteActivity extends Activity {
                     return;
                 }
 
-                onSignUp();
+                // 서버에 저장
+                new NetworkWrite().execute();
             }
         });
-
-
-    }
-
-    private void onSignUp() {
-        new NetworkWriteSignUp().execute();
-
-    }
-
-    private void initLayout() {
-        //툴바 설정
-        mToolBar = (Toolbar) findViewById(R.id.write_toolbar);
-        mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
     @Override
@@ -101,8 +99,7 @@ public class WriteActivity extends Activity {
         overridePendingTransition(0, 0);
     }
 
-
-    private class NetworkWriteSignUp extends AsyncTask<String, String, Integer> {
+    private class NetworkWrite extends AsyncTask<String, String, Integer> {
         // JSON 받아오는 객체
         private JSONObject jObject;
 

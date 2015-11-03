@@ -62,10 +62,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
         //Toolbar 생성
-        initToolbar();
+        initializeToolbar();
 
         // 레이아웃 객체 생성
-        initLayout();
+        initializeLayout();
 
         // 헤더 설정
         lvIdeaDetailComment.addHeaderView(header);
@@ -82,14 +82,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
         adapters.notifyDataSetChanged();
 
         // 액션 리스너 생성
-        initializeAction();
+        initializeListener();
 
         new NetworkGetIdeainfo().execute();
 
     }
 
     // layout
-    private void initLayout(){
+    private void initializeLayout(){
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
 
@@ -107,7 +107,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-    private void initToolbar() {
+    private void initializeToolbar() {
         //액션바 객체 생성
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         //액션바 설정
@@ -122,7 +122,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    private void initializeAction(){
+    private void initializeListener(){
         btn_ideaback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
