@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_marginTop="10dp"
+    android:background="#ffffff"
+    android:orientation="vertical"
+
+    >
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/scrollView_mainidea_detail"
@@ -11,115 +14,223 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginTop="14dp"
-                    android:orientation="vertical">
-
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:orientation="horizontal">
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Writer : "
-                            android:textColor="#959595"
-                            android:textSize="15dp" />
+                            android:layout_marginBottom="14dp"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tv_Writer"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Homo Erectus"
+                                android:textColor="#959595"
+                                android:textSize="15dp" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=" "
-                            android:textColor="#535353"
-                            android:textSize="15dp" />
+                            android:layout_marginBottom="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Writer : "
+                                android:textColor="#959595"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:id="@+id/tv_Writer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textColor="#535353"
+                                android:textSize="12dp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="view : "
+                                android:textColor="#959595"
+                                android:textSize="11dp" />
+
+                            <TextView
+                                android:id="@+id/tv_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" "
+                                android:textColor="#959595"
+                                android:textSize="11dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:text="like : "
+                                android:textColor="#959595"
+                                android:textSize="11dp" />
+
+                            <TextView
+                                android:id="@+id/tv_like"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" "
+                                android:textColor="#959595"
+                                android:textSize="11dp" />
+
+
+                        </LinearLayout>
 
 
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="11dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="view : "
-                            android:textColor="#959595"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:id="@+id/tv_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" "
-                            android:textColor="#959595"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
-                            android:text="like : "
-                            android:textColor="#959595"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:id="@+id/tv_like"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" "
-                            android:textColor="#959595"
-                            android:textSize="15dp" />
-
-
-                    </LinearLayout>
-
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/iv_boothicon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="12dp"
+                    android:paddingTop="12dp"
+                    android:src="@drawable/icon" />
+            </RelativeLayout>
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/line" />
+
+            <TextView
+                android:id="@+id/tv_ideaoriginal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="14dp"
+                android:lineSpacingExtra="13dp"
+                android:paddingBottom="31dp"
+                android:text=""
+                android:textColor="#313131"
+                android:textSize="15dp" />
+
+            <ImageButton
+                android:id="@+id/btn_pick"
+                android:layout_width="84dp"
+                android:layout_height="47dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/detail_pickbutton_before" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_comment_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#959595"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="개의 댓글이있습니다"
+                        android:textColor="#959595"
+                        android:textSize="11dp" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tv_ideaoriginal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:text=" "
-                    android:textColor="#313131"
-                    android:textSize="20sp" />
-
-                <ImageButton
-                    android:id="@+id/btn_pick"
-                    android:layout_width="84dp"
-                    android:layout_height="47dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="31dp"
-                    android:background="@drawable/detail_pickbutton_before" />
-
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right|center"
+                    android:layout_marginRight="10dp"
+                    android:text="수정/삭제"
+                    android:textColor="#959595"
+                    android:textSize="11dp" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
 
 
+                <EditText
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/Edit_reple"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="10"
+                    android:textColorHint="#b6b6b6"
+                    android:background="@null"
+                    android:hint="댓글달기..."
+                    android:textSize="12dp"/>
+
+                <TextView
+                    android:id="@+id/Btn_reple"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="1dp"
+                    android:text="작성"
+                    android:textColor="#535353"
+                    android:textSize="12dp"
+                    android:layout_weight="1"
+                    />
             </LinearLayout>
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

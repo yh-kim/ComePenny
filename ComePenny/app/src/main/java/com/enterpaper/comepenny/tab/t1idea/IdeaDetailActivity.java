@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.MainActivity;
+import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -157,6 +159,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     @Override
     public void finish() {
         super.finish();
+
         overridePendingTransition(0, 0);
     }
 
