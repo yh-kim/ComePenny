@@ -200,6 +200,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/btn_del"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -208,7 +209,8 @@
                     android:layout_marginRight="10dp"
                     android:text="수정/삭제"
                     android:textColor="#959595"
-                    android:textSize="11dp" />
+                    android:textSize="11dp"
+                    android:visibility="invisible"/>
             </RelativeLayout>
             <ImageView
                 android:layout_width="wrap_content"
@@ -243,7 +245,6 @@
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-
                     android:text="작성"
                     android:textColor="#535353"
                     android:textSize="16dp"
