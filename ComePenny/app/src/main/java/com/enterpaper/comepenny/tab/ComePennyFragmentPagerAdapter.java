@@ -4,14 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.enterpaper.comepenny.tab.t2booth.BoothFragment;
+import com.astuetz.PagerSlidingTabStrip;
+import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaFragment;
+import com.enterpaper.comepenny.tab.t2booth.BoothFragment;
 
 /**
  * Created by Kim on 2015-07-21.
  */
-public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter {
-    private final String[] TITLES = {"Today's Homo", "Category" };
+public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
+//    private final String[] TITLES = {"Today's Homo", "Category" };
+    private int switch_Icons[] = {R.drawable.selector_tab_homo, R.drawable.selector_tab_category};
     Fragment frag =null;
     final int PAGE_COUNT = 2;
 
@@ -42,10 +45,17 @@ public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter {
         return null;
     }
 
+    @Override
+    public int getPageIconResId(int position) {
+//        return tabIcons[position];
 
+        return switch_Icons[position];
+    }
 
+    /*
     @Override
     public CharSequence getPageTitle(int position) {
         return TITLES[position];
     }
+    */
 }

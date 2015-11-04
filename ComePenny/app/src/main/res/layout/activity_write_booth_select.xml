@@ -13,10 +13,9 @@
 
         <ImageView
             android:id="@+id/btn_select_back"
-            android:layout_width="12dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="6dp"
             android:gravity="left"
             android:src="@drawable/booth_back" />
 
