@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -47,6 +48,8 @@ public class MyInfoActivity extends Activity {
     int offset = 0;
     boolean is_scroll = true;
 
+
+    Toolbar mToolBar;
     View myinfoview;
     TextView tv_id, tv_usermail, mDialogTitleView;
     ImageView btn_myinfo_back, mTitleImageView;
@@ -220,6 +223,11 @@ public class MyInfoActivity extends Activity {
 
     // layout
     private void initializeLayout() {
+
+        //툴바 설정
+        mToolBar = (Toolbar) findViewById(R.id.myinfo_toolbar);
+        mToolBar.setContentInsetsAbsolute(0, 0);
+
         //헤더 생성
         myinfoview = getLayoutInflater().inflate(R.layout.activity_myinfo_header, null, false);
         myinfo = (LinearLayout) myinfoview.findViewById(R.id.myinfo);

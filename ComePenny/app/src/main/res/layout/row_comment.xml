@@ -1,11 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="200dp">
+    android:layout_height="200dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="댓글입니다"
-        android:id="@+id/textView" />
+        android:src="@drawable/line"/>
+
+    <LinearLayout
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:src="@drawable/test_person"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:paddingLeft="5dp"/>
+
+        <LinearLayout
+            android:paddingLeft="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="12dp"
+                android:textColor="#686868"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="jihun1226" />
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="7dp"
+                android:paddingRight="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="대단합니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아"
+                android:textSize="11dp"
+                android:textColor="#686868" />
+
+            <TextView
+                android:layout_marginTop="6dp"
+                android:textSize="10dp"
+                android:textColor="#959595"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5시간전" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
 </LinearLayout>
