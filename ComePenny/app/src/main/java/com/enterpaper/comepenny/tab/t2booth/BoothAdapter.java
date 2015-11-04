@@ -56,7 +56,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
             holder.img = (ImageView) convertView.findViewById(R.id.img_main_company);
            // holder.name = (TextView) convertView.findViewById(R.id.tv_UserId);
             holder.likeNum = (TextView) convertView.findViewById(R.id.txt_boothmain_like);
-            holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
+         //   holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
 
             convertView.setTag(holder);
 
@@ -72,7 +72,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
         //holder.name.setText(item.getName());
         //holder.booth_id.setText(item.get
         holder.likeNum.setText(item.getLikeNum()+"");
-        holder.ideaNum.setText(item.getIdeaNum()+"");
+      //  holder.ideaNum.setText(item.getIdeaNum()+"");
 
         //image 셋팅(불러옴)
         // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);

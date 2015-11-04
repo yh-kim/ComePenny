@@ -1,5 +1,6 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -7,6 +8,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,21 +32,30 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class IdeaDetailActivity extends ActionBarActivity {
+    int row_cnt = 6;
+    int count = 0;
+    int offset = 0;
+    boolean is_scroll = true;
+    //  private String msg, reg_Time, regTime_str;
+    InputMethodManager keyboard;
     private ScrollView scrollView_mainidea_detail;
     Toolbar mToolBar;
-    ImageView  btn_ideaback;
+    ImageView btn_ideaback;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount;
+    EditText Edit_reple;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple;
     int pick_boolean = 0;
     View header;
     int idea_id;
@@ -77,36 +91,81 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         // Adapter와 GirdView를 연결
         lvIdeaDetailComment.setAdapter(adapters);
-
-        for(int i=0;i <10; i++){
-            arr_list.add(new CommentItem("img","대단합니다 좋아요 우왕","jihun@n.com","5시간전",2));
-        }
         adapters.notifyDataSetChanged();
 
         // 액션 리스너 생성
         initializeListener();
 
         new NetworkGetIdeainfo().execute();
+        new NetworkGetCommentList().execute();
 
     }
 
+
+    private static class TIME_MAXIMUM {
+        public static final int SEC = 60;
+        public static final int MIN = 60;
+        public static final int HOUR = 24;
+        public static final int DAY = 30;
+        public static final int MONTH = 12;
+    }
+
+    public static String formatTimeString(String str) throws ParseException {
+
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        java.util.Date date = format.parse(str);
+
+        long curTime = System.currentTimeMillis();
+        long regTime = date.getTime();
+        long diffTime = (curTime - regTime) / 1000;
+
+        String msg = null;
+        if (diffTime < TIME_MAXIMUM.SEC) {
+// sec
+            msg = "방금 전";
+        } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
+// min
+            msg = diffTime + "분 전";
+        } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
+// hour
+            msg = (diffTime) + "시간 전";
+        } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
+// day
+            msg = (diffTime) + "일 전";
+        } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
+// day
+            msg = (diffTime) + "달 전";
+        } else {
+            msg = str;
+        }
+        return msg;
+    }
+
+
     // layout
-    private void initializeLayout(){
+    private void initializeLayout() {
+        //스크린키보드
+        keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
 
-        scrollView_mainidea_detail = (ScrollView)header.findViewById(R.id.scrollView_mainidea_detail);
+        scrollView_mainidea_detail = (ScrollView) header.findViewById(R.id.scrollView_mainidea_detail);
         btn_pick = (ImageButton) header.findViewById(R.id.btn_pick);
         tv_Writer = (TextView) header.findViewById(R.id.tv_Writer);
         tv_view = (TextView) header.findViewById(R.id.tv_view);
         tv_like = (TextView) header.findViewById(R.id.tv_like);
+        tv_time = (TextView) header.findViewById(R.id.tv_time);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
-        tv_commentcount =(TextView)header.findViewById(R.id.tv_comment_view);
+        tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
+        Btn_reple = (TextView) header.findViewById(R.id.Btn_reple);
 
         // 리스트부분
-        lvIdeaDetailComment = (ListView)findViewById(R.id.lv_idea_detail_comments);
+        lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
+        Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
     }
 
@@ -125,12 +184,19 @@ public class IdeaDetailActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    private void initializeListener(){
+    private void initializeListener() {
         btn_ideaback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(0, 0);
+            }
+        });
+        Btn_reple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new NetworkaddComment().execute();
+
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +217,35 @@ public class IdeaDetailActivity extends ActionBarActivity {
                             .show();
                     pick_boolean = 0;
                     new NetworkGetlike().execute();
+                }
+            }
+        });
+
+        lvIdeaDetailComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+        });
+
+        lvIdeaDetailComment.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                //서버로부터 받아온 List개수를 count
+                //지금까지 받아온 개수를 offset
+                if (count != 0 && offset % row_cnt == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetCommentList().execute("");
+                    }
                 }
             }
         });
@@ -197,7 +292,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 //서버에 보낼 데이터
                 // data를 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
-                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(),"user_id")));
+                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(), "user_id")));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
@@ -245,29 +340,35 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
-                   // String email = jObject.get("email").toString();
+                    // String email = jObject.get("email").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
-                    int comment_num =1;
+
+                    //서버에서 date받아와서 formatTimeString이용해서 값 변환
+                    String reg_Time = jObject.getString("date");
+                    String time = formatTimeString(reg_Time);
+                    int comment_num = 1;
 
 
                     tv_Writer.setText(email);
-                   tv_logo_name.setText(booth_name);
+                    tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
-                    tv_view.setText(hit+"");
-                    tv_like.setText(like_num+"");
-                    tv_commentcount.setText(comment_num+"");
+                    tv_view.setText(hit + "");
+                    tv_like.setText(like_num + "");
+                    tv_time.setText(time);
+                    tv_commentcount.setText(comment_num + "");
 
-                    if(like == 1){
-                        pick_boolean=1;
+                    if (like == 1) {
+                        pick_boolean = 1;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
-                    }
-                    else{
-                        pick_boolean=0;
+                    } else {
+                        pick_boolean = 0;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 return;
@@ -313,11 +414,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 //서버에 보낼 데이터
                 // data를 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
-                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(),"user_id")));
-                if(pick_boolean==1) {
-                    name_value.add(new BasicNameValuePair("is_like", 0+""));
-                }else{
-                    name_value.add(new BasicNameValuePair("is_like", 1+""));
+                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(), "user_id")));
+                if (pick_boolean == 1) {
+                    name_value.add(new BasicNameValuePair("is_like", 0 + ""));
+                } else {
+                    name_value.add(new BasicNameValuePair("is_like", 1 + ""));
                 }
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
@@ -380,5 +481,225 @@ public class IdeaDetailActivity extends ActionBarActivity {
             }
         }
     }
+
+    // 댓글 list HTTP연결 Thread 생성 클래스
+    class NetworkGetCommentList extends AsyncTask<String, String, Integer> {
+        private String err_msg = "Network error.";
+
+        // JSON에서 받아오는 객체
+        private JSONObject jObjects;
+
+        // AsyncTask 실행되는거
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            return processing();
+        }
+
+
+        // AsyncTask 실행완료 후에 구동 (Data를 받은것을 Activity에 갱신하는 작업을 하면돼)
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            // 지금 코드에서는 result가 0이면 정상적인 상황
+            if (result == 0) {
+                Log.i("Network Data", jObjects.toString());
+
+                // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
+                // jObject에서 데이터를 뽑아내자
+                try {
+                    // 가져오는 값의 개수를 가져옴
+                    count = jObjects.getInt("cnt");
+                    offset = offset + count;
+
+                    JSONArray ret_arr = jObjects.getJSONArray("ret");
+                    for (int index = 0; index < ret_arr.length(); index++) {
+                        JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
+
+                        String content = obj_boothIdeas.getString("comment");
+                        String email = obj_boothIdeas.getString("email");
+
+                        //서버에서 date받아와서 formatTimeString이용해서 값 변환
+                        String reg_Time = obj_boothIdeas.getString("date");
+                        String comment_time = formatTimeString(reg_Time);
+
+
+                        // Item 객체로 만들어야함
+                        CommentItem items = new CommentItem("img", content, email, comment_time);
+
+                        // Item 객체를 ArrayList에 넣는다
+                        arr_list.add(items);
+
+
+                        // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
+                        adapters.notifyDataSetChanged();
+                    }
+
+
+                    // scroll 할 수 있게함
+                    is_scroll = true;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+            // Error 상황
+            else {
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+                // 요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
+                http_client.getParams().setParameter("http.connection.timeout",
+                        7000);
+
+                // data를 Post방식으로 보냄
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost(
+                        "http://54.199.176.234/api/get_comment_list.php");
+
+//                        //서버에 보낼 데이터
+                // data를 담음
+                name_value.add(new BasicNameValuePair("offset", offset + ""));
+                name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
+                        name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+                // 실행
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // 우리가 사용하는 결과
+                jObjects = new JSONObject(builder.toString());
+
+                // err가 0이면 정상적인 처리
+                // err가 0이 아닐시 오류발생
+                if (jObjects.getInt("err") > 0) {
+                    return jObjects.getInt("err");
+                }
+            } catch (Exception e) {
+                // 오류발생시
+                Log.i(err_msg, e.toString());
+                return 100;
+            }
+            return 0;
+        }
+
+    }
+
+
+    //
+    private class NetworkaddComment extends AsyncTask<String, String, Integer> {
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout", 7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/write_comment.php");
+                String comment = Edit_reple.getText().toString().trim();
+                String user_id = DataUtil.getAppPreferences(IdeaDetailActivity.this, "user_id");
+
+                // 데이터 담음
+                name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+                name_value.add(new BasicNameValuePair("comment", comment + ""));
+                name_value.add(new BasicNameValuePair("user_id", user_id+""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e) {
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            // 정상적으로 글쓰기
+            if (result == 0) {
+                try {
+
+                    Edit_reple.setText("");
+                    //키보드숨기기
+                    keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+                    jObject.getInt("err");
+
+
+                   // arr_list.clear();
+                    new NetworkGetCommentList().execute();
+
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
+
 
 }

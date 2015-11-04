@@ -112,6 +112,18 @@
                                 android:textColor="#959595"
                                 android:textSize="11dp" />
 
+                            <TextView
+                                android:id="@+id/tv_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="16dp"
+                                android:text=""
+                                android:textColor="#959595"
+                                android:textSize="11dp" />
+
+
+
+
 
                         </LinearLayout>
 

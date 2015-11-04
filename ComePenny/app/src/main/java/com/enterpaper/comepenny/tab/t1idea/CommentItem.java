@@ -9,7 +9,13 @@ public class CommentItem {
         private String comment_content;
         private String Email;
         private String comment_time;
-        private int idea_id;
+
+    public CommentItem(String img, String comment_content, String email, String comment_time) {
+        this.img = img;
+        this.comment_content = comment_content;
+        Email = email;
+        this.comment_time = comment_time;
+    }
 
     public String getImg() {
         return img;
@@ -41,22 +47,5 @@ public class CommentItem {
 
     public void setComment_time(String comment_time) {
         this.comment_time = comment_time;
-    }
-
-    public int getIdea_id() {
-        return idea_id;
-    }
-
-    public void setIdea_id(int idea_id) {
-        this.idea_id = idea_id;
-    }
-
-    public CommentItem(String img, String comment_content, String email, String comment_time, int idea_id) {
-
-        this.img = img;
-        this.comment_content = comment_content;
-        Email = email;
-        this.comment_time = comment_time;
-        this.idea_id = idea_id;
     }
 }

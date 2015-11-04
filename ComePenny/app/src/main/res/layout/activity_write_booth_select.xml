@@ -45,7 +45,7 @@
         android:choiceMode="singleChoice"
         android:paddingTop="4dp"
         android:scrollbars="none"
-        android:listSelector="@android:color/darker_gray"
+        android:listSelector="#29c5e4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/gv_select_booth"

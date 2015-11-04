@@ -23,6 +23,11 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
     //Context -> Activity Class의 객체
     private Context context = null;
 
+
+
+
+
+
     public CommentAdapter(Context context, int resource, ArrayList<CommentItem> objects) {
         super(context, resource, objects);
 

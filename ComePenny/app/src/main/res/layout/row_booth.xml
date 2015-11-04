@@ -23,12 +23,13 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
+
         <LinearLayout
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
             android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="left"
             android:orientation="horizontal">
             <TextView
                 android:textColor="#eeeeee"
@@ -36,33 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Idea : "
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-            <TextView
-                android:id="@+id/txt_boothmain_idea"
-                android:textColor="#eeeeee"
-                android:textSize="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:layout_marginLeft="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:textColor="#eeeeee"
-                android:textSize="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Like : "
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
             <TextView
