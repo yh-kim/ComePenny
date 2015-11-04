@@ -141,8 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="14dp"
                 android:lineSpacingExtra="13dp"
                 android:paddingBottom="31dp"
@@ -198,15 +198,24 @@
                     android:textColor="#959595"
                     android:textSize="11dp" />
             </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/line"
+                android:layout_marginBottom="10dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
 
 
                 <EditText
-                    android:layout_marginLeft="5dp"
+
                     android:id="@+id/Edit_reple"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -215,17 +224,17 @@
                     android:textColorHint="#b6b6b6"
                     android:background="@null"
                     android:hint="댓글달기..."
-                    android:textSize="12dp"/>
+                    android:textSize="13dp"/>
 
                 <TextView
                     android:id="@+id/Btn_reple"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="1dp"
+
                     android:text="작성"
                     android:textColor="#535353"
-                    android:textSize="12dp"
+                    android:textSize="16dp"
                     android:layout_weight="1"
                     />
             </LinearLayout>
