@@ -40,8 +40,10 @@ public class WriteBoothActivity extends ActionBarActivity{
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
+    int booth_id;
 
-    ImageView btn_select_back;
+    boolean selected=false;
+    ImageView btn_select_back,btn_booth_select;
     Toolbar mToolBar;
     GridView booth_list;
 
@@ -97,6 +99,7 @@ public class WriteBoothActivity extends ActionBarActivity{
 
         booth_list = (GridView)findViewById(R.id.gv_select_booth);
         btn_select_back =(ImageView)findViewById(R.id.btn_select_back);
+        btn_booth_select = (ImageView)findViewById(R.id.btn_booth_select);
 
         // Adapter 생성
         adapter_sel_booth = new WriteBoothAdapter(getApplicationContext(), R.layout.write_row_booth, arr_list);
@@ -108,16 +111,32 @@ public class WriteBoothActivity extends ActionBarActivity{
     }
 
     private void initializeListener(){
+
+
         booth_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent company = new Intent(getApplicationContext(), WriteActivity.class);
-                company.putExtra("booth_id", arr_list.get(position).getBooth_id());
-                startActivity(company);
-                overridePendingTransition(0, 0);
-                finish();
+                selected = true;
+                booth_id = arr_list.get(position).getBooth_id();
+                return;
+            }
+        });
 
-
+        btn_booth_select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selected){
+                    Intent company = new Intent(getApplicationContext(), WriteActivity.class);
+                    company.putExtra("booth_id", booth_id);
+                    startActivity(company);
+                    overridePendingTransition(0, 0);
+                    finish();
+                    return;
+                }else{
+                    Toast.makeText(getApplicationContext(), "카테고리를 선택해주세요",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
 
@@ -141,8 +160,6 @@ public class WriteBoothActivity extends ActionBarActivity{
                         }
                     }
                 }
-
-
             }
         });
 
