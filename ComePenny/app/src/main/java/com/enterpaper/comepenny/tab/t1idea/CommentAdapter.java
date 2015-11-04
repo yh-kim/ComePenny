@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.SetFont;
@@ -48,6 +50,10 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
             holder = new ViewHolder();
 
             //row에 있는 정보들을 holder로 가져옴
+            holder.img = (ImageView) convertView.findViewById(R.id.iv_comment_basic);
+            holder.UserId = (TextView) convertView.findViewById(R.id.tv_comment_userid);
+            holder.Comment_Content = (TextView) convertView.findViewById(R.id.tv_comment);
+            holder.Comment_time = (TextView) convertView.findViewById(R.id.tv_comment_time);
 
             convertView.setTag(holder);
         }
@@ -57,11 +63,18 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
 
         CommentItem item = getItem(position);
 
+        // holder.img.setImageBitmap(item.getImg());
+        holder.UserId.setText(item.getEmail());
+        holder.Comment_Content.setText(item.getComment_content());
+        holder.Comment_time.setText(item.getComment_time());
+
 
         return convertView;
     }
 
     class ViewHolder {
+        ImageView img;
+        TextView UserId, Comment_Content, Comment_time;
     }
 
 }

@@ -41,7 +41,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ImageView  btn_ideaback;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount;
     int pick_boolean = 0;
     View header;
     int idea_id;
@@ -79,7 +79,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment.setAdapter(adapters);
 
         for(int i=0;i <10; i++){
-            arr_list.add(new CommentItem());
+            arr_list.add(new CommentItem("img","대단합니다 좋아요 우왕","jihun@n.com","5시간전",2));
         }
         adapters.notifyDataSetChanged();
 
@@ -101,6 +101,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_view = (TextView) header.findViewById(R.id.tv_view);
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
+        tv_commentcount =(TextView)header.findViewById(R.id.tv_comment_view);
 
         // 리스트부분
         lvIdeaDetailComment = (ListView)findViewById(R.id.lv_idea_detail_comments);
@@ -248,6 +249,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
+                    int comment_num =1;
 
 
                     tv_Writer.setText(email);
@@ -255,6 +257,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     tv_ideaoriginal.setText(content);
                     tv_view.setText(hit+"");
                     tv_like.setText(like_num+"");
+                    tv_commentcount.setText(comment_num+"");
 
                     if(like == 1){
                         pick_boolean=1;

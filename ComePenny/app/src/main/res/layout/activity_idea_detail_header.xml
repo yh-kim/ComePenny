@@ -175,7 +175,7 @@
                         android:id="@+id/tv_comment_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
+                        android:text=""
                         android:textColor="#959595"
                         android:textSize="11dp" />
 
