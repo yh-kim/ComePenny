@@ -6,6 +6,7 @@
 
 
         <ListView
+            android:divider="#00000000"
             android:listSelector="@android:color/transparent"
             android:paddingTop="4dp"
             android:scrollbars="none"
