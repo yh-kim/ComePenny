@@ -53,11 +53,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple,btn_del;
     int pick_boolean = 0;
     View header;
     int idea_id;
-    String email;
+    String email,content;
 
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
@@ -155,6 +155,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_view = (TextView) header.findViewById(R.id.tv_view);
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_time = (TextView) header.findViewById(R.id.tv_time);
+        btn_del = (TextView)header.findViewById(R.id.btn_del);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         Btn_reple = (TextView) header.findViewById(R.id.Btn_reple);
@@ -193,8 +194,21 @@ public class IdeaDetailActivity extends ActionBarActivity {
         Btn_reple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                content = Edit_reple.getText().toString().trim();
+
+                if (content.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // 서버에 저장
                 new NetworkaddComment().execute();
 
+            }
+        });
+        btn_del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(IdeaDetailActivity.this,"idea를 수정/삭제하겠습니다",Toast.LENGTH_LONG).show();
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -203,21 +217,19 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                 if (pick_boolean == 0) {
                     btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_after);
-                    Toast.makeText(getApplicationContext(), "like", Toast.LENGTH_SHORT)
-                            .show();
                     pick_boolean = 1;
                     new NetworkGetlike().execute();
 
 
                 } else {
                     btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
-                    Toast.makeText(getApplicationContext(), "unlike", Toast.LENGTH_SHORT)
-                            .show();
                     pick_boolean = 0;
                     new NetworkGetlike().execute();
                 }
+
             }
         });
+
 
         lvIdeaDetailComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -292,6 +304,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
                 name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(), "user_id")));
 
+
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
                         name_value, "UTF-8");
                 http_post.setEntity(entityRequest);
@@ -332,13 +345,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObject.toString());
+                Log.i("Network IdeaHeader Data", jObject.toString());
+
+
 
                 // jObject에서 데이터를 뽑아내자
                 try {
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
-                    // String email = jObject.get("email").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
@@ -347,6 +361,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     String reg_Time = jObject.getString("date");
                     String time = formatTimeString(reg_Time);
                     int comment_num = 1;
+
 
 
                     tv_Writer.setText(email);
@@ -364,6 +379,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         pick_boolean = 0;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
                     }
+                    String user_email = DataUtil.getAppPreferences(getApplicationContext(),"user_email");
+                    if(user_email.equals(email)){
+                        btn_del.setVisibility(View.VISIBLE);
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (ParseException e) {
@@ -502,7 +522,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObjects.toString());
+                Log.i("Network like Data", jObjects.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -684,8 +704,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
                     jObject.getInt("err");
 
-
-                   // arr_list.clear();
+                   //arr_list.clear();
                     new NetworkGetCommentList().execute();
 
                     return;
