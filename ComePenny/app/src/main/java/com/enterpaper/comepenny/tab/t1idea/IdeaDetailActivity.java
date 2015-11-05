@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.MainActivity;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -513,6 +511,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     count = jObjects.getInt("cnt");
                     offset = offset + count;
 
+                    
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
@@ -523,6 +522,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         //서버에서 date받아와서 formatTimeString이용해서 값 변환
                         String reg_Time = obj_boothIdeas.getString("date");
                         String comment_time = formatTimeString(reg_Time);
+
 
 
                         // Item 객체로 만들어야함
