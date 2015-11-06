@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 public class IdeaPopularListItem {
     int booth_id;
     int recycle_image;
+    String img_url;
 
     public int getBooth_id() {
         return booth_id;
@@ -25,9 +26,18 @@ public class IdeaPopularListItem {
         this.recycle_image = recycle_image;
     }
 
-    public IdeaPopularListItem(int booth_id, int recycle_image) {
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
+
+    public IdeaPopularListItem(int booth_id, int recycle_image, String img_url) {
 
         this.booth_id = booth_id;
         this.recycle_image = recycle_image;
+        this.img_url = img_url;
     }
 }

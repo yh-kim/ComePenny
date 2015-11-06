@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
@@ -21,8 +22,9 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
     //LayoutInflater -> XML을 동적으로 만들 때 필요
     private LayoutInflater inflater = null;
     //Context -> Activity Class의 객체
-    private Context contentContext = null;
 
+    private Context contentContext = null;
+    ImageLoader loader;
     public WriteBoothAdapter(Context context, int resource, ArrayList<BoothItem> objects) {
         super(context, resource, objects);
 
@@ -30,7 +32,7 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
         //resource는 row_xxx.xml 의 정보
         this.contentContext = context;
         this.inflater = LayoutInflater.from(context);
-
+        loader = ImageLoader.getInstance();
     }
 
 
@@ -73,9 +75,10 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
         //holder.booth_id.setText(item.get
        // holder.likeNum.setText(item.getLikeNum()+"");
         //holder.ideaNum.setText(item.getIdeaNum()+"");
+       // loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.img);
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/"+item.img_url,holder.img);
 
-        //image 셋팅(불러옴)
-        // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
+
         return convertView;
 
     }

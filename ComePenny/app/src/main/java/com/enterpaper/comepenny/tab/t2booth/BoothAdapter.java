@@ -11,7 +11,12 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +27,8 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
     private LayoutInflater inflater = null;
     //Context -> Activity Class의 객체
     private Context contentContext = null;
+    ImageLoader loader;
+
 
     public BoothAdapter(Context context, int resource, ArrayList<BoothItem> objects) {
         super(context, resource, objects);
@@ -30,6 +37,20 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
         //resource는 row_xxx.xml 의 정보
         this.contentContext = context;
         this.inflater = LayoutInflater.from(context);
+        //Image Loader (Application에서 초기화를 다해줌)
+        loader = ImageLoader.getInstance();
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+//                .threadPriority(Thread.NORM_PRIORITY - 2)
+//                .memoryCacheSize(2 * 1024 * 1024) // 2 Mb
+//                .denyCacheImageMultipleSizesInMemory()
+//                .discCacheFileNameGenerator(new Md5FileNameGenerator())
+//                .imageDownloader(new ExtendedImageDownloader(getApplicationContext()))
+//                .tasksProcessingOrder(QueueProcessingType.LIFO)
+//                .enableLogging() // Not necessary in common
+//                .build();
+//
+//        ImageLoader.getInstance().init(config);
+
 
     }
 
@@ -56,7 +77,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
             holder.img = (ImageView) convertView.findViewById(R.id.img_main_company);
            // holder.name = (TextView) convertView.findViewById(R.id.tv_UserId);
             holder.likeNum = (TextView) convertView.findViewById(R.id.txt_boothmain_like);
-         //   holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
+            //   holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
 
             convertView.setTag(holder);
 
@@ -68,14 +89,13 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
 
         BoothItem item = getItem(position);
 
-      //  holder.img.setText(R.drawable.ex1);
-        //holder.name.setText(item.getName());
-        //holder.booth_id.setText(item.get
-        holder.likeNum.setText(item.getLikeNum()+"");
-      //  holder.ideaNum.setText(item.getIdeaNum()+"");
-
+        holder.likeNum.setText(item.getLikeNum() + "");
         //image 셋팅(불러옴)
-//         loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
+        //  loader.displayImage("http://m2block-edu.s3.amazonaws.com/"+item.img_url,holder.img);
+       // loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.img);
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/"+item.img_url,holder.img);
+
+        // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
         return convertView;
 
     }

@@ -16,6 +16,12 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,6 +45,7 @@ public class BoothFragment extends Fragment {
     int count = 0;
     int offset = 0;
     boolean is_scroll = true;
+    String img_url;
 
     View rootView;
     GridView main_list;
@@ -78,6 +85,7 @@ public class BoothFragment extends Fragment {
 
         // Adapter와 GirdView를 연결
         main_list.setAdapter(adapter);
+
     }
 
     private void initializeListener(){
@@ -163,10 +171,16 @@ public class BoothFragment extends Fragment {
                         int booth_id = obj.getInt("id");
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
+                        if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
+                            img_url = "comepenny/love.png";
+                        }else {
+                            img_url = "comepenny/game.png";
+                        }
+
 
 //
                         // Item 객체로 만들어야함
-                        BoothItem item = new BoothItem(R.drawable.ex1,"name",booth_id,ideaNum,likeNum);
+                        BoothItem item = new BoothItem("R.drawable.ex1",img_url,"name",booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(item);

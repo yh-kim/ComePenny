@@ -20,6 +20,10 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -56,6 +60,7 @@ public class IdeaFragment extends Fragment {
     List<IdeaPopularListItem> items = new ArrayList<>();
     LinearLayoutManager layoutmanager;
     private Intent intent = new Intent();
+    String img_url;
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -103,6 +108,19 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
         new NetworkGetMainIdeaList().execute("");
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(defaultOptions)
+                .diskCacheExtraOptions(480, 320, null)
+                .build();
+        ImageLoader.getInstance().init(config);
 
         initializeListener();
 
@@ -198,11 +216,15 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-
+                        if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
+                           img_url = "comepenny/love.png";
+                        }else {
+                            img_url = "comepenny/game.png";
+                        }
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);
@@ -318,7 +340,6 @@ public class IdeaFragment extends Fragment {
 
                         byte[] mailarray = getemail.getBytes();
                         String email_view = new String(mailarray,0,3);
-                       // int email_length = mailarray.length;
                         String hide_email = email_view +"*****";
 
 

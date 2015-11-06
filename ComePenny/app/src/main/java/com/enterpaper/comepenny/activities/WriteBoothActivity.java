@@ -17,6 +17,10 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -41,6 +45,7 @@ public class WriteBoothActivity extends ActionBarActivity{
     int offset = 0;
     boolean is_scroll = true;
     int booth_id;
+    String img_url;
 
     boolean selected=false;
     ImageView btn_select_back,btn_booth_select;
@@ -107,7 +112,10 @@ public class WriteBoothActivity extends ActionBarActivity{
         // Adapter와 GirdView를 연결
         booth_list.setAdapter(adapter_sel_booth);
 
+
         adapter_sel_booth.notifyDataSetChanged();
+
+
     }
 
     private void initializeListener(){
@@ -218,9 +226,14 @@ public class WriteBoothActivity extends ActionBarActivity{
                         int booth_id = obj.getInt("id");
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
+                        if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
+                            img_url = "comepenny/love.png";
+                        }else {
+                            img_url = "comepenny/game.png";
+                        }
 
                         // Item 객체로 만들어야함
-                        BoothItem item = new BoothItem(R.drawable.ex2,"name",booth_id,ideaNum,likeNum);
+                        BoothItem item = new BoothItem("R.drawable.ex2",img_url,"name",booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(item);

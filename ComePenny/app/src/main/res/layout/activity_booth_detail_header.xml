@@ -18,7 +18,6 @@
             android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="352dp"
-            android:src="@drawable/ex1"
             android:id="@+id/img_booth" />
 
         <LinearLayout

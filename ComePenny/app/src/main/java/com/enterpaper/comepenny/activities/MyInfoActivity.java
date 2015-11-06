@@ -64,7 +64,6 @@ import java.util.List;
  */
 public class MyInfoActivity extends ActionBarActivity {
     Toolbar myinfo_toolbar;
-    private BackPressCloseHandler backPressCloseHandler;
     ImageView btn_myinfo_back, img_myinfo_user;
     TextView tv_myinfo_user_mail;
     ScrollView myinfo_scroll;
@@ -84,8 +83,6 @@ public class MyInfoActivity extends ActionBarActivity {
         // 액티비티 추가
         new BaseActivity().actList.add(MyInfoActivity.this);
 
-        // 취소버튼 눌렀을 때 핸들러
-        backPressCloseHandler = new BackPressCloseHandler(this);
 
         // Text 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -176,13 +173,6 @@ public class MyInfoActivity extends ActionBarActivity {
 
     }
 
-    //취소버튼 눌렀을 때
-    @Override
-    public void onBackPressed() {
-        //핸들러 작동
-        backPressCloseHandler.onBackPressed();
-
-    }
 
     @Override
     public void finish() {

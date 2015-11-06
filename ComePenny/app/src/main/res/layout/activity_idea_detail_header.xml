@@ -206,7 +206,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
-                    android:text="삭제"
+                    android:text="수정/삭제"
                     android:textColor="#959595"
                     android:textSize="11dp"
                     android:visibility="invisible"/>
