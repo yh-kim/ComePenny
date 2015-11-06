@@ -1,92 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sv_signup"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
+        android:id="@+id/log_relative"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#29c5e4"
         android:focusable="true"
         android:focusableInTouchMode="true"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_background">
+        android:orientation="vertical">
 
-
-    <RelativeLayout
-        android:layout_marginTop="230dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signup_relative">
         <ImageView
-            android:layout_width="280dp"
-            android:layout_height="144dp"
-            android:src="@drawable/login_box"
-            android:id="@+id/imagezxvView" />
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="34dp"
+            android:paddingTop="50dp"
+            android:src="@drawable/login_logo" />
 
         <LinearLayout
-            android:layout_width="230dp"
-            android:layout_height="144dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="281dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:orientation="horizontal">
 
-        <EditText
-            android:layout_marginTop="1dp"
-            android:layout_marginLeft="48dp"
-            android:background="@drawable/login_bar_text"
-            android:layout_width="230dp"
-            android:layout_height="45dp"
-            android:textSize="16sp"
-            android:inputType="textEmailAddress"
-            android:id="@+id/e_signup_email"
-            android:hint="E-mail address"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_mail" />
 
 
-            <EditText
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="48dp"
-                android:background="@drawable/login_bar_text"
-                android:layout_width="230dp"
-                android:layout_height="45dp"
-                android:textSize="16sp"
-                android:id="@+id/e_signup_passwd"
-                android:inputType="textPassword"
-                android:hint="Password"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                <EditText
+                    android:id="@+id/e_signup_email"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="E-mail address"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="#b6b6b6"
+                    android:textSize="18sp" />
 
-            <EditText
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="48dp"
-                android:background="@drawable/login_bar_text"
-                android:layout_width="230dp"
-                android:layout_height="45dp"
-                android:textSize="16sp"
-                android:id="@+id/e_signup_passwd_confirm"
-                android:inputType="textPassword"
-                android:hint="Confirm Password"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="281dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_pass" />
+
+
+                <EditText
+                    android:id="@+id/e_signup_passwd"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textColorHint="#b6b6b6"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="281dp"
+                android:layout_height="41dp"
+                android:layout_gravity="center_horizontal"
+                android:background="#ffffff"
+                android:orientation="horizontal"
+                android:layout_marginTop="7dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/login_pass" />
+
+
+                <EditText
+                    android:id="@+id/e_signup_passwd_confirm"
+                    android:layout_width="230dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null"
+                    android:hint="Confirm Password"
+                    android:inputType="textPassword"
+                    android:textColorHint="#b6b6b6"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/btn_sighup"
+            android:layout_width="280dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/login_sign"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="170dp"/>
 
-    </RelativeLayout>
-
-    <ImageView
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:background="@drawable/join_button"
-        android:layout_marginTop="9dp"
-        android:layout_width="280dp"
-        android:layout_height="48dp"
-        android:id="@+id/btn_sighup" />
 
     </LinearLayout>
 </ScrollView>

@@ -366,7 +366,16 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
 
-                    tv_Writer.setText(email);
+                   // tv_Writer.setText(email);
+
+                    String getemail = email;
+
+                    byte[] mailarray = getemail.getBytes();
+                    String email_view = new String(mailarray,0,3);
+                    // int email_length = mailarray.length;
+                    String hide_email = email_view +"*****";
+
+                    tv_Writer.setText(hide_email);
                     tv_logo_name.setText(booth_name);
                     tv_ideaoriginal.setText(content);
                     tv_view.setText(hit + "");
@@ -538,7 +547,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
 
                         String content = obj_boothIdeas.getString("comment");
-                        String email = obj_boothIdeas.getString("email");
+                        String getemail = obj_boothIdeas.getString("email");
+
+
+                        byte[] mailarray = getemail.getBytes();
+                        String email_view = new String(mailarray,0,3);
+                        // int email_length = mailarray.length;
+                        String hide_email = email_view +"*****";
+
 
                         //서버에서 date받아와서 formatTimeString이용해서 값 변환
                         String reg_Time = obj_boothIdeas.getString("date");
@@ -546,7 +562,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem("img", content, email, comment_time);
+                        CommentItem items = new CommentItem("img", content,hide_email, comment_time);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(items);
