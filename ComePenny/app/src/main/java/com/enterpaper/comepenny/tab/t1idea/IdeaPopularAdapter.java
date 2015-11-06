@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothDetailActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -26,11 +27,13 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
     Context context;
     List<IdeaPopularListItem> items;
     int item_layout;
+    ImageLoader loader;
 
     public IdeaPopularAdapter(Context context, List<IdeaPopularListItem> items, int item_layout) {
         this.context = context;
         this.items = items;
         this.item_layout = item_layout;
+        loader = ImageLoader.getInstance();
     }
 
     @Override
@@ -43,8 +46,12 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final IdeaPopularListItem item = items.get(position);
-        Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
-        holder.recycle_image.setBackground(drawable);
+      //  Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
+        //holder.recycle_image.setBackground(drawable);
+
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.recycle_image);
+
+
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

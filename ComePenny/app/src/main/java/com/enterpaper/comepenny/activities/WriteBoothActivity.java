@@ -17,6 +17,10 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -107,7 +111,10 @@ public class WriteBoothActivity extends ActionBarActivity{
         // Adapter와 GirdView를 연결
         booth_list.setAdapter(adapter_sel_booth);
 
+
         adapter_sel_booth.notifyDataSetChanged();
+
+
     }
 
     private void initializeListener(){

@@ -16,6 +16,12 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -78,6 +84,7 @@ public class BoothFragment extends Fragment {
 
         // Adapter와 GirdView를 연결
         main_list.setAdapter(adapter);
+
     }
 
     private void initializeListener(){
@@ -163,6 +170,7 @@ public class BoothFragment extends Fragment {
                         int booth_id = obj.getInt("id");
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
+
 
 //
                         // Item 객체로 만들어야함

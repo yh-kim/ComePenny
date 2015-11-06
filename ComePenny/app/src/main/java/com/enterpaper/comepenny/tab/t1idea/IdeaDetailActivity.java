@@ -1,15 +1,20 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
+import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -18,10 +23,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.LoadingActivity;
+import com.enterpaper.comepenny.activities.MainActivity;
+import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -60,7 +69,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     View header;
     int idea_id;
     String email, content;
-
+    AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
 
@@ -211,35 +220,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
-
-                // 여기서 부터는 알림창의 속성 설정
-                builder.setTitle("삭제")        // 제목 설정
-                        .setMessage("아이디어를 삭제하시겠습니까?")        // 메세지 설정
-                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            // 확인 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                new NetworkIdeaDel().execute();
-
-                                Toast.makeText(IdeaDetailActivity.this, "idea를 삭제하겠습니다", Toast.LENGTH_SHORT).show();
-                                finish();
-                                overridePendingTransition(0, 0);
-
-                            }
-                        })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            // 취소 버튼 클릭시 설정
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog dialog = builder.create();    // 알림창 객체 생성
-                dialog.show();    // 알림창 띄우기
-
-
-
+                        mDialog = createDialog();
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -292,6 +273,58 @@ public class IdeaDetailActivity extends ActionBarActivity {
         });
 
     }
+    //dialog
+    private AlertDialog createDialog() {
+        final View innerView = getLayoutInflater().inflate(R.layout.idea_dialog, null);
+        TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
+        TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
+        TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
+        row1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //new NetworkIdeaRewrite().execute();
+
+
+            }
+        });
+        row2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new NetworkIdeaDel().execute();
+
+                Toast.makeText(IdeaDetailActivity.this, "idea를 삭제하겠습니다", Toast.LENGTH_SHORT).show();
+                new BaseActivity().closeActivity();
+                Intent itLoad = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(itLoad);
+                finish();
+                overridePendingTransition(0, 0);
+
+
+            }
+        });
+        row3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.cancel();
+
+            }
+        });
+        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+        ab.setView(innerView);
+        ab.setCancelable(true);
+        Dialog mDialog = ab.create();
+        //dialog크기조절
+
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.copyFrom(mDialog.getWindow().getAttributes());
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mDialog.show();
+        Window window = mDialog.getWindow();
+        window.setAttributes(params);
+        return ab.create();
+    }
+
 
     @Override
     public void finish() {
@@ -801,6 +834,90 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                 // 데이터 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e) {
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            // 정상적으로 글쓰기
+            if (result == 0) {
+                try {
+
+
+                    jObject.getInt("err");
+
+
+
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
+//    ///아이디어 수정
+
+    private class NetworkIdeaRewrite extends AsyncTask<String, String, Integer> {
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout", 7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/modify_idea.php");
+
+                // 데이터 담음
+                name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+                name_value.add(new BasicNameValuePair("content",content));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
                 http_post.setEntity(entityRequest);

@@ -20,6 +20,7 @@ import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -48,7 +49,7 @@ public class BoothDetailActivity extends ActionBarActivity {
     boolean is_scroll = true;
     ListView lvBoothDetailIdea;
     TextView tv_logo_name, booth_main_idea, booth_explanation;
-
+    ImageLoader loader = ImageLoader.getInstance();
     IdeaAdapter adapters;
     ArrayList<IdeaListItem> dataList = new ArrayList<>();
 
@@ -260,6 +261,10 @@ public class BoothDetailActivity extends ActionBarActivity {
                     booth_explanation.setText(explanation);
                     String idea_num = jObject.getString("idea_num");
                     booth_main_idea.setText(idea_num);
+
+                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",img_booth);
+
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

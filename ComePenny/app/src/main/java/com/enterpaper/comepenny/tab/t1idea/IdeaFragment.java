@@ -20,6 +20,10 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -103,6 +107,19 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
         new NetworkGetMainIdeaList().execute("");
+
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(defaultOptions)
+                .diskCacheExtraOptions(480, 320, null)
+                .build();
+        ImageLoader.getInstance().init(config);
 
         initializeListener();
 
@@ -318,7 +335,6 @@ public class IdeaFragment extends Fragment {
 
                         byte[] mailarray = getemail.getBytes();
                         String email_view = new String(mailarray,0,3);
-                       // int email_length = mailarray.length;
                         String hide_email = email_view +"*****";
 
 
