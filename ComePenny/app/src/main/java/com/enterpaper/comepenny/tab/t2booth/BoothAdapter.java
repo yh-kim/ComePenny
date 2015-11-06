@@ -75,7 +75,7 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
       //  holder.ideaNum.setText(item.getIdeaNum()+"");
 
         //image 셋팅(불러옴)
-        // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
+//         loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
         return convertView;
 
     }
