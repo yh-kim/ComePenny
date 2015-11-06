@@ -210,6 +210,7 @@ public class MyinfoLikeFragment extends Fragment {
                 // data를 담음
                 name_value.add(new BasicNameValuePair("user_id", user_id));
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
+                name_value.add(new BasicNameValuePair("is_like","1"));
 
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(

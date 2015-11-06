@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.MainActivity;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -353,17 +351,17 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                 // jObject에서 데이터를 뽑아내자
                 try {
+                    String idea_user_id = jObject.get("user_id").toString();
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
+                    int comment_num = jObject.getInt("comment_num");
 
                     //서버에서 date받아와서 formatTimeString이용해서 값 변환
                     String reg_Time = jObject.getString("date");
                     String time = formatTimeString(reg_Time);
-                    int comment_num = jObject.getInt("comment_num");
-
 
 
                    // tv_Writer.setText(email);
@@ -389,8 +387,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         pick_boolean = 0;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
                     }
-                    String user_email = DataUtil.getAppPreferences(getApplicationContext(),"user_email");
-                    if(user_email.equals(email)){
+                    String user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
+                    // 글을 쓴 사람이거나 관리자이면
+                    if(user_id.equals(idea_user_id) || user_id.equals("0")){
                         btn_del.setVisibility(View.VISIBLE);
                     }
 
@@ -541,6 +540,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     count = jObjects.getInt("cnt");
                     offset = offset + count;
 
+                    
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
@@ -560,17 +560,17 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         String comment_time = formatTimeString(reg_Time);
 
 
+
                         // Item 객체로 만들어야함
                         CommentItem items = new CommentItem("img", content,hide_email, comment_time);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(items);
-
-
-                        // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
-                        adapters.notifyDataSetChanged();
+//                        arr_list.add(0, items);
                     }
 
+                    // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
+                    adapters.notifyDataSetChanged();
 
                     // scroll 할 수 있게함
                     is_scroll = true;
@@ -720,11 +720,18 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                    //arr_list.clear();
                     new NetworkGetCommentList().execute();
-                    new NetworkGetIdeainfo();
-                   // adapters.notifyDataSetChanged();
+
+                    lvIdeaDetailComment.smoothScrollToPosition(0);
+
+
+                    int comment_num = jObject.getInt("comment_num");
+
+
+                    tv_commentcount.setText(comment_num + "");
+
+
                     //키보드숨기기
                     keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
