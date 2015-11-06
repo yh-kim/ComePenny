@@ -713,7 +713,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                     tv_commentcount.setText(comment_num + "");
-                    
+
                     //키보드숨기기
                     keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return;
