@@ -16,7 +16,7 @@ import com.enterpaper.comepenny.tab.t2booth.BoothFragment;
  */
 public class ComePennyMyinfoFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider{
 //    private final String[] TITLES = {"Today's Homo", "Category" };
-    private int switch_Icons[] = {R.drawable.selector_tab_homo, R.drawable.selector_tab_category};
+    private int switch_Icons[] = {R.drawable.selector_tab_write, R.drawable.selector_tab_like};
     Fragment frag =null;
     final int PAGE_COUNT = 2;
 

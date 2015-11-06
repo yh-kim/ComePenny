@@ -133,12 +133,11 @@
 
                 <ImageView
                     android:id="@+id/iv_boothicon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_alignParentRight="true"
-                    android:paddingRight="12dp"
-                    android:paddingTop="12dp"
-                    android:src="@drawable/icon" />
+                    android:paddingRight="6dp"
+                    android:src="@drawable/ct" />
             </RelativeLayout>
 
 
@@ -207,7 +206,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_gravity="right|center"
                     android:layout_marginRight="10dp"
-                    android:text="수정/삭제"
+                    android:text="삭제"
                     android:textColor="#959595"
                     android:textSize="11dp"
                     android:visibility="invisible"/>

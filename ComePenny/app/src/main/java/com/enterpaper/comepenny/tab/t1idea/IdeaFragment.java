@@ -198,82 +198,7 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-//                        if(booth_id==0){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex1);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==1){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex2);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==2){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex3);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==3){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
-//                            items.add(item);
-//
-//                        }if(booth_id==4){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex5);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==5){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex6);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==6){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex7);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==7){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex8);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==8){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex9);
-//                            items.add(item);
-//
-//                        }
-//                        if(booth_id==9){
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex10);
-//                            items.add(item);
-//
-//                        }
-//                        else{
-//
-//                            // Item 객체로 만들어야함
-//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex11);
-//                            items.add(item);
-//
-//                        }
+
 
 
                         //Item 객체로 만들어야함
@@ -286,8 +211,6 @@ public class IdeaFragment extends Fragment {
                         adapter.notifyDataSetChanged();
                     }
 
-//                    // scroll 할 수 있게함
-//                    is_scroll = true;
 
                 } catch (JSONException e) {
                     e.printStackTrace();

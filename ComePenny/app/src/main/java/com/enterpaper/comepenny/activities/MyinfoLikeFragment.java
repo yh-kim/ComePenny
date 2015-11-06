@@ -54,7 +54,7 @@ public class MyinfoLikeFragment extends Fragment {
     ListView lv_mylike;
     IdeaAdapter myadapters;
 
-    ArrayList<IdeaListItem> mydataList = new ArrayList<>();
+    static ArrayList<IdeaListItem> mydataList = new ArrayList<>();
 
     private Intent intent = new Intent();
 

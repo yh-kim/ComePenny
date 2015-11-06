@@ -113,7 +113,7 @@ public class MyInfoActivity extends ActionBarActivity {
         img_myinfo_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialog = createDialog();
+                //mDialog = createDialog();
             }
         });
 
@@ -122,7 +122,7 @@ public class MyInfoActivity extends ActionBarActivity {
 
 
     private void initializeLayout() {
-        myinfo_scroll = (ScrollView)findViewById(R.id.myinfo_scroll);
+
         img_myinfo_user = (ImageView) findViewById(R.id.img_my_info_user);
         btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
         tv_myinfo_user_mail = (TextView) findViewById(R.id.tv_my_info_user_mail);
@@ -200,7 +200,7 @@ public class MyInfoActivity extends ActionBarActivity {
         row1_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getApplicationContext(), "test1", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "test1", Toast.LENGTH_SHORT).show();
 //
 //                // call album
 //                Intent intent = new Intent(Intent.ACTION_PICK);
@@ -294,28 +294,28 @@ public class MyInfoActivity extends ActionBarActivity {
         }
     }
 
-//
-protected void onActivityResult(int requestCode,
-                                int resultCode,
-                                Intent data) {
+    //
+    protected void onActivityResult(int requestCode,
+                                    int resultCode,
+                                    Intent data) {
 
-    if (requestCode == PICK_FROM_CAMERA) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            img_myinfo_user.setImageBitmap(photo);
+        if (requestCode == PICK_FROM_CAMERA) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap photo = extras.getParcelable("data");
+                img_myinfo_user.setImageBitmap(photo);
+            }
+        }
+        if (requestCode == PICK_FROM_ALBUM) {
+            Bundle extras2 = data.getExtras();
+            if (extras2 != null) {
+                Bitmap photo = extras2.getParcelable("data");
+                img_myinfo_user.setImageBitmap(photo);
+            }
         }
     }
-    if (requestCode == PICK_FROM_ALBUM) {
-        Bundle extras2 = data.getExtras();
-        if (extras2 != null) {
-            Bitmap photo = extras2.getParcelable("data");
-            img_myinfo_user.setImageBitmap(photo);
-        }
-    }
-}
 
-    public void setImage(){
+    public void setImage() {
         img_myinfo_user.setImageURI(mImageCaptureUri);
     }
 }

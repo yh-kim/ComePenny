@@ -79,7 +79,7 @@ public class MyinfoWriteFragment extends Fragment {
         // Adapter와 GirdView를 연결 
         lv_mywrite.setAdapter(myadapters);
         myadapters.notifyDataSetChanged();
-        new NetworkGetMyWriteList().execute("");
+     //  new NetworkGetMyWriteList().execute("");
 
 
         return rootView;
@@ -246,4 +246,12 @@ public class MyinfoWriteFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        new NetworkGetMyWriteList().execute("");
+    }
+
 }

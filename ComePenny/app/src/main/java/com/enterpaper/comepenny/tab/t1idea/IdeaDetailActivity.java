@@ -1,10 +1,12 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -53,11 +55,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple,btn_del;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple, btn_del;
     int pick_boolean = 0;
     View header;
     int idea_id;
-    String email,content;
+    String email, content;
 
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
@@ -144,7 +146,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     // layout
     private void initializeLayout() {
         //스크린키보드
-        keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
@@ -155,7 +157,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_view = (TextView) header.findViewById(R.id.tv_view);
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_time = (TextView) header.findViewById(R.id.tv_time);
-        btn_del = (TextView)header.findViewById(R.id.btn_del);
+        btn_del = (TextView) header.findViewById(R.id.btn_del);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         Btn_reple = (TextView) header.findViewById(R.id.Btn_reple);
@@ -208,7 +210,36 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(IdeaDetailActivity.this,"idea를 수정/삭제하겠습니다",Toast.LENGTH_LONG).show();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
+
+                // 여기서 부터는 알림창의 속성 설정
+                builder.setTitle("삭제")        // 제목 설정
+                        .setMessage("아이디어를 삭제하시겠습니까?")        // 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                new NetworkIdeaDel().execute();
+
+                                Toast.makeText(IdeaDetailActivity.this, "idea를 삭제하겠습니다", Toast.LENGTH_SHORT).show();
+                                finish();
+                                overridePendingTransition(0, 0);
+
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();    // 알림창 띄우기
+
+
+
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -348,7 +379,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 Log.i("Network IdeaHeader Data", jObject.toString());
 
 
-
                 // jObject에서 데이터를 뽑아내자
                 try {
                     String idea_user_id = jObject.get("user_id").toString();
@@ -364,13 +394,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     String time = formatTimeString(reg_Time);
 
 
-                   // tv_Writer.setText(email);
+                    // tv_Writer.setText(email);
 
                     String getemail = email;
 
                     byte[] mailarray = getemail.getBytes();
-                    String email_view = new String(mailarray,0,3);
-                    String hide_email = email_view +"*****";
+                    String email_view = new String(mailarray, 0, 3);
+                    String hide_email = email_view + "*****";
 
                     tv_Writer.setText(hide_email);
                     tv_logo_name.setText(booth_name);
@@ -389,7 +419,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     }
                     String user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
                     // 글을 쓴 사람이거나 관리자이면
-                    if(user_id.equals(idea_user_id) || user_id.equals("0")){
+                    if (user_id.equals(idea_user_id) || user_id.equals("0")) {
                         btn_del.setVisibility(View.VISIBLE);
                     }
 
@@ -540,7 +570,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     count = jObjects.getInt("cnt");
                     offset = offset + count;
 
-                    
+
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
@@ -550,9 +580,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         byte[] mailarray = getemail.getBytes();
-                        String email_view = new String(mailarray,0,3);
+                        String email_view = new String(mailarray, 0, 3);
                         // int email_length = mailarray.length;
-                        String hide_email = email_view +"*****";
+                        String hide_email = email_view + "*****";
 
 
                         //서버에서 date받아와서 formatTimeString이용해서 값 변환
@@ -560,13 +590,12 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         String comment_time = formatTimeString(reg_Time);
 
 
-
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem("img", content,hide_email, comment_time);
+                        CommentItem items = new CommentItem("img", content, hide_email, comment_time);
 
                         // Item 객체를 ArrayList에 넣는다
-                        arr_list.add(items);
-//                        arr_list.add(0, items);
+                        //                      arr_list.add(items);
+                        arr_list.add(0, items);
                     }
 
                     // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
@@ -674,7 +703,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 // 데이터 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
                 name_value.add(new BasicNameValuePair("comment", comment + ""));
-                name_value.add(new BasicNameValuePair("user_id", user_id+""));
+                name_value.add(new BasicNameValuePair("user_id", user_id + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
                 http_post.setEntity(entityRequest);
@@ -718,7 +747,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                     jObject.getInt("err");
 
-                   //arr_list.clear();
+                    //arr_list.clear();
                     new NetworkGetCommentList().execute();
 
                     lvIdeaDetailComment.smoothScrollToPosition(0);
@@ -732,6 +761,89 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                     //키보드숨기기
                     keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
+
+
+    //아이디어 삭제
+    private class NetworkIdeaDel extends AsyncTask<String, String, Integer> {
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout", 7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/delete_idea.php");
+
+                // 데이터 담음
+                name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e) {
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            // 정상적으로 글쓰기
+            if (result == 0) {
+                try {
+
+
+                    jObject.getInt("err");
+
+
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
