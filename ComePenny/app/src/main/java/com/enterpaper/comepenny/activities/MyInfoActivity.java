@@ -67,7 +67,7 @@ public class MyInfoActivity extends ActionBarActivity {
     private BackPressCloseHandler backPressCloseHandler;
     ImageView btn_myinfo_back, img_myinfo_user;
     TextView tv_myinfo_user_mail;
-
+    ScrollView myinfo_scroll;
     static public ViewPager pager_myinfo;
     PagerSlidingTabStrip tabsStrip_myinfo;
     private static final int PICK_FROM_CAMERA = 0;
@@ -122,6 +122,7 @@ public class MyInfoActivity extends ActionBarActivity {
 
 
     private void initializeLayout() {
+        myinfo_scroll = (ScrollView)findViewById(R.id.myinfo_scroll);
         img_myinfo_user = (ImageView) findViewById(R.id.img_my_info_user);
         btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
         tv_myinfo_user_mail = (TextView) findViewById(R.id.tv_my_info_user_mail);

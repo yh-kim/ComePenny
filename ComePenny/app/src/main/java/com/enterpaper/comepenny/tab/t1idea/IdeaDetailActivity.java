@@ -362,7 +362,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     //서버에서 date받아와서 formatTimeString이용해서 값 변환
                     String reg_Time = jObject.getString("date");
                     String time = formatTimeString(reg_Time);
-                    int comment_num = 1;
+                    int comment_num = jObject.getInt("comment_num");
 
 
 
@@ -372,7 +372,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                     byte[] mailarray = getemail.getBytes();
                     String email_view = new String(mailarray,0,3);
-                    // int email_length = mailarray.length;
                     String hide_email = email_view +"*****";
 
                     tv_Writer.setText(hide_email);
@@ -721,6 +720,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                    //arr_list.clear();
                     new NetworkGetCommentList().execute();
+                    new NetworkGetIdeainfo();
                    // adapters.notifyDataSetChanged();
                     //키보드숨기기
                     keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);

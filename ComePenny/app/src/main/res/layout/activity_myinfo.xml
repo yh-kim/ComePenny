@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -41,65 +41,79 @@
                 android:textColor="#ffffff"
                 android:textSize="17sp" />
         </android.support.v7.widget.Toolbar>
-        <LinearLayout
+
+
+        <ScrollView
+            android:id="@+id/myinfo_scroll"
+            android:fadeScrollbars="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/myinfo"
-            android:clickable="false"
-            android:focusable="false"
-            android:longClickable="false">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/img_my_info_user"
-                android:layout_width="136dp"
-                android:layout_height="136dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="17dp"
-                android:layout_marginTop="32dp"
-                android:src="@drawable/myinfo_userimage" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_my_info_user_mail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="27dp"
-                android:layout_marginTop="13dp"
-                android:text="jihun226@naver.com"
-                android:textColor="#313131"
-                android:textSize="18sp" />
+                <LinearLayout
+                    android:id="@+id/myinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:longClickable="false"
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/img_my_info_user"
+                        android:layout_width="136dp"
+                        android:layout_height="136dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="17dp"
+                        android:layout_marginTop="32dp"
+                        android:src="@drawable/myinfo_userimage" />
 
-        <ImageView
-            android:id="@+id/myInfo_divideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/myinfo_divideline" />
+                    <TextView
+                        android:id="@+id/tv_my_info_user_mail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="27dp"
+                        android:layout_marginTop="13dp"
+                        android:text=""
+                        android:textColor="#313131"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/myInfo_divideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/myinfo_divideline" />
 
 
-        <com.astuetz.PagerSlidingTabStrip
-            android:id="@+id/tabsStrip_myinfo"
-            app:pstsDividerColor="#eeeeee"
-            app:pstsDividerPadding="10dp"
-            app:pstsIndicatorColor="#29c5e4"
-            app:pstsIndicatorHeight="3dp"
-            app:pstsShouldExpand="true"
-            app:pstsTabSwitch="true"
-            app:pstsTextAllCaps="true"
-            app:pstsUnderlineColor="#ffffff"
-            app:pstsUnderlineHeight="0dp"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#ffffff"></com.astuetz.PagerSlidingTabStrip>
+                <com.astuetz.PagerSlidingTabStrip
+                    android:id="@+id/tabsStrip_myinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#ffffff"
+                    app:pstsDividerColor="#eeeeee"
+                    app:pstsDividerPadding="10dp"
+                    app:pstsIndicatorColor="#29c5e4"
+                    app:pstsIndicatorHeight="3dp"
+                    app:pstsShouldExpand="true"
+                    app:pstsTabSwitch="true"
+                    app:pstsTextAllCaps="true"
+                    app:pstsUnderlineColor="#ffffff"
+                    app:pstsUnderlineHeight="0dp"></com.astuetz.PagerSlidingTabStrip>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager_myinfo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white" />
-
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager_myinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white" />
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

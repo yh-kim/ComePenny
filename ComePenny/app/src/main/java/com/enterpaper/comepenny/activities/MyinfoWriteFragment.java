@@ -144,7 +144,7 @@ public class MyinfoWriteFragment extends Fragment {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObjects.toString());
+                Log.i("Network my write Data", jObjects.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -155,6 +155,7 @@ public class MyinfoWriteFragment extends Fragment {
 
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
+
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
 
                         int idea_id = obj_boothIdeas.getInt("id");
@@ -162,7 +163,6 @@ public class MyinfoWriteFragment extends Fragment {
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
                         String email = obj_boothIdeas.getString("email");
-
 
                         // Item 객체로 만들어야함
                         IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num, idea_id);
