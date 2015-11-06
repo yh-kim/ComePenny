@@ -700,12 +700,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
 
                     Edit_reple.setText("");
-                    //키보드숨기기
-                    keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
                     jObject.getInt("err");
 
                    //arr_list.clear();
                     new NetworkGetCommentList().execute();
+                   // adapters.notifyDataSetChanged();
+                    //키보드숨기기
+                    keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
                     return;
                 } catch (JSONException e) {
