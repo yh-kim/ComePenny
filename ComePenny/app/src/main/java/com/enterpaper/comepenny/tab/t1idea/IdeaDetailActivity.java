@@ -701,8 +701,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
 
                     Edit_reple.setText("");
-                    //키보드숨기기
-                    keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
                     jObject.getInt("err");
 
                    //arr_list.clear();
@@ -714,7 +713,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                     tv_commentcount.setText(comment_num + "");
-
+                    
+                    //키보드숨기기
+                    keyboard.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
