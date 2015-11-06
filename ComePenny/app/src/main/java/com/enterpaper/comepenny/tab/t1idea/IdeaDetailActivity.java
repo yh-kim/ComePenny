@@ -351,16 +351,17 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                 // jObject에서 데이터를 뽑아내자
                 try {
+                    String idea_user_id = jObject.get("user_id").toString();
                     String booth_name = jObject.get("name").toString();
                     String content = jObject.get("content").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
+                    int comment_num = jObject.getInt("comment_num");
 
                     //서버에서 date받아와서 formatTimeString이용해서 값 변환
                     String reg_Time = jObject.getString("date");
                     String time = formatTimeString(reg_Time);
-                    int comment_num = 1;
 
 
 
@@ -379,8 +380,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         pick_boolean = 0;
                         btn_pick.setBackgroundResource(R.drawable.detail_pickbutton_before);
                     }
-                    String user_email = DataUtil.getAppPreferences(getApplicationContext(),"user_email");
-                    if(user_email.equals(email)){
+                    String user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
+                    // 글을 쓴 사람이거나 관리자이면
+                    if(user_id.equals(idea_user_id) || user_id.equals("0")){
                         btn_del.setVisibility(View.VISIBLE);
                     }
 
@@ -550,12 +552,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(items);
-
-
-                        // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
-                        adapters.notifyDataSetChanged();
+//                        arr_list.add(0, items);
                     }
 
+                    // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
+                    adapters.notifyDataSetChanged();
 
                     // scroll 할 수 있게함
                     is_scroll = true;
@@ -706,6 +707,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                    //arr_list.clear();
                     new NetworkGetCommentList().execute();
+                    lvIdeaDetailComment.smoothScrollToPosition(0);
+
+
+                    int comment_num = jObject.getInt("comment_num");
+
+
+                    tv_commentcount.setText(comment_num + "");
 
                     return;
                 } catch (JSONException e) {
