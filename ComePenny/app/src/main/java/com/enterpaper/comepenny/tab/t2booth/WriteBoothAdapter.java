@@ -75,7 +75,8 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
         //holder.booth_id.setText(item.get
        // holder.likeNum.setText(item.getLikeNum()+"");
         //holder.ideaNum.setText(item.getIdeaNum()+"");
-        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.img);
+       // loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.img);
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/"+item.img_url,holder.img);
 
 
         return convertView;

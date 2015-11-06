@@ -60,6 +60,7 @@ public class IdeaFragment extends Fragment {
     List<IdeaPopularListItem> items = new ArrayList<>();
     LinearLayoutManager layoutmanager;
     private Intent intent = new Intent();
+    String img_url;
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -215,11 +216,15 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-
+                        if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
+                           img_url = "comepenny/love.png";
+                        }else {
+                            img_url = "comepenny/game.png";
+                        }
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);
