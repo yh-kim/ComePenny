@@ -198,12 +198,88 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
+//                        if(booth_id==0){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex1);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==1){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex2);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==2){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex3);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==3){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
+//                            items.add(item);
+//
+//                        }if(booth_id==4){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex5);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==5){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex6);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==6){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex7);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==7){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex8);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==8){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex9);
+//                            items.add(item);
+//
+//                        }
+//                        if(booth_id==9){
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex10);
+//                            items.add(item);
+//
+//                        }
+//                        else{
+//
+//                            // Item 객체로 만들어야함
+//                            IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex11);
+//                            items.add(item);
+//
+//                        }
 
 
-                        // Item 객체로 만들어야함
+                        //Item 객체로 만들어야함
                         IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4);
 
-                        // Item 객체를 ArrayList에 넣는다
+                        //Item 객체를 ArrayList에 넣는다
                         items.add(item);
 
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
@@ -315,11 +391,18 @@ public class IdeaFragment extends Fragment {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-                        String email = obj_boothIdeas.getString("email");
+                        String getemail = obj_boothIdeas.getString("email");
+
+                        byte[] mailarray = getemail.getBytes();
+                        String email_view = new String(mailarray,0,3);
+                       // int email_length = mailarray.length;
+                        String hide_email = email_view +"*****";
+
+
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);

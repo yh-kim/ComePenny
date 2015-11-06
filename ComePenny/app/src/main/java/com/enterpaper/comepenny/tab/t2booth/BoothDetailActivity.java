@@ -364,11 +364,19 @@ public class BoothDetailActivity extends ActionBarActivity {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-                        String email = obj_boothIdeas.getString("email");
+
+                        String getemail = obj_boothIdeas.getString("email");
+
+
+                        byte[] mailarray = getemail.getBytes();
+                        String email_view = new String(mailarray,0,3);
+                        // int email_length = mailarray.length;
+                        String hide_email = email_view +"*****";
+
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num,idea_id);
+                        IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);

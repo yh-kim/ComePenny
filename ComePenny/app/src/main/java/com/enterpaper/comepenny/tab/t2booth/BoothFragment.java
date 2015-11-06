@@ -14,6 +14,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -163,12 +164,108 @@ public class BoothFragment extends Fragment {
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
 
-
+//
                         // Item 객체로 만들어야함
-                        BoothItem item = new BoothItem("img","name",booth_id,ideaNum,likeNum);
+                        BoothItem item = new BoothItem(R.drawable.ex1,"name",booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(item);
+
+
+//                        if(booth_id==0){
+//
+//                            // Item 객체로 만들어야함
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex1,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==1){
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex2,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==2){
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex3,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==3){
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex4,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }if(booth_id==4){
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex5,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//                        }
+//                        if(booth_id==5){
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex6,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==6){
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex7,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==7){
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex8,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==8){
+//
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex9,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        if(booth_id==9){
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex10,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//
+//                        }
+//                        else{
+//                            // Item 객체로 만들어야함
+//                            BoothItem item = new BoothItem(R.drawable.ex11,"name",booth_id,ideaNum,likeNum);
+//
+//                            // Item 객체를 ArrayList에 넣는다
+//                            arr_list.add(item);
+//                        }
+
 
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapter.notifyDataSetChanged();

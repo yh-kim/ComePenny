@@ -220,7 +220,7 @@ public class WriteBoothActivity extends ActionBarActivity{
                         int likeNum =obj.getInt("like_num");
 
                         // Item 객체로 만들어야함
-                        BoothItem item = new BoothItem("img","name",booth_id,ideaNum,likeNum);
+                        BoothItem item = new BoothItem(R.drawable.ex2,"name",booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(item);
