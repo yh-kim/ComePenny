@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
@@ -51,6 +52,7 @@ public class IdeaFragment extends Fragment {
     boolean is_scroll = true;
     View rootView, popular_view;
     ListView lvMainIdea;
+    TextView tv_name;
     RecyclerView recyclerView;
     FloatingActionButton fab;
     IdeaAdapter adapters;
@@ -82,6 +84,7 @@ public class IdeaFragment extends Fragment {
         popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
+        tv_name = (TextView)popular_view.findViewById(R.id.tv_name);
 
         // 헤더레이아웃 객체 생성
         initializeLayout();
@@ -216,15 +219,12 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-                        if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
-                           img_url = "comepenny/love.png";
-                        }else {
-                            img_url = "comepenny/game.png";
-                        }
+                       img_url = booth_id+"";
+                       // String booth_name = obj.getString("name");
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,"자신감");
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);

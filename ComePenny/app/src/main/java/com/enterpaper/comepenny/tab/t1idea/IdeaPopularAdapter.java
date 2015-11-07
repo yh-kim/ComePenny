@@ -48,9 +48,10 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
         final IdeaPopularListItem item = items.get(position);
       //  Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
         //holder.recycle_image.setBackground(drawable);
-        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/"+item.img_url,holder.recycle_image);
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny"+item.img_url+".png",holder.recycle_image);
        // loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.recycle_image);
 
+        holder.tv_name.setText(item.getBooth_name());
 
         holder.cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +76,13 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView recycle_image;
         CardView cardview;
+        TextView tv_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             recycle_image = (ImageView) itemView.findViewById(R.id.recycle_image);
             cardview = (CardView) itemView.findViewById(R.id.cardview);
+            tv_name = (TextView)itemView.findViewById(R.id.tv_name);
         }
 
 

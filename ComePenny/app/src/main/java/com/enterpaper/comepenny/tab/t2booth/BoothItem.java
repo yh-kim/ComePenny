@@ -6,7 +6,7 @@ package com.enterpaper.comepenny.tab.t2booth;
 public class BoothItem {
     private String boothImg;
     String img_url;
-    private String name;
+    private String booth_name;
     private int booth_id;
     private int likeNum;
     private int ideaNum;
@@ -27,12 +27,12 @@ public class BoothItem {
         this.img_url = img_url;
     }
 
-    public String getName() {
-        return name;
+    public String getBooth_name() {
+        return booth_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBooth_name(String booth_name) {
+        this.booth_name = booth_name;
     }
 
     public int getBooth_id() {
@@ -59,11 +59,11 @@ public class BoothItem {
         this.ideaNum = ideaNum;
     }
 
-    public BoothItem(String boothImg, String img_url, String name, int booth_id, int likeNum, int ideaNum) {
+    public BoothItem(String boothImg, String img_url, String booth_name, int booth_id, int likeNum, int ideaNum) {
 
         this.boothImg = boothImg;
         this.img_url = img_url;
-        this.name = name;
+        this.booth_name = booth_name;
         this.booth_id = booth_id;
         this.likeNum = likeNum;
         this.ideaNum = ideaNum;
