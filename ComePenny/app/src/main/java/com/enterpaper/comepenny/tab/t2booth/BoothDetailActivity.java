@@ -262,12 +262,9 @@ public class BoothDetailActivity extends ActionBarActivity {
                     booth_explanation.setText(explanation);
                     String idea_num = jObject.getString("idea_num");
                     booth_main_idea.setText(idea_num);
-                    if(booth_id==1|booth_id==3|booth_id==5|booth_id==7){
-                        img_url = "comepenny/love.png";
-                    }else {
-                        img_url = "comepenny/game.png";
-                    }
-                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/"+img_url,img_booth);
+                        img_url = booth_id+"";
+
+                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/"+img_url+".png",img_booth);
 
 
 

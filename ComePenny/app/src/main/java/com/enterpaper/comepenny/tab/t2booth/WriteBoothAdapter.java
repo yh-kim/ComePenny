@@ -59,7 +59,7 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
             // holder.name = (TextView) convertView.findViewById(R.id.tv_UserId);
            // holder.likeNum = (TextView) convertView.findViewById(R.id.txt_boothmain_like);
             //holder.ideaNum = (TextView) convertView.findViewById(R.id.txt_boothmain_idea);
-
+            holder.tv_name = (TextView)convertView.findViewById(R.id.tv_name);
             convertView.setTag(holder);
 
         }
@@ -69,7 +69,7 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
 
 
         BoothItem item = getItem(position);
-
+            holder.tv_name.setText(item.getBooth_name());
         //holder.img.setImageBitmap(item.getBoothimg());
         //holder.name.setText(item.getName());
         //holder.booth_id.setText(item.get
@@ -87,7 +87,7 @@ public class WriteBoothAdapter extends ArrayAdapter<BoothItem> {
     class ViewHolder {
         RelativeLayout test_layout;
         ImageView img;
-        TextView likeNum,ideaNum;
+        TextView likeNum,ideaNum,tv_name;
 
     }
 }

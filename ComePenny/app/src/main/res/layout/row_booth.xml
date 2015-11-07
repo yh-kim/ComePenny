@@ -1,52 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/test_layout"
     android:layout_width="174dp"
     android:layout_height="174dp"
-    android:paddingTop="4dp"
     android:paddingLeft="4dp"
-    android:id="@+id/test_layout">
+    android:paddingTop="4dp">
 
     <ImageView
-        android:scaleType="centerCrop"
+        android:id="@+id/img_main_company"
         android:layout_width="174dp"
         android:layout_height="174dp"
-        android:id="@+id/img_main_company" />
+        android:scaleType="centerCrop" />
 
     <LinearLayout
-        android:background="@drawable/main_text_box"
-        android:weightSum="2"
-        android:orientation="horizontal"
+        android:layout_width="58dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="71dp"
+        android:background="#BF000000"
+        android:gravity="center"
+       >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_name"
+            android:text=""
+            android:textSize="15dp"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="22dp"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:background="@drawable/main_text_box"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
 
         <LinearLayout
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="6dp"
             android:gravity="left"
             android:orientation="horizontal">
+
             <TextView
-                android:textColor="#eeeeee"
-                android:textSize="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Idea : "
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:text="Idea : "
+                android:textColor="#eeeeee"
+                android:textSize="12dp" />
+
             <TextView
                 android:id="@+id/txt_boothmain_like"
-                android:textColor="#eeeeee"
-                android:textSize="12dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" "
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:text=" "
+                android:textColor="#eeeeee"
+                android:textSize="12dp" />
         </LinearLayout>
 
     </LinearLayout>
