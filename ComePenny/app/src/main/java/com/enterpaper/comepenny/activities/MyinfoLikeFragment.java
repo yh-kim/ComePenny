@@ -2,20 +2,14 @@ package com.enterpaper.comepenny.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,11 +17,8 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -54,7 +45,7 @@ public class MyinfoLikeFragment extends Fragment {
     ListView lv_mylike;
     IdeaAdapter myadapters;
 
-    static ArrayList<IdeaListItem> mydataList = new ArrayList<>();
+    ArrayList<IdeaListItem> mydataList = new ArrayList<>();
 
     private Intent intent = new Intent();
 

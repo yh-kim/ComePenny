@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -48,8 +47,7 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
         final IdeaPopularListItem item = items.get(position);
       //  Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
         //holder.recycle_image.setBackground(drawable);
-        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny"+item.img_url+".png",holder.recycle_image);
-       // loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/love.png",holder.recycle_image);
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/"+item.getImg_url()+".png",holder.recycle_image);
 
         holder.tv_name.setText(item.getBooth_name());
 

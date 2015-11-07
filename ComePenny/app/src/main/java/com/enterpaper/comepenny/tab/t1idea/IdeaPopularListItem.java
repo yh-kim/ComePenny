@@ -1,11 +1,10 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by kimmiri on 2015. 10. 8..
  */
 public class IdeaPopularListItem {
+
     int booth_id;
     int recycle_image;
     String img_url;

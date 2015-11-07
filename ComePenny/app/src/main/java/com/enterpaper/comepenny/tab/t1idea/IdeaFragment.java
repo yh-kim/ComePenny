@@ -21,10 +21,6 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -112,6 +108,7 @@ public class IdeaFragment extends Fragment {
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
         new NetworkGetMainIdeaList().execute("");
 
+        /*
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -124,7 +121,7 @@ public class IdeaFragment extends Fragment {
                 .diskCacheExtraOptions(480, 320, null)
                 .build();
         ImageLoader.getInstance().init(config);
-
+        */
         initializeListener();
 
         return rootView;
@@ -220,11 +217,11 @@ public class IdeaFragment extends Fragment {
 
                         int booth_id = obj.getInt("id");
                        img_url = booth_id+"";
-                       // String booth_name = obj.getString("name");
+                        String booth_name = obj.getString("name");
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,"자신감");
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,booth_name);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);
