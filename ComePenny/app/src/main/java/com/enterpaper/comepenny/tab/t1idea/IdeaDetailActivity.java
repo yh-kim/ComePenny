@@ -32,7 +32,6 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.LoadingActivity;
 import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.BaseActivity;
-import com.enterpaper.comepenny.util.Capture;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -209,8 +208,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
-                Capture();
 
             }
         });
@@ -343,12 +340,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
         super.finish();
 
         overridePendingTransition(0, 0);
-    }
-
-
-    public void Capture() {
-        new Capture();
-
     }
 
 

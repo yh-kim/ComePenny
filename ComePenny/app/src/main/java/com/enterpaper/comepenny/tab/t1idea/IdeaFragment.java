@@ -21,10 +21,6 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -112,6 +108,7 @@ public class IdeaFragment extends Fragment {
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
         new NetworkGetMainIdeaList().execute("");
 
+        /*
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
@@ -124,7 +121,7 @@ public class IdeaFragment extends Fragment {
                 .diskCacheExtraOptions(480, 320, null)
                 .build();
         ImageLoader.getInstance().init(config);
-
+        */
         initializeListener();
 
         return rootView;

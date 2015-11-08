@@ -212,7 +212,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-        initlist();
+//        initlist();
 
     }
 
