@@ -84,7 +84,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         initializeLayout();
 
         // 헤더 설정, 헤더에 리스트뷰리스너막음 + position-1
-        lvBoothDetailIdea.addHeaderView(header,adapters,false);
+        lvBoothDetailIdea.addHeaderView(header, adapters, false);
 
         // Adapter 생성
         adapters = new IdeaAdapter(getApplicationContext(), R.layout.row_idea, dataList);
@@ -92,11 +92,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         // Adapter와 GirdView를 연결
         lvBoothDetailIdea.setAdapter(adapters);
 
-        initlist();
 
-
-        new NetworkGetBoothIdeaList().execute("");
-        new NetworkGetBoothinfo().execute("");
         lvBoothDetailIdea.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -212,19 +208,21 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-        initlist();
+        initializationList();
 
     }
 
     //Initlist (초기화 메소드)
-    public void initlist() {
+    private void initializationList() {
         //초기화
         is_scroll = true;
         offset = 0;
-//        dataList.clear();
+        dataList.clear();
 
         //쓰레드 실행
-       // new NetworkGetBoothIdeaList().execute("");
+
+        new NetworkGetBoothIdeaList().execute("");
+        new NetworkGetBoothinfo().execute("");
         return;
     }
 

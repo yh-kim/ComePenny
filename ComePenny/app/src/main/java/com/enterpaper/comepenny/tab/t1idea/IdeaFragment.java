@@ -67,6 +67,28 @@ public class IdeaFragment extends Fragment {
         return fragment;
     }
 
+    //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    public void onResume() {
+        super.onResume();
+
+        //초기화 & 쓰레드 실행
+//        initializationList();
+
+    }
+
+    //Initlist (초기화 메소드)
+    public void initializationList() {
+        //초기화
+        is_scroll = true;
+        offset = 0;
+        dataList.clear();
+
+        //쓰레드 실행
+
+        new NetworkGetMainIdeaList().execute("");
+        return;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_idea, container, false);
@@ -106,22 +128,10 @@ public class IdeaFragment extends Fragment {
         // Adapter와 GirdView를 연결
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
+
         new NetworkGetMainIdeaList().execute("");
 
-        /*
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .build();
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getContext())
-                .writeDebugLogs()
-                .defaultDisplayImageOptions(defaultOptions)
-                .diskCacheExtraOptions(480, 320, null)
-                .build();
-        ImageLoader.getInstance().init(config);
-        */
         initializeListener();
 
         return rootView;
@@ -167,15 +177,16 @@ public class IdeaFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //서버로부터 받아온 List개수를 count
-                //지금까지 받아온 개수를 offset
-                if (count != 0 && offset % row_cnt == 0) {
-                    if (is_scroll) {
-                        //스크롤 멈추게 하는거
-                        is_scroll = false;
-                        new NetworkGetMainIdeaList().execute("");
+                    //서버로부터 받아온 List개수를 count
+                    //지금까지 받아온 개수를 offset
+                    if (count != 0 && offset % row_cnt == 0) {
+                        if (is_scroll) {
+                            //스크롤 멈추게 하는거
+                            is_scroll = false;
+                            new NetworkGetMainIdeaList().execute("");
+                        }
                     }
-                }
+
             }
         });
     }
@@ -208,9 +219,6 @@ public class IdeaFragment extends Fragment {
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
                 try {
-                    // 가져오는 값의 개수를 가져옴
-//                    count = jObject.getInt("cnt");
-//                    offset = offset + count;
                     JSONArray ret_arr = jObject.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj = ret_arr.getJSONObject(index);
@@ -339,10 +347,6 @@ public class IdeaFragment extends Fragment {
                         String email_view = new String(mailarray,0,3);
                         String hide_email = email_view +"*****";
 
-
-
-
-
                         // Item 객체로 만들어야함
                         IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num, idea_id);
 
@@ -385,7 +389,7 @@ public class IdeaFragment extends Fragment {
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_idea_list.php");
 
-//                        //서버에 보낼 데이터
+                //서버에 보낼 데이터
                 // data를 담음
                 name_value.add(new BasicNameValuePair("offset", offset + ""));
 

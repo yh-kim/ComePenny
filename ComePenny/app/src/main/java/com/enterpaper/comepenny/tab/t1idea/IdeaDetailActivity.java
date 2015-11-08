@@ -26,8 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.MainActivity;
-import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -292,21 +290,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
             public void onClick(View v) {
                 new NetworkIdeaDel().execute();
 
-                Toast.makeText(IdeaDetailActivity.this, "idea를 삭제하겠습니다", Toast.LENGTH_SHORT).show();
-                new BaseActivity().closeActivity();
-                Intent itLoad = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(itLoad);
-                finish();
-                overridePendingTransition(0, 0);
-
-
             }
         });
         row3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDialog.cancel();
-
+                mDialog.hide();
             }
         });
         AlertDialog.Builder ab = new AlertDialog.Builder(this);
@@ -872,12 +862,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
             // 정상적으로 글쓰기
             if (result == 0) {
                 try {
-
-
                     jObject.getInt("err");
 
-
-
+                    IdeaDetailActivity.this.finish();
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
