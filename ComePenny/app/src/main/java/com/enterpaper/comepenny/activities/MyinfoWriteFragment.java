@@ -79,7 +79,7 @@ public class MyinfoWriteFragment extends Fragment {
         // Adapter와 GirdView를 연결 
         lv_mywrite.setAdapter(myadapters);
         myadapters.notifyDataSetChanged();
-     //  new NetworkGetMyWriteList().execute("");
+        //  new NetworkGetMyWriteList().execute("");
 
 
         return rootView;
@@ -162,7 +162,13 @@ public class MyinfoWriteFragment extends Fragment {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-                        String email = obj_boothIdeas.getString("email");
+
+                        String getemail = obj_boothIdeas.getString("email");
+
+                        byte[] mailarray = getemail.getBytes();
+                        String email_view = new String(mailarray, 0, 3);
+                        String email = email_view + "*****";
+
 
                         // Item 객체로 만들어야함
                         IdeaListItem items = new IdeaListItem("img", content, email, hit, like_num, idea_id);

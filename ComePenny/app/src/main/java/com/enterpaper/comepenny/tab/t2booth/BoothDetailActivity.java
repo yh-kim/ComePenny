@@ -212,7 +212,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-//        initlist();
+        initlist();
 
     }
 
@@ -264,7 +264,7 @@ public class BoothDetailActivity extends ActionBarActivity {
                     booth_main_idea.setText(idea_num);
                         img_url = booth_id+"";
 
-                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/"+img_url+".png",img_booth);
+                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/"+img_url+".png",img_booth);
 
 
 

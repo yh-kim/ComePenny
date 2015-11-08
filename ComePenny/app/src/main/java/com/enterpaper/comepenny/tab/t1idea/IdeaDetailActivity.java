@@ -176,7 +176,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         // 리스트부분
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
-        btn_share = (ImageView)findViewById(R.id.btn_share);
+
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
@@ -205,12 +205,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 overridePendingTransition(0, 0);
             }
         });
-        btn_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         Btn_reple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
