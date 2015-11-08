@@ -2,13 +2,10 @@ package com.enterpaper.comepenny.tab.t1idea;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.activities.LoadingActivity;
 import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
@@ -61,11 +57,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
     InputMethodManager keyboard;
     private ScrollView scrollView_mainidea_detail;
     Toolbar mToolBar;
-    ImageView btn_ideaback,btn_share;
+    ImageView btn_ideaback;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, Btn_reple, btn_del;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del;
     int pick_boolean = 0;
     View header;
     int idea_id;
@@ -171,12 +167,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_del = (TextView) header.findViewById(R.id.btn_del);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
-        Btn_reple = (TextView) header.findViewById(R.id.Btn_reple);
+        btn_reple = (TextView) header.findViewById(R.id.btn_reple);
 
         // 리스트부분
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
-        btn_share = (ImageView)findViewById(R.id.btn_share);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
@@ -205,13 +200,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 overridePendingTransition(0, 0);
             }
         });
-        btn_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        Btn_reple.setOnClickListener(new View.OnClickListener() {
+
+        btn_reple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 content = Edit_reple.getText().toString().trim();

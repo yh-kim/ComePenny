@@ -244,7 +244,7 @@
                     android:textSize="13dp"/>
 
                 <TextView
-                    android:id="@+id/Btn_reple"
+                    android:id="@+id/btn_reple"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
