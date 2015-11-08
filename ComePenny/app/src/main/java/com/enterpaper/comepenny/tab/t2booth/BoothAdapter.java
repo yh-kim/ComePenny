@@ -92,8 +92,6 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
         holder.likeNum.setText(item.getLikeNum() + "");
         //image 셋팅(불러옴)
         loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/"+item.img_url+".png",holder.img);
-
-        // loader.displayImage("http://m2block-edu.s3.amazonaws.com/" + item.img_url,holder.img);
         return convertView;
 
     }

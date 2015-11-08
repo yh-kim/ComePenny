@@ -37,6 +37,14 @@
                 android:text=""
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
+            <ImageView
+                android:id="@+id/btn_share"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:src="@drawable/ex_share"
+                android:layout_marginRight="5dp"/>
         </android.support.v7.widget.Toolbar>
     </RelativeLayout>
 

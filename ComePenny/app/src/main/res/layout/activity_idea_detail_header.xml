@@ -146,7 +146,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:src="@drawable/line" />
-
+            <LinearLayout
+                android:id="@+id/layout_capture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/tv_ideaoriginal"
                 android:layout_width="match_parent"
@@ -160,6 +163,7 @@
                 android:text=""
                 android:textColor="#313131"
                 android:textSize="15dp" />
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/btn_pick"

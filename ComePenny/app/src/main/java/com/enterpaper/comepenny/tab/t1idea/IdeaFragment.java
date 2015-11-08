@@ -220,11 +220,11 @@ public class IdeaFragment extends Fragment {
 
                         int booth_id = obj.getInt("id");
                        img_url = booth_id+"";
-                       // String booth_name = obj.getString("name");
+                        String booth_name = obj.getString("name");
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,"자신감");
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,booth_name);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);

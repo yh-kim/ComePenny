@@ -172,12 +172,12 @@ public class BoothFragment extends Fragment {
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
                        img_url = booth_id+"";
-                      //  String booth_name = obj.getString("name");
+                      String booth_name = obj.getString("name");
 
 
 //
                         // Item 객체로 만들어야함
-                        BoothItem item = new BoothItem("R.drawable.ex1",img_url,"자신감",booth_id,ideaNum,likeNum);
+                        BoothItem item = new BoothItem("R.drawable.ex1",img_url,booth_name,booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
                         arr_list.add(item);
