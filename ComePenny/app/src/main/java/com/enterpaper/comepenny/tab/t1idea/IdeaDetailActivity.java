@@ -1,5 +1,6 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -60,7 +61,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     InputMethodManager keyboard;
     private ScrollView scrollView_mainidea_detail;
     Toolbar mToolBar;
-    ImageView btn_ideaback;
+    ImageView btn_ideaback,btn_share;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple;
@@ -72,6 +73,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
+    Activity Capture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +176,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         // 리스트부분
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
+        btn_share = (ImageView)findViewById(R.id.btn_share);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
@@ -202,6 +205,12 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 overridePendingTransition(0, 0);
             }
         });
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         Btn_reple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,7 +229,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
 
-                        mDialog = createDialog();
+                mDialog = createDialog();
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -332,6 +341,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         overridePendingTransition(0, 0);
     }
+
+
 
 
     // 아이디어 헤더정보가져오기 - HTTP연결 Thread 생성 클래스
@@ -528,11 +539,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 }
 
                 // 우리가 사용하는 결과
-//                jObject = new JSONObject(builder.toString());
                 jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
 
-                // err가 0이면 정상적인 처리
-                // err가 0이 아닐시 오류발생
+                // err가 0이면 정상적인 처리,err가 0이 아닐시 오류발생
                 if (jObject.getInt("err") > 0) {
                     return jObject.getInt("err");
                 }

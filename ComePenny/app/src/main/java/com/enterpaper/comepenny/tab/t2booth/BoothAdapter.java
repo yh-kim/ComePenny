@@ -87,8 +87,12 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
         holder.tv_name.setText(item.getBooth_name());
         holder.likeNum.setText(item.getLikeNum() + "");
         //image 셋팅(불러옴)
+<<<<<<< HEAD
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/"+item.img_url+".png",holder.img);
+=======
         loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/"+item.getImg_url()+".png",holder.img);
 
+>>>>>>> 6643cbc44e536b098b42502749aa93037811aee3
         return convertView;
 
     }

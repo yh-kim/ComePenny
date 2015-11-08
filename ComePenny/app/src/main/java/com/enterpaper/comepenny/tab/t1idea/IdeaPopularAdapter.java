@@ -47,7 +47,9 @@ public class IdeaPopularAdapter extends RecyclerView.Adapter<IdeaPopularAdapter.
         final IdeaPopularListItem item = items.get(position);
       //  Drawable drawable = context.getResources().getDrawable(item.getRecycle_image());
         //holder.recycle_image.setBackground(drawable);
+
         loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/"+item.getImg_url()+".png",holder.recycle_image);
+
 
         holder.tv_name.setText(item.getBooth_name());
 
