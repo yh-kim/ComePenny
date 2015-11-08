@@ -342,6 +342,7 @@ public class IdeaFragment extends Fragment {
 
 
 
+
                         // Item 객체로 만들어야함
                         IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num, idea_id);
 

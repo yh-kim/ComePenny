@@ -65,7 +65,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
         IdeaListItem item = getItem(position);
 
-       // holder.img.setImageBitmap(item.getImg());
+        //holder.img.setImageBitmap(item.getImg());
         holder.title.setText(item.getContent());
         holder.Email.setText(item.getEmail());
         holder.ViewCount.setText(item.getViewCount()+"");

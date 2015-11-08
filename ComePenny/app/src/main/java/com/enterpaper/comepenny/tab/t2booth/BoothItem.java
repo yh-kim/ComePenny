@@ -4,12 +4,6 @@ package com.enterpaper.comepenny.tab.t2booth;
  * Created by Kim on 2015-07-19.
  */
 public class BoothItem {
-    String img_url;
-    private String booth_name;
-    private int booth_id;
-    private int likeNum;
-    private int ideaNum;
-
     public String getImg_url() {
         return img_url;
     }
@@ -51,10 +45,19 @@ public class BoothItem {
     }
 
     public BoothItem(String img_url, String booth_name, int booth_id, int likeNum, int ideaNum) {
+
         this.img_url = img_url;
         this.booth_name = booth_name;
         this.booth_id = booth_id;
         this.likeNum = likeNum;
         this.ideaNum = ideaNum;
     }
-}
+
+    String img_url;
+    private String booth_name;
+    private int booth_id;
+    private int likeNum;
+    private int ideaNum;
+
+
+  }
