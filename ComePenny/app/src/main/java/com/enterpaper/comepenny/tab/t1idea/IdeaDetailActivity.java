@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -274,13 +275,15 @@ public class IdeaDetailActivity extends ActionBarActivity {
     //dialog
     private AlertDialog createDialog() {
         final View innerView = getLayoutInflater().inflate(R.layout.idea_dialog, null);
-        TableRow row1 = (TableRow) innerView.findViewById(R.id.row1);
-        TableRow row2 = (TableRow) innerView.findViewById(R.id.row2);
-        TableRow row3 = (TableRow) innerView.findViewById(R.id.row3);
+        TableRow row1 = (TableRow) innerView.findViewById(R.id.row_rewrite);
+        TableRow row2 = (TableRow) innerView.findViewById(R.id.row_del);
+        TableRow row3 = (TableRow) innerView.findViewById(R.id.row_cancel);
         row1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new NetworkIdeaRewrite().execute();
+                Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
+
+                new NetworkIdeaRewrite().execute();
 
 
             }
@@ -945,8 +948,19 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
 
 
+                   // int idea_id = jObject.getInt("idea_id");
+                  //  String email =DataUtil.getAppPreferences(getApplicationContext(),"user_email");
                     jObject.getInt("err");
 
+
+
+                    // 여기서인텐트하기
+                    Intent itIdeaDetail = new Intent(getApplicationContext(), WriteActivity.class);
+                    itIdeaDetail.putExtra("idea_id",idea_id);//booth_id를어떻게넘겨줄지
+                    itIdeaDetail.putExtra("content",content);
+                    startActivity(itIdeaDetail);
+                    overridePendingTransition(0, 0);
+                    finish();
 
                     return;
                 } catch (JSONException e) {

@@ -20,7 +20,7 @@
 
 
     <TableRow
-        android:id="@+id/row1"
+        android:id="@+id/row_rewrite"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:paddingRight="20dp"
@@ -35,7 +35,7 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/row2"
+        android:id="@+id/row_del"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:paddingRight="20dp"
@@ -51,7 +51,7 @@
     </TableRow>
 
     <TableRow
-        android:id="@+id/row3"
+        android:id="@+id/row_cancel"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:paddingRight="20dp"
