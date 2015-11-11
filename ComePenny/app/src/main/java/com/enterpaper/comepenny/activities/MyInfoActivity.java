@@ -110,7 +110,38 @@ public class MyInfoActivity extends ActionBarActivity {
         img_myinfo_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //mDialog = createDialog();
+                final CharSequence[] items = {"기본이미지", "사진앨범", "카메라"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyInfoActivity.this);     // 여기서 this는 Activity의 this
+
+// 여기서 부터는 알림창의 속성 설정
+                builder.setTitle("프로필 사진 설정")        // 제목 설정
+                        .setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
+                            public void onClick(DialogInterface dialog, int index) {
+
+                                switch (index) {
+                                    case 0:
+                                        Toast.makeText(getApplicationContext(), "기본이미지", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 1:
+                                        Toast.makeText(getApplicationContext(), "사진앨범", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case 2:
+                                        Toast.makeText(getApplicationContext(), "카메라", Toast.LENGTH_SHORT).show();
+                                        break;
+                                    default:
+                                        dialog.cancel();
+                                        break;
+                                }
+
+
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();    // 알림창 띄우기
+
+
             }
         });
 
@@ -180,135 +211,5 @@ public class MyInfoActivity extends ActionBarActivity {
         overridePendingTransition(0, 0);
     }
 
-
-    //dialog
-    private AlertDialog createDialog() {
-        final View innerView = getLayoutInflater().inflate(R.layout.myinfoimg_dialog, null);
-        TableRow row1_gallery = (TableRow) innerView.findViewById(R.id.row1);
-        TableRow row2_camera = (TableRow) innerView.findViewById(R.id.row2);
-        TableRow row3_basic = (TableRow) innerView.findViewById(R.id.row3);
-        row1_gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Toast.makeText(getApplicationContext(), "test1", Toast.LENGTH_SHORT).show();
-//
-//                // call album
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//                startActivityForResult(intent, PICK_FROM_ALBUM);
-//
-//             // setDismiss(mDialog);
-                Intent intent = new Intent();
-                // Gallery 호출
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // 잘라내기 셋팅
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(Intent.createChooser(intent,
-                            "Complete action using"), PICK_FROM_ALBUM);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-
-            }
-        });
-        row2_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "test2", Toast.LENGTH_SHORT).show();
-//
-//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                // temp file url
-//                String url = "DCIM/AT" + String.valueOf(System.currentTimeMillis()) + ".jpg";
-//                mImageCaptureUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), url));
-//
-//                intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, mImageCaptureUri);
-//               intent.putExtra("return-data", true);
-//                startActivityForResult(intent, PICK_FROM_CAMERA);
-//
-//               setDismiss(mDialog);
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI.toString());
-
-                // 이미지 잘라내기 위한 크기
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 0);
-                intent.putExtra("aspectY", 0);
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 150);
-
-                try {
-                    intent.putExtra("return-data", true);
-                    startActivityForResult(intent, PICK_FROM_CAMERA);
-                } catch (ActivityNotFoundException e) {
-                    // Do nothing for now
-                }
-            }
-        });
-        row3_basic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "test3", Toast.LENGTH_SHORT).show();
-
-                setDismiss(mDialog);
-            }
-        });
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setView(innerView);
-        ab.setCancelable(true);
-        Dialog mDialog = ab.create();
-        //dialog크기조절
-
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.copyFrom(mDialog.getWindow().getAttributes());
-        params.width = 800;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mDialog.show();
-        Window window = mDialog.getWindow();
-        window.setAttributes(params);
-        return ab.create();
-    }
-
-    // /** //     * 다이얼로그 종료 //     */ //
-    private void setDismiss(AlertDialog dialog) {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-    }
-
-    //
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent data) {
-
-        if (requestCode == PICK_FROM_CAMERA) {
-            Bundle extras = data.getExtras();
-            if (extras != null) {
-                Bitmap photo = extras.getParcelable("data");
-                img_myinfo_user.setImageBitmap(photo);
-            }
-        }
-        if (requestCode == PICK_FROM_ALBUM) {
-            Bundle extras2 = data.getExtras();
-            if (extras2 != null) {
-                Bitmap photo = extras2.getParcelable("data");
-                img_myinfo_user.setImageBitmap(photo);
-            }
-        }
-    }
-
-    public void setImage() {
-        img_myinfo_user.setImageURI(mImageCaptureUri);
-    }
 }
-
-
 

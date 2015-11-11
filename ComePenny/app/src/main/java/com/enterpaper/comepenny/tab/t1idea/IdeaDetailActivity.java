@@ -3,6 +3,7 @@ package com.enterpaper.comepenny.tab.t1idea;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.AdjustWriteActivity;
 import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
@@ -63,8 +65,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del;
     int pick_boolean = 0;
     View header;
-    int idea_id;
-    String email, content;
+    int idea_id, booth_id;
+    String email, content, user_id;
     AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
@@ -217,9 +219,58 @@ public class IdeaDetailActivity extends ActionBarActivity {
         });
         btn_del.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
-                mDialog = createDialog();
+                // mDialog = createDialog();
+                final CharSequence[] items = {"수정하기", "삭제하기"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
+
+// 여기서 부터는 알림창의 속성 설정
+                builder.setTitle("글을 수정/삭제 하시겠습니까?")        // 제목 설정
+                        .setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
+                            public void onClick(DialogInterface dialog1, int index) {
+                                // int형으로 조건 지정
+                                switch (index) {
+                                    case 0:
+                                        new NetworkIdeaAdjustWrite().execute();
+                                        break;
+                                    case 1:
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
+                                        builder.setTitle("삭제 확인")        // 제목 설정
+                                                .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
+                                                .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                                                .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                                    // 확인 버튼 클릭시 설정
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        new NetworkIdeaDel().execute();
+                                                        finish();
+
+                                                    }
+                                                })
+                                                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                                    // 취소 버튼 클릭시 설정
+                                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+
+                                        AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                                        dialog.show();    // 알림창 띄우기
+
+                                        break;
+
+                                    default:
+                                        dialog1.cancel();
+                                        break;
+                                }
+
+                            }
+                        });
+
+                AlertDialog dialog1 = builder.create();    // 알림창 객체 생성
+                dialog1.show();    // 알림창 띄우기
+
             }
         });
         btn_pick.setOnClickListener(new View.OnClickListener() {
@@ -272,52 +323,69 @@ public class IdeaDetailActivity extends ActionBarActivity {
         });
 
     }
-    //dialog
-    private AlertDialog createDialog() {
-        final View innerView = getLayoutInflater().inflate(R.layout.idea_dialog, null);
-        TableRow row1 = (TableRow) innerView.findViewById(R.id.row_rewrite);
-        TableRow row2 = (TableRow) innerView.findViewById(R.id.row_del);
-        TableRow row3 = (TableRow) innerView.findViewById(R.id.row_cancel);
-        row1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
-
-                new NetworkIdeaRewrite().execute();
-
-
-            }
-        });
-        row2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new NetworkIdeaDel().execute();
-
-            }
-        });
-        row3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDialog.cancel();
-                mDialog.hide();
-            }
-        });
-        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-        ab.setView(innerView);
-        ab.setCancelable(true);
-        Dialog mDialog = ab.create();
-        //dialog크기조절
-
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-        params.copyFrom(mDialog.getWindow().getAttributes());
-        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mDialog.show();
-        Window window = mDialog.getWindow();
-        window.setAttributes(params);
-        return ab.create();
-    }
-
+//
+//    //dialog
+//    private AlertDialog createDialog() {
+//        final View innerView = getLayoutInflater().inflate(R.layout.idea_dialog, null);
+//        TableRow row1 = (TableRow) innerView.findViewById(R.id.row_rewrite);
+//        TableRow row2 = (TableRow) innerView.findViewById(R.id.row_del);
+//
+//        row1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                new NetworkIdeaAdjustWrite().execute();
+//
+//            }
+//        });
+//        row2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
+//                builder.setTitle("삭제 확인")        // 제목 설정
+//                        .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
+//                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+//                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+//                            // 확인 버튼 클릭시 설정
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                new NetworkIdeaDel().execute();
+//                                finish();
+//
+//                            }
+//                        })
+//                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//                            // 취소 버튼 클릭시 설정
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//
+//                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+//                dialog.show();    // 알림창 띄우기
+//
+//
+//                //new NetworkIdeaDel().execute();
+//
+//            }
+//        });
+//
+//        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+//        ab.setView(innerView);
+//        ab.setCancelable(true);
+//        Dialog mDialog = ab.create();
+//        //dialog크기조절
+//
+//        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+//        params.copyFrom(mDialog.getWindow().getAttributes());
+//        params.width = 800;
+//        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        mDialog.show();
+//        Window window = mDialog.getWindow();
+//        window.setAttributes(params);
+//        return ab.create();
+//    }
+//
 
     @Override
     public void finish() {
@@ -325,8 +393,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         overridePendingTransition(0, 0);
     }
-
-
 
 
     // 아이디어 헤더정보가져오기 - HTTP연결 Thread 생성 클래스
@@ -882,96 +948,107 @@ public class IdeaDetailActivity extends ActionBarActivity {
     }
 //    ///아이디어 수정
 
-    private class NetworkIdeaRewrite extends AsyncTask<String, String, Integer> {
-        // JSON 받아오는 객체
+    private class NetworkIdeaAdjustWrite extends AsyncTask<String, String, Integer> {
+        private String err_msg = "Network  AdjustWrite error.";
+
+        // JSON에서 받아오는 객체
         private JSONObject jObject;
 
+        // AsyncTask 실행되는거
         @Override
         protected Integer doInBackground(String... params) {
+
             return processing();
         }
 
-        // 서버 연결
         private Integer processing() {
             try {
                 HttpClient http_client = new DefaultHttpClient();
+                // 요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
+                http_client.getParams().setParameter("http.connection.timeout",
+                        7000);
 
-                // 요청 후 7초 이내에 응답없으면 timeout 발생
-                http_client.getParams().setParameter("http.connection.timeout", 7000);
-                // post 방식
+                // data를 Post방식으로 보냄
                 HttpPost http_post = null;
 
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
-                http_post = new HttpPost("http://54.199.176.234/api/modify_idea.php");
+                http_post = new HttpPost(
+                        "http://54.199.176.234/api/get_idea_info.php");
 
-                // 데이터 담음
+                //서버에 보낼 데이터
+                // data를 담음
                 name_value.add(new BasicNameValuePair("idea_id", idea_id + ""));
-                name_value.add(new BasicNameValuePair("content",content));
+                name_value.add(new BasicNameValuePair("user_id", DataUtil.getAppPreferences(getApplicationContext(), "user_id")));
 
-                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
+                        name_value, "UTF-8");
                 http_post.setEntity(entityRequest);
 
-
-                // 서버 전송
+                // 실행
                 HttpResponse response = http_client.execute(http_post);
 
                 // 받는 부분
-                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                response.getEntity().getContent(), "UTF-8"), 8);
                 StringBuilder builder = new StringBuilder();
                 for (String line = null; (line = reader.readLine()) != null; ) {
                     builder.append(line).append("\n");
                 }
 
-                // json
-                jObject = new JSONObject(builder.toString());
+                // 우리가 사용하는 결과
+//                jObject = new JSONObject(builder.toString());
+                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
 
-
-                // 0이면 정상, 0이 아니면 오류 발생
+                // err가 0이면 정상적인 처리
+                // err가 0이 아닐시 오류발생
                 if (jObject.getInt("err") > 0) {
                     return jObject.getInt("err");
                 }
-
             } catch (Exception e) {
                 // 오류발생시
-                e.printStackTrace();
+                Log.i(err_msg, e.toString());
                 return 100;
             }
             return 0;
         }
 
+        // AsyncTask 실행완료 후에 구동 (Data를 받은것을 Activity에 갱신하는 작업을 하면돼)
         @Override
         protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
 
-            // 정상적으로 글쓰기
+            // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
+                Log.i("Network 수정 할 Data", jObject.toString());
+
+
+                // jObject에서 데이터를 뽑아내자
                 try {
 
-
-                   // int idea_id = jObject.getInt("idea_id");
-                  //  String email =DataUtil.getAppPreferences(getApplicationContext(),"user_email");
-                    jObject.getInt("err");
-
-
-
+                    String content = jObject.get("content").toString();
                     // 여기서인텐트하기
-                    Intent itIdeaDetail = new Intent(getApplicationContext(), WriteActivity.class);
-                    itIdeaDetail.putExtra("idea_id",idea_id);//booth_id를어떻게넘겨줄지
-                    itIdeaDetail.putExtra("content",content);
+                    Intent itIdeaDetail = new Intent(getApplicationContext(), AdjustWriteActivity.class);
+                    itIdeaDetail.putExtra("idea_id", idea_id);
+                    itIdeaDetail.putExtra("content", content);
                     startActivity(itIdeaDetail);
                     overridePendingTransition(0, 0);
                     finish();
 
-                    return;
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                return;
             }
-
-            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
-            return;
+            // Error 상황
+            else {
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
-
 
     }
 

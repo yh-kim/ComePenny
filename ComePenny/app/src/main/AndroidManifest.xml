@@ -39,6 +39,8 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activities.AdjustWriteActivity"></activity>
 
     </application>
 

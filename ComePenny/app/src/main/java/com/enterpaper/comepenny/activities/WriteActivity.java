@@ -35,10 +35,10 @@ import java.util.List;
  */
 public class WriteActivity extends Activity {
     Toolbar mToolBar;
-    int booth_id;
+    int booth_id,idea_id_re;
     ImageView btn_write_back, btn_write_write;
     EditText edit_content;
-    String content, user_id;
+    String content, user_id,content1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class WriteActivity extends Activity {
         booth_id = intent.getExtras().getInt("booth_id");
 
         user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
+
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
 
