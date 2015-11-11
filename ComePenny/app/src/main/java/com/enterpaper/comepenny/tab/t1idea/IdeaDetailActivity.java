@@ -1,7 +1,6 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,8 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -22,13 +19,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.AdjustWriteActivity;
-import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
@@ -53,6 +48,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
+    int commentDelPosition;
     boolean is_scroll = true;
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
@@ -323,6 +319,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                commentDelPosition = position-1;
               user_email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
 
                 Log.i("user_email", user_email.toString());
@@ -1101,8 +1098,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                 http_post = new HttpPost("http://54.199.176.234/api/delete_comment.php");
 
+                int id = arr_list.get(commentDelPosition).getComment_id();
+
                 // 데이터 담음
-                name_value.add(new BasicNameValuePair("comment_id", comment_id + ""));
+                name_value.add(new BasicNameValuePair("comment_id", id + ""));
 
                 UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
                 http_post.setEntity(entityRequest);
@@ -1144,9 +1143,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     jObject.getInt("err");
 
                     new NetworkGetIdeainfo().execute("");
-                    arr_list.clear();
-                    new NetworkGetCommentList().execute("");
-                    lvIdeaDetailComment.smoothScrollToPosition(0);
+                    arr_list.remove(commentDelPosition);
+                    adapters.notifyDataSetChanged();
 
 
                     return;
