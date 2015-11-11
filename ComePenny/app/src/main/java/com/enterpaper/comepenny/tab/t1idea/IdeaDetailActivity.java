@@ -66,7 +66,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     int pick_boolean = 0;
     View header;
     int idea_id, booth_id;
-    String email, content, user_id;
+    String email, content, user_id,user_email,writer_email;
     AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
@@ -104,9 +104,31 @@ public class IdeaDetailActivity extends ActionBarActivity {
         // 액션 리스너 생성
         initializeListener();
 
-        new NetworkGetIdeainfo().execute();
+        //      new NetworkGetIdeainfo().execute();
         new NetworkGetCommentList().execute();
 
+    }
+
+
+    //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    public void onResume() {
+        super.onResume();
+
+        //초기화 & 쓰레드 실행
+        initializationContent();
+
+    }
+
+    //Initlist (초기화 메소드)
+    private void initializationContent() {
+        //초기화
+        tv_ideaoriginal.setText("");
+
+        //쓰레드 실행
+
+        new NetworkGetIdeainfo().execute("");
+
+        return;
     }
 
 
@@ -293,13 +315,52 @@ public class IdeaDetailActivity extends ActionBarActivity {
         });
 
 
-        lvIdeaDetailComment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        lvIdeaDetailComment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+              user_email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
 
+                Log.i("user_email", user_email.toString());
+                Log.i("write_email",   writer_email.toString());
+               if(user_email.equals(  writer_email.toString())) {
+                   final CharSequence[] items = {"댓글 수정하기", "댓글 삭제하기"};
+
+                   AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
+
+                   // 여기서 부터는 알림창의 속성 설정
+                   builder.setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
+                       public void onClick(DialogInterface dialog, int index) {
+                           // int형으로 조건 지정
+                           switch (index) {
+                               case 0:
+                                   Toast.makeText(getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
+
+                                   break;
+                               case 1:
+                                   Toast.makeText(getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
+
+
+                                   break;
+
+                               default:
+                                   dialog.cancel();
+                                   break;
+                           }
+
+                       }
+                   });
+
+                   AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                   dialog.show();    // 알림창 띄우기
+               }
+
+
+
+
+
+
+                return false;
             }
-
         });
 
         lvIdeaDetailComment.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -323,69 +384,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
         });
 
     }
-//
-//    //dialog
-//    private AlertDialog createDialog() {
-//        final View innerView = getLayoutInflater().inflate(R.layout.idea_dialog, null);
-//        TableRow row1 = (TableRow) innerView.findViewById(R.id.row_rewrite);
-//        TableRow row2 = (TableRow) innerView.findViewById(R.id.row_del);
-//
-//        row1.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//                new NetworkIdeaAdjustWrite().execute();
-//
-//            }
-//        });
-//        row2.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
-//                builder.setTitle("삭제 확인")        // 제목 설정
-//                        .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
-//                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
-//                        .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-//                            // 확인 버튼 클릭시 설정
-//                            public void onClick(DialogInterface dialog, int whichButton) {
-//                                new NetworkIdeaDel().execute();
-//                                finish();
-//
-//                            }
-//                        })
-//                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//                            // 취소 버튼 클릭시 설정
-//                            public void onClick(DialogInterface dialog, int whichButton) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//
-//                AlertDialog dialog = builder.create();    // 알림창 객체 생성
-//                dialog.show();    // 알림창 띄우기
-//
-//
-//                //new NetworkIdeaDel().execute();
-//
-//            }
-//        });
-//
-//        AlertDialog.Builder ab = new AlertDialog.Builder(this);
-//        ab.setView(innerView);
-//        ab.setCancelable(true);
-//        Dialog mDialog = ab.create();
-//        //dialog크기조절
-//
-//        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-//        params.copyFrom(mDialog.getWindow().getAttributes());
-//        params.width = 800;
-//        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-//        mDialog.show();
-//        Window window = mDialog.getWindow();
-//        window.setAttributes(params);
-//        return ab.create();
-//    }
-//
 
     @Override
     public void finish() {
@@ -668,10 +666,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
 
                         String content = obj_boothIdeas.getString("comment");
-                        String getemail = obj_boothIdeas.getString("email");
+                        writer_email = obj_boothIdeas.getString("email");
 
 
-                        byte[] mailarray = getemail.getBytes();
+                        byte[] mailarray = writer_email.getBytes();
                         String email_view = new String(mailarray, 0, 3);
                         // int email_length = mailarray.length;
                         String hide_email = email_view + "*****";
@@ -1035,7 +1033,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     itIdeaDetail.putExtra("content", content);
                     startActivity(itIdeaDetail);
                     overridePendingTransition(0, 0);
-                    finish();
+                    // finish();
 
 
                 } catch (JSONException e) {
