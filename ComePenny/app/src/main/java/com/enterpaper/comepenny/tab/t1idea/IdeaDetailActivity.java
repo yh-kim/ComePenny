@@ -65,7 +65,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del;
     int pick_boolean = 0;
     View header;
-    int idea_id, booth_id;
+    int idea_id, booth_id,comment_id;
     String email, content, user_id,user_email,writer_email;
     AlertDialog mDialog;
     CommentAdapter adapters;
@@ -124,9 +124,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
         //초기화
         tv_ideaoriginal.setText("");
 
+
+
         //쓰레드 실행
 
         new NetworkGetIdeainfo().execute("");
+        new NetworkGetCommentList().execute("");
+
+
 
         return;
     }
@@ -337,7 +342,28 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                                    break;
                                case 1:
-                                   Toast.makeText(getApplicationContext(), "삭제", Toast.LENGTH_SHORT).show();
+
+                                   AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
+                                   builder.setTitle("삭제 확인")        // 제목 설정
+                                           .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
+                                           .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                                           .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                               // 확인 버튼 클릭시 설정
+                                               public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                   new NetworkCommentDel().execute();
+                                                  // finish();
+
+                                               }
+                                           })
+                                           .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                               // 취소 버튼 클릭시 설정
+                                               public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                   dialog_del.cancel();
+                                               }
+                                           });
+
+                                   AlertDialog dialog_del = builder.create();    // 알림창 객체 생성
+                                   dialog_del.show();    // 알림창 띄우기
 
 
                                    break;
@@ -664,6 +690,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
+                        comment_id = obj_boothIdeas.getInt("id");
 
                         String content = obj_boothIdeas.getString("comment");
                         writer_email = obj_boothIdeas.getString("email");
@@ -681,7 +708,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem("img", content, hide_email, comment_time);
+                        CommentItem items = new CommentItem("img", content, hide_email, comment_time,comment_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         //                      arr_list.add(items);
@@ -834,7 +861,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
 
                     Edit_reple.setText("");
-
                     jObject.getInt("err");
 
                     //arr_list.clear();
@@ -1049,6 +1075,94 @@ public class IdeaDetailActivity extends ActionBarActivity {
         }
 
     }
+
+
+    //댓글 삭제
+    private class NetworkCommentDel extends AsyncTask<String, String, Integer> {
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout", 7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/delete_comment.php");
+
+                // 데이터 담음
+                name_value.add(new BasicNameValuePair("comment_id", comment_id + ""));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e) {
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+
+            // 정상적으로 글쓰기
+            if (result == 0) {
+                try {
+                    jObject.getInt("err");
+
+                    new NetworkGetIdeainfo().execute("");
+                    arr_list.clear();
+                    new NetworkGetCommentList().execute("");
+                    lvIdeaDetailComment.smoothScrollToPosition(0);
+
+
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+    }
+
+
 
 
 }
