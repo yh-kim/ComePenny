@@ -369,7 +369,8 @@ public class BoothDetailActivity extends ActionBarActivity {
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
                         int like_num = obj_boothIdeas.getInt("like_num");
-
+                        int booth_id = obj_boothIdeas.getInt("booth_id");
+                        String img_url = booth_id+"";
                         String getemail = obj_boothIdeas.getString("email");
 
 
@@ -381,7 +382,7 @@ public class BoothDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num,idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, hide_email, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);

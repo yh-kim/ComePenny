@@ -58,7 +58,6 @@ public class IdeaFragment extends Fragment {
     List<IdeaPopularListItem> items = new ArrayList<>();
     LinearLayoutManager layoutmanager;
     private Intent intent = new Intent();
-    String img_url;
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -227,7 +226,7 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-                       img_url = booth_id+"";
+                         String img_url = booth_id+"";
                         String booth_name = obj.getString("name");
 
 
@@ -340,7 +339,8 @@ public class IdeaFragment extends Fragment {
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
                         int booth_id = obj_boothIdeas.getInt("booth_id");
-                        img_url = booth_id+"";
+                        String img_url = booth_id+"";
+
                         int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");

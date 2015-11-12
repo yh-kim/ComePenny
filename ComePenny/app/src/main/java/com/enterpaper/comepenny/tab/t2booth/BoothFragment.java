@@ -164,7 +164,7 @@ public class BoothFragment extends Fragment {
                         int booth_id = obj.getInt("id");
                         int ideaNum = obj.getInt("idea_num");
                         int likeNum =obj.getInt("like_num");
-                       img_url = booth_id+"";
+                        img_url = booth_id+"";
 
                         String booth_name = obj.getString("name");
 
