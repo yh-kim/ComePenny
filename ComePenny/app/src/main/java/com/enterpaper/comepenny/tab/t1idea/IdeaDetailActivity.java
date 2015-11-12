@@ -1,16 +1,23 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -52,21 +59,53 @@ public class IdeaDetailActivity extends ActionBarActivity {
     boolean is_scroll = true;
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
-    private ScrollView scrollView_mainidea_detail;
     Toolbar mToolBar;
-    ImageView btn_ideaback;
+    ImageView btn_ideaback, iv_comment_basic;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
-    EditText Edit_reple;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del;
+    EditText Edit_reple, Edit_reple_adjust;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del, btn_reple_update, btn_reple_cancel;
     int pick_boolean = 0;
     View header;
-    int idea_id, booth_id,comment_id;
-    String email, content, user_id,user_email,writer_email;
+    int idea_id, booth_id, comment_id;
+    String email, content, user_id, user_email, writer_email, content_idea,content_reple;
     AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
-    Activity Capture;
+    boolean is_adjust_check = false;
+    private ScrollView scrollView_mainidea_detail;
+
+    public static String formatTimeString(String str) throws ParseException {
+
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss");
+        java.util.Date date = format.parse(str);
+
+        long curTime = System.currentTimeMillis();
+        long regTime = date.getTime();
+        long diffTime = (curTime - regTime) / 1000;
+
+        String msg = null;
+        if (diffTime < TIME_MAXIMUM.SEC) {
+// sec
+            msg = "방금 전";
+        } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
+// min
+            msg = diffTime + "분 전";
+        } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
+// hour
+            msg = (diffTime) + "시간 전";
+        } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
+// day
+            msg = (diffTime) + "일 전";
+        } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
+// day
+            msg = (diffTime) + "달 전";
+        } else {
+            msg = str;
+        }
+        return msg;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +144,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
     public void onResume() {
         super.onResume();
@@ -119,7 +157,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     private void initializationContent() {
         //초기화
         tv_ideaoriginal.setText("");
-
+        arr_list.clear();
+        offset=0;
 
 
         //쓰레드 실행
@@ -128,51 +167,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
         new NetworkGetCommentList().execute("");
 
 
-
         return;
     }
-
-
-    private static class TIME_MAXIMUM {
-        public static final int SEC = 60;
-        public static final int MIN = 60;
-        public static final int HOUR = 24;
-        public static final int DAY = 30;
-        public static final int MONTH = 12;
-    }
-
-    public static String formatTimeString(String str) throws ParseException {
-
-        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss");
-        java.util.Date date = format.parse(str);
-
-        long curTime = System.currentTimeMillis();
-        long regTime = date.getTime();
-        long diffTime = (curTime - regTime) / 1000;
-
-        String msg = null;
-        if (diffTime < TIME_MAXIMUM.SEC) {
-// sec
-            msg = "방금 전";
-        } else if ((diffTime /= TIME_MAXIMUM.SEC) < TIME_MAXIMUM.MIN) {
-// min
-            msg = diffTime + "분 전";
-        } else if ((diffTime /= TIME_MAXIMUM.MIN) < TIME_MAXIMUM.HOUR) {
-// hour
-            msg = (diffTime) + "시간 전";
-        } else if ((diffTime /= TIME_MAXIMUM.HOUR) < TIME_MAXIMUM.DAY) {
-// day
-            msg = (diffTime) + "일 전";
-        } else if ((diffTime /= TIME_MAXIMUM.DAY) < TIME_MAXIMUM.MONTH) {
-// day
-            msg = (diffTime) + "달 전";
-        } else {
-            msg = str;
-        }
-        return msg;
-    }
-
 
     // layout
     private void initializeLayout() {
@@ -319,67 +315,80 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                commentDelPosition = position-1;
-              user_email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
+                commentDelPosition = position - 1;
+                user_email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
 
                 Log.i("user_email", user_email.toString());
-                Log.i("write_email",   writer_email.toString());
-               if(user_email.equals(  writer_email.toString())) {
-                   final CharSequence[] items = {"댓글 수정하기", "댓글 삭제하기"};
+                Log.i("write_email", writer_email.toString());
+                if (user_email.equals(writer_email.toString())) {
+                    final CharSequence[] items = {"댓글 수정하기", "댓글 삭제하기"};
 
-                   AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
+                    AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
 
-                   // 여기서 부터는 알림창의 속성 설정
-                   builder.setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
-                       public void onClick(DialogInterface dialog, int index) {
-                           // int형으로 조건 지정
-                           switch (index) {
-                               case 0:
-                                   Toast.makeText(getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
+                    // 여기서 부터는 알림창의 속성 설정
+                    builder.setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
+                                public void onClick(DialogInterface dialog, int index) {
+                                    // int형으로 조건 지정
+                                    switch (index) {
+                                        case 0:
+                                            //  Toast.makeText(getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
+                                            mDialog = Comment_createDialog();
 
-                                   break;
-                               case 1:
+                                            break;
+                                        case 1:
 
-                                   AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
-                                   builder.setTitle("삭제 확인")        // 제목 설정
-                                           .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
-                                           .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
-                                           .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                                               // 확인 버튼 클릭시 설정
-                                               public void onClick(DialogInterface dialog_del, int whichButton) {
-                                                   new NetworkCommentDel().execute();
-                                                  // finish();
+                                            AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
+                                            builder.setTitle("삭제 확인")        // 제목 설정
+                                                    .
 
-                                               }
-                                           })
-                                           .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                               // 취소 버튼 클릭시 설정
-                                               public void onClick(DialogInterface dialog_del, int whichButton) {
-                                                   dialog_del.cancel();
-                                               }
-                                           });
+                                                            setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
 
-                                   AlertDialog dialog_del = builder.create();    // 알림창 객체 생성
-                                   dialog_del.show();    // 알림창 띄우기
+                                                    .
 
+                                                            setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
 
-                                   break;
+                                                    .
 
-                               default:
-                                   dialog.cancel();
-                                   break;
-                           }
+                                                            setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                                                        // 확인 버튼 클릭시 설정
+                                                                        public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                                            new NetworkCommentDel().execute();
+                                                                            // finish();
 
-                       }
-                   });
+                                                                        }
+                                                                    }
 
-                   AlertDialog dialog = builder.create();    // 알림창 객체 생성
-                   dialog.show();    // 알림창 띄우기
-               }
+                                                            )
+                                                    .
 
+                                                            setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                                                        // 취소 버튼 클릭시 설정
+                                                                        public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                                            dialog_del.cancel();
+                                                                        }
+                                                                    }
 
+                                                            );
+
+                                            AlertDialog dialog_del = builder.create();    // 알림창 객체 생성
+                                            dialog_del.show();    // 알림창 띄우기
 
 
+                                            break;
+
+                                        default:
+                                            dialog.cancel();
+                                            break;
+                                    }
+
+                                }
+                            }
+
+                    );
+
+                    AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                    dialog.show();    // 알림창 띄우기
+                }
 
 
                 return false;
@@ -394,13 +403,15 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //서버로부터 받아온 List개수를 count
-                //지금까지 받아온 개수를 offset
-                if (count != 0 && offset % row_cnt == 0) {
-                    if (is_scroll) {
-                        //스크롤 멈추게 하는거
-                        is_scroll = false;
-                        new NetworkGetCommentList().execute("");
+                if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+                    //서버로부터 받아온 List개수를 count
+                    //지금까지 받아온 개수를 offset
+                    if (count != 0 && offset>3 && offset % row_cnt == 0) {
+                        if (is_scroll) {
+                            //스크롤 멈추게 하는거
+                            is_scroll = false;
+                            new NetworkGetCommentList().execute("");
+                        }
                     }
                 }
             }
@@ -415,6 +426,96 @@ public class IdeaDetailActivity extends ActionBarActivity {
         overridePendingTransition(0, 0);
     }
 
+    //dialog
+    private AlertDialog Comment_createDialog() {
+        final View innerView = getLayoutInflater().inflate(R.layout.dialog_comment, null);
+        iv_comment_basic = (ImageView) innerView.findViewById(R.id.iv_comment_basic);
+        Edit_reple_adjust = (EditText) innerView.findViewById(R.id.Edit_reple_adjust);
+        btn_reple_update = (TextView) innerView.findViewById(R.id.btn_reple_update);
+        btn_reple_cancel = (TextView) innerView.findViewById(R.id.btn_reple_cancel);
+
+
+        AlertDialog.Builder ab = new AlertDialog.Builder(this);
+        ab.setView(innerView);
+        //ab.setTitle("댓글 수정하기");
+        ab.setCancelable(true);
+
+        final Dialog mDialog = ab.create();
+        ///클릭리스너
+        Edit_reple_adjust.setText(arr_list.get(commentDelPosition).getComment_content());
+        Edit_reple_adjust.setSelection(Edit_reple_adjust.length()); //커서를 끝에 위치!
+        Edit_reple_adjust.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.i("content", arr_list.get(commentDelPosition).getComment_content());
+                Log.i("s Data", s.toString());
+                if (arr_list.get(commentDelPosition).getComment_content().equals(s.toString())) {
+                   // btn_reple_update.setBackgroundResource(R.drawable.);
+                    btn_reple_update.setBackgroundColor(Color.rgb(189, 189, 189));
+                    is_adjust_check = false;
+
+                } else {
+                    btn_reple_update.setBackgroundColor(Color.WHITE);
+                    is_adjust_check = true;
+
+                }
+                return;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        btn_reple_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                content_reple = Edit_reple_adjust.getText().toString().trim();
+                if (content_reple.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "내용을 입력하세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!is_adjust_check) {
+                    return;
+                }
+
+                new NetworkCommentAdjustWrite().execute("");
+                mDialog.cancel();
+
+            }
+        });
+        btn_reple_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.cancel();
+            }
+        });
+
+        //dialog크기조절
+        WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+        params.copyFrom(mDialog.getWindow().getAttributes());
+        // params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        // params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        mDialog.show();
+        //Window window = mDialog.getWindow();
+        //window.setAttributes(params);
+        return ab.create();
+
+    }
+
+    private static class TIME_MAXIMUM {
+        public static final int SEC = 60;
+        public static final int MIN = 60;
+        public static final int HOUR = 24;
+        public static final int DAY = 30;
+        public static final int MONTH = 12;
+    }
 
     // 아이디어 헤더정보가져오기 - HTTP연결 Thread 생성 클래스
     class NetworkGetIdeainfo extends AsyncTask<String, String, Integer> {
@@ -498,7 +599,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     String idea_user_id = jObject.get("user_id").toString();
                     String booth_name = jObject.get("name").toString();
-                    String content = jObject.get("content").toString();
+                    content_idea = jObject.get("content").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
                     int like = jObject.getInt("like");
@@ -519,7 +620,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                     tv_Writer.setText(hide_email);
                     tv_logo_name.setText(booth_name);
-                    tv_ideaoriginal.setText(content);
+                    tv_ideaoriginal.setText(content_idea);
                     tv_view.setText(hit + "");
                     tv_like.setText(like_num + "");
                     tv_time.setText(time);
@@ -552,7 +653,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
             }
         }
     }
-
 
     //like정보가져오기 - HTTP연결 Thread 생성 클래스
     class NetworkGetlike extends AsyncTask<String, String, Integer> {
@@ -689,7 +789,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
                         comment_id = obj_boothIdeas.getInt("id");
 
-                        String content = obj_boothIdeas.getString("comment");
+                        content = obj_boothIdeas.getString("comment");
                         writer_email = obj_boothIdeas.getString("email");
 
 
@@ -705,12 +805,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem("img", content, hide_email, comment_time,comment_id);
+                        CommentItem items = new CommentItem("img", content, hide_email, comment_time, comment_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         //                      arr_list.add(items);
                         arr_list.add(0, items);
                     }
+
+                    Log.i("sssssss","["+arr_list.size()+"]");
 
                     // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                     adapters.notifyDataSetChanged();
@@ -787,9 +889,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-
     //
     private class NetworkaddComment extends AsyncTask<String, String, Integer> {
+        String comment;
         // JSON 받아오는 객체
         private JSONObject jObject;
 
@@ -811,7 +913,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
                 http_post = new HttpPost("http://54.199.176.234/api/write_comment.php");
-                String comment = Edit_reple.getText().toString().trim();
+                comment = Edit_reple.getText().toString().trim();
                 String user_id = DataUtil.getAppPreferences(IdeaDetailActivity.this, "user_id");
 
                 // 데이터 담음
@@ -860,16 +962,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     Edit_reple.setText("");
                     jObject.getInt("err");
 
-                    //arr_list.clear();
-                    new NetworkGetCommentList().execute();
+                    initializationContent();
 
-                    lvIdeaDetailComment.smoothScrollToPosition(0);
-
-
-                    int comment_num = jObject.getInt("comment_num");
-
-
-                    tv_commentcount.setText(comment_num + "");
+                    //new NetworkGetCommentList().execute("");
 
 
                     //키보드숨기기
@@ -886,7 +981,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
     }
-
+//    ///아이디어 수정
 
     //아이디어 삭제
     private class NetworkIdeaDel extends AsyncTask<String, String, Integer> {
@@ -967,7 +1062,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
     }
-//    ///아이디어 수정
 
     private class NetworkIdeaAdjustWrite extends AsyncTask<String, String, Integer> {
         private String err_msg = "Network  AdjustWrite error.";
@@ -1073,7 +1167,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-
     //댓글 삭제
     private class NetworkCommentDel extends AsyncTask<String, String, Integer> {
         // JSON 받아오는 객체
@@ -1143,8 +1236,16 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     jObject.getInt("err");
 
                     new NetworkGetIdeainfo().execute("");
-                    arr_list.remove(commentDelPosition);
+                 //   arr_list.remove(commentDelPosition);
+
+                    for(int i =commentDelPosition;i<arr_list.size()-1; i++){
+                        arr_list.set(i,arr_list.get(i+1));
+
+                    }
+                    arr_list.remove(arr_list.size()-1);
+                    Log.i("tttttt", "[" + arr_list.size() + "]");
                     adapters.notifyDataSetChanged();
+
 
 
                     return;
@@ -1160,7 +1261,114 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
+    ///댓글수정
+    private class NetworkCommentAdjustWrite extends AsyncTask<String, String, Integer> {
+        private String err_msg = "Network  AdjustComment error.";
+
+        // JSON에서 받아오는 객체
+        private JSONObject jObject;
+
+        // AsyncTask 실행되는거
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            return processing();
+        }
+
+        private Integer processing() {
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+                // 요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
+                http_client.getParams().setParameter("http.connection.timeout",
+                        7000);
+
+                // data를 Post방식으로 보냄
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
 
 
+                http_post = new HttpPost(
+                        "http://54.199.176.234/api/modify_comment.php");
+                int id = arr_list.get(commentDelPosition).getComment_id();
+             //   int id = comment_id;
+                Log.i("comment_id",id+"");
+                content_reple = Edit_reple_adjust.getText().toString().trim();
+                Log.i("content_reple",content_reple);
+
+
+                //서버에 보낼 데이터
+                // data를 담음
+                name_value.add(new BasicNameValuePair("comment_id", id + ""));
+                name_value.add(new BasicNameValuePair("comment", content_reple));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
+                        name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+                // 실행
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(
+                                response.getEntity().getContent(), "UTF-8"), 8);
+                StringBuilder builder = new StringBuilder();
+                for (String line = null; (line = reader.readLine()) != null; ) {
+                    builder.append(line).append("\n");
+                }
+
+                // 우리가 사용하는 결과
+//                jObject = new JSONObject(builder.toString());
+                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
+
+                // err가 0이면 정상적인 처리
+                // err가 0이 아닐시 오류발생
+                if (jObject.getInt("err") > 0) {
+                    return jObject.getInt("err");
+                }
+            } catch (Exception e) {
+                // 오류발생시
+                Log.i(err_msg, e.toString());
+                return 100;
+            }
+            return 0;
+        }
+
+        // AsyncTask 실행완료 후에 구동 (Data를 받은것을 Activity에 갱신하는 작업을 하면돼)
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+
+            // 지금 코드에서는 result가 0이면 정상적인 상황
+            if (result == 0) {
+                Log.i("Network 수정 할 reple Data", jObject.toString());
+
+
+                // jObject에서 데이터를 뽑아내자
+                try {
+
+                    jObject.getInt("err");
+                   // new NetworkGetCommentList().execute("");
+                    arr_list.get(commentDelPosition).setComment_content(content_reple);
+                    adapters.notifyDataSetChanged();
+//                    overridePendingTransition(0, 0);
+
+                    return;
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return;
+            }
+            // Error 상황
+            else {
+                Toast.makeText(getApplicationContext(), "Error",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
 
 }

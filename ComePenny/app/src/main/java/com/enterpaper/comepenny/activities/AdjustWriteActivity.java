@@ -89,9 +89,10 @@ public class AdjustWriteActivity extends Activity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.i("s Data", s.toString());
+                Log.i("contentold Data", content_old);
                 if (content_old.equals(s.toString())) {
 
-                    btn_adjust_write.setBackgroundResource(R.drawable.detail_pickbutton_after);
+                    btn_adjust_write.setBackgroundResource(R.drawable.write_gray);
                     is_adjust_check = false;
 
                 } else {

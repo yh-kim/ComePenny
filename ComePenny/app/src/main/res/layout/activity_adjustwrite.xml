@@ -42,7 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:layout_marginRight="6dp"
-            android:src="@drawable/detail_pickbutton_after" />
+            android:background="@drawable/write_gray"
+            />
+
     </android.support.v7.widget.Toolbar>
 
 

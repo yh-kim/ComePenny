@@ -131,20 +131,20 @@ public class BoothDetailActivity extends ActionBarActivity {
             }
         });
 
-        btnBoothInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lyBoothInfo.setVisibility(View.VISIBLE);
-            }
-        });
-
-        btnBoothInfoClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                lyBoothInfo.setVisibility(View.INVISIBLE);
-
-            }
-        });
+//        btnBoothInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lyBoothInfo.setVisibility(View.VISIBLE);
+//            }
+//        });
+//
+//        btnBoothInfoClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                lyBoothInfo.setVisibility(View.INVISIBLE);
+//
+//            }
+//        });
 
         btnBoothBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,12 +175,12 @@ public class BoothDetailActivity extends ActionBarActivity {
     // layout
     private void initializeLayout() {
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-        booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
+       // booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
         booth_main_idea = (TextView) header.findViewById(R.id.booth_main_idea);
-        lyBoothInfo = (LinearLayout) header.findViewById(R.id.booth_info);
+       // lyBoothInfo = (LinearLayout) header.findViewById(R.id.booth_info);
         btnBoothBack = (ImageView) findViewById(R.id.btn_booth_back);
-        btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
-        btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
+       // btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
+       // btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
         img_booth = (ImageView)header.findViewById(R.id.img_booth);
 
@@ -189,10 +189,10 @@ public class BoothDetailActivity extends ActionBarActivity {
     //취소버튼 눌렀을 때
     @Override
     public void onBackPressed() {
-        if (lyBoothInfo.getVisibility() == View.VISIBLE) {
-            lyBoothInfo.setVisibility(View.INVISIBLE);
-            return;
-        }
+//        if (lyBoothInfo.getVisibility() == View.VISIBLE) {
+//            lyBoothInfo.setVisibility(View.INVISIBLE);
+//            return;
+//        }
         super.onBackPressed();
     }
 
@@ -256,8 +256,8 @@ public class BoothDetailActivity extends ActionBarActivity {
 
                     String logo_name = jObject.get("name").toString();
                     tv_logo_name.setText(logo_name);
-                    String explanation = jObject.getString("explanation");
-                    booth_explanation.setText(explanation);
+                  //  String explanation = jObject.getString("explanation");
+                   // booth_explanation.setText(explanation);
                     String idea_num = jObject.getString("idea_num");
                     booth_main_idea.setText(idea_num);
                         img_url = booth_id+"";
