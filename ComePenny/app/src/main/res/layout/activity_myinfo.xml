@@ -57,13 +57,15 @@
                 android:longClickable="false"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_my_info_user"
+
+                <com.enterpaper.comepenny.util.CircularImageView
                     android:layout_width="136dp"
                     android:layout_height="136dp"
+                    android:src="@drawable/myinfo_userimage"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/myinfo_userimage" />
+                    android:id="@+id/img_my_info_user"/>
+
 
                 <TextView
                     android:id="@+id/tv_my_info_user_mail"
