@@ -112,6 +112,29 @@ public class MyinfoLikeFragment extends Fragment {
     }
 
 
+    //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    public void onResume() {
+        super.onResume();
+
+        //초기화 & 쓰레드 실행
+        initializationList();
+
+    }
+
+    //Initlist (초기화 메소드)
+    public void initializationList() {
+        //초기화
+        is_scroll = true;
+        offset = 0;
+        mydataList.clear();
+
+        //쓰레드 실행
+
+        new NetworkGetMylikeList().execute("");
+        return;
+    }
+
+
     // mylike list HTTP연결 Thread 생성 클래스
     class NetworkGetMylikeList extends AsyncTask<String, String, Integer> {
         private String err_msg = "Network error.";

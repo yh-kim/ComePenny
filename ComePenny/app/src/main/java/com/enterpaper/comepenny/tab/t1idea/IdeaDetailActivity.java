@@ -33,6 +33,7 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.AdjustWriteActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -60,7 +61,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
     Toolbar mToolBar;
-    ImageView btn_ideaback, iv_comment_basic;
+    ImageView btn_ideaback, iv_comment_basic,iv_boothicon;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple, Edit_reple_adjust;
@@ -74,7 +75,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ArrayList<CommentItem> arr_list = new ArrayList<>();
     boolean is_adjust_check = false;
     private ScrollView scrollView_mainidea_detail;
-
+    ImageLoader loader;
     public static String formatTimeString(String str) throws ParseException {
 
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
@@ -111,7 +112,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idea_detail);
-
+        loader = ImageLoader.getInstance();
         //idea_id받기
         Intent itReceive = getIntent();
         idea_id = itReceive.getExtras().getInt("idea_id");
@@ -188,7 +189,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         btn_reple = (TextView) header.findViewById(R.id.btn_reple);
-
+        iv_boothicon = (ImageView)header.findViewById(R.id.iv_boothicon);
         // 리스트부분
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
@@ -599,6 +600,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     String idea_user_id = jObject.get("user_id").toString();
                     String booth_name = jObject.get("name").toString();
+                    int booth_id = jObject.getInt("booth_id");
+                    String img_url = booth_id+"";
                     content_idea = jObject.get("content").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
@@ -625,6 +628,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     tv_like.setText(like_num + "");
                     tv_time.setText(time);
                     tv_commentcount.setText(comment_num + "");
+                    loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + img_url + ".png", iv_boothicon);
 
                     if (like == 1) {
                         pick_boolean = 1;

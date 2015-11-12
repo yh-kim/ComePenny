@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
     private LayoutInflater inflater = null;
     //Context -> Activity Class의 객체
     private Context context = null;
+    ImageLoader loader;
 
     public IdeaAdapter(Context context, int resource, ArrayList<IdeaListItem> objects) {
         super(context, resource, objects);
@@ -30,6 +32,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         //resource는 row_xxx.xml 의 정보
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        loader = ImageLoader.getInstance();
     }
 
 
@@ -70,6 +73,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         holder.Email.setText(item.getEmail());
         holder.ViewCount.setText(item.getViewCount()+"");
         holder.LikeCount.setText(item.getLikeCount()+"");
+        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);
 
         return convertView;
     }

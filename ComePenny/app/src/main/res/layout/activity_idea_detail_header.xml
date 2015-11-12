@@ -130,14 +130,17 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_boothicon"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentRight="true"
+                <com.enterpaper.comepenny.util.CircularImageView
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center"
                     android:paddingRight="6dp"
-                    android:src="@drawable/ct" />
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/iv_boothicon"
+                    android:layout_alignParentRight="true"/>
+
+
             </RelativeLayout>
 
 

@@ -67,12 +67,15 @@ public class IdeaFragment extends Fragment {
         return fragment;
     }
 
+
+
+
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
     public void onResume() {
         super.onResume();
 
         //초기화 & 쓰레드 실행
-//        initializationList();
+        initializationList();
 
     }
 
@@ -229,7 +232,7 @@ public class IdeaFragment extends Fragment {
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex4,img_url,booth_name);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex11,img_url,booth_name);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);
@@ -336,7 +339,8 @@ public class IdeaFragment extends Fragment {
                     JSONArray ret_arr = jObjects.getJSONArray("ret");
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
-
+                        int booth_id = obj_boothIdeas.getInt("booth_id");
+                        img_url = booth_id+"";
                         int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
@@ -348,7 +352,7 @@ public class IdeaFragment extends Fragment {
                         String hide_email = email_view +"*****";
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem("img", content, hide_email, hit, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, hide_email, hit, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
