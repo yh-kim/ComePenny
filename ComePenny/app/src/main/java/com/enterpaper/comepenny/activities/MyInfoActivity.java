@@ -1,10 +1,6 @@
 package com.enterpaper.comepenny.activities;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,26 +17,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.enterpaper.comepenny.R;
-import com.enterpaper.comepenny.tab.ComePennyFragmentPagerAdapter;
 import com.enterpaper.comepenny.tab.ComePennyMyinfoFragmentPagerAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
-import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
-import com.enterpaper.comepenny.util.BackPressCloseHandler;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
@@ -48,16 +32,12 @@ import com.enterpaper.comepenny.util.SetFont;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -433,7 +413,7 @@ public class MyInfoActivity extends ActionBarActivity {
             else if(result == 0){
                 //정상처리
                 Toast.makeText(getApplicationContext(), "저장 되었습니다", Toast.LENGTH_SHORT).show();
-                finish();
+//                finish();
             }
         }
 
@@ -485,8 +465,9 @@ public class MyInfoActivity extends ActionBarActivity {
 
 
                 //우리가 사용하는 결과
-              //  jObject = new JSONObject(builder.toString());
-                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}")));
+                jObject = new JSONObject(builder.toString());
+//                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
+                Log.i("test22",builder.toString());
 
                 //err가 0이면 정상적인 처리
                 //err가 0이 아닐시 오류발생
