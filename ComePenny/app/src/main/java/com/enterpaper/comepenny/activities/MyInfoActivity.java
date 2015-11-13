@@ -466,8 +466,7 @@ public class MyInfoActivity extends ActionBarActivity {
 
                 //우리가 사용하는 결과
                 jObject = new JSONObject(builder.toString());
-//                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
-                Log.i("test22",builder.toString());
+//                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}")));
 
                 //err가 0이면 정상적인 처리
                 //err가 0이 아닐시 오류발생
@@ -479,7 +478,7 @@ public class MyInfoActivity extends ActionBarActivity {
                 Log.i("test1","55555555555");
             } catch (Exception e) {
                 //오류발생시
-                Log.i(err_msg, e.toString());
+                Log.e(err_msg, e.toString());
                 return 100;
             }
             return 0;
