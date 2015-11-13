@@ -68,7 +68,7 @@
                 android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 android:gravity="top"
-                android:hint=" 당신의 아이디어를 이야기해 보세요."
+                android:hint=" 당신의 특별한 글을 적어보세요."
                 android:textColor="#000000"
                 android:textColorHint="#b6b6b6"
                 android:textSize="15dp" />
