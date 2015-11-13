@@ -10,8 +10,8 @@
     <application
         android:name="com.enterpaper.comepenny.util.ApplicationClass"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@mipmap/homo_appicon"
+        android:label="호모띵쿠스"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
