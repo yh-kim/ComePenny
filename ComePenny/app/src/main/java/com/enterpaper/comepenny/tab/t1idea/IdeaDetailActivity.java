@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class IdeaDetailActivity extends ActionBarActivity {
     int row_cnt = 6;
@@ -76,7 +78,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     boolean is_adjust_check = false;
     private ScrollView scrollView_mainidea_detail;
     ImageLoader loader;
-
+    LinearLayout layout_bg,layout_write_bg,layout_reple;
     public static String formatTimeString(String str) throws ParseException {
 
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
@@ -179,7 +181,16 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
-
+        //////배경 랜덤 설정///////////
+//        layout_bg = (LinearLayout)header.findViewById(R.id.layout_bg);
+//        layout_write_bg = (LinearLayout)header.findViewById(R.id.layout_write_bg);
+//        layout_reple = (LinearLayout)findViewById(R.id.layout_reple);
+//        int background[] = {R.drawable.bg1,R.drawable.bg2,R.drawable.bg3,R.drawable.bg4};
+//        int idx = (int) (Math.random() * background.length);
+//       // layout_bg.setBackgroundResource(background[idx]);
+//        layout_reple.setBackgroundResource(background[idx]);
+       // layout_write_bg.setBackgroundResource(background[idx]);
+        ////////////////////
         scrollView_mainidea_detail = (ScrollView) header.findViewById(R.id.scrollView_mainidea_detail);
         btn_pick = (ImageButton) header.findViewById(R.id.btn_pick);
         tv_Writer = (TextView) header.findViewById(R.id.tv_Writer);
