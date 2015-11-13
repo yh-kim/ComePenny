@@ -17,12 +17,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+
+        <com.enterpaper.comepenny.util.CircularImageView
             android:id="@+id/iv_comment_basic"
-            android:src="@drawable/test_person"
+            android:background="@drawable/myinfo_userimage"
             android:layout_width="46dp"
             android:layout_height="46dp"
-            android:paddingLeft="5dp"/>
+            android:layout_marginLeft="3dp"
+           />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

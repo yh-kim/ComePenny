@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -32,12 +33,15 @@ import com.enterpaper.comepenny.util.SetFont;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.ByteArrayBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -64,35 +68,35 @@ public class MyInfoActivity extends ActionBarActivity {
     Toolbar myinfo_toolbar;
     ImageView btn_myinfo_back, img_myinfo_user;
     TextView tv_myinfo_user_mail;
-    ScrollView myinfo_scroll;
     PagerSlidingTabStrip tabsStrip_myinfo;
     Uri mImageCaptureUri;
-    Bitmap photo;
+    Bitmap photo = null;
     String content;
-
-    public static boolean copyFile(File srcFile, File destFile){
+    Uri uri;
+    String my_id,url;
+    public static boolean copyFile(File srcFile, File destFile) {
         boolean result = false;
         try {
             InputStream in = new FileInputStream(srcFile);
             try {
-                result = copyToFile(in,destFile);
+                result = copyToFile(in, destFile);
             } finally {
                 in.close();
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             return false;
         }
         return result;
     }
 
-    private static boolean copyToFile(InputStream inputStream, File destFile){
+    private static boolean copyToFile(InputStream inputStream, File destFile) {
         try {
             OutputStream out = new FileOutputStream(destFile);
             try {
                 byte[] buffer = new byte[4096];
                 int bytesRead;
-                while((bytesRead = inputStream.read(buffer)) >= 0){
-                    out.write(buffer,0,bytesRead);
+                while ((bytesRead = inputStream.read(buffer)) >= 0) {
+                    out.write(buffer, 0, bytesRead);
                 }
             } finally {
                 out.close();
@@ -141,44 +145,73 @@ public class MyInfoActivity extends ActionBarActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(MyInfoActivity.this);     // 여기서 this는 Activity의 this
 
-// 여기서 부터는 알림창의 속성 설정
-                builder.setTitle("프로필 사진 설정")        // 제목 설정
-                        .setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
-                            public void onClick(DialogInterface dialog, int index) {
+                // 여기서 부터는 알림창의 속성 설정
+                builder.setTitle("프로필 사진 설정").setItems(items, new DialogInterface.OnClickListener() {    // 목록 클릭시 설정
+                    public void onClick(DialogInterface dialog, int index) {
+                        switch (index) {
+                            case 0:
 
-                                switch (index) {
-                                    case 0:
-                                        Toast.makeText(getApplicationContext(), "기본이미지", Toast.LENGTH_SHORT).show();
-                                        break;
-                                    case 1:
-                                       // Toast.makeText(getApplicationContext(), "사진앨범", Toast.LENGTH_SHORT).show();
-                                             doTakeAlbumAction();
+                                doDelPhotoAcition();
+                                // Toast.makeText(getApplicationContext(), "기본이미지", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 1:
+                                // Toast.makeText(getApplicationContext(), "사진앨범", Toast.LENGTH_SHORT).show();
+                                doTakeAlbumAction();
 
-                                        break;
-                                    case 2:
-                                       // Toast.makeText(getApplicationContext(), "카메라", Toast.LENGTH_SHORT).show();
-                                             doTakePhotoAction();
-                                        break;
-
-                                }
-
-
-                            }
-                        });
-
+                                break;
+                            case 2:
+                                // Toast.makeText(getApplicationContext(), "카메라", Toast.LENGTH_SHORT).show();
+                                doTakePhotoAction();
+                                break;
+                        }
+                    }
+                });
                 AlertDialog dialog = builder.create();    // 알림창 객체 생성
                 dialog.show();    // 알림창 띄우기
-
-
             }
         });
-
-
     }
 
     private void initializeLayout() {
 
         img_myinfo_user = (ImageView) findViewById(R.id.img_my_info_user);
+
+        try{
+            //uri 주소를 String으로 가져옴
+            my_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
+            url = my_id + ".jpg";
+            uri = Uri.fromFile(new File(this.getExternalFilesDir(Environment.DIRECTORY_DCIM), url));
+            String full_path = uri.getPath();
+            Log.i("full path", full_path);
+
+            //"/" 를 기준으로 나누어 저장
+            String[] s_path = full_path.split("/");
+
+            //실제 사진경로만 뽑아옴
+            int index = s_path[0].length() + 1;
+            String photo_path = full_path.substring(index, full_path.length());
+
+            Log.i("photo_path", photo_path);
+            //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
+                try {
+                    photo = BitmapFactory.decodeFile(photo_path, options);
+                    break;
+                } catch (OutOfMemoryError outOfMemoryError) {
+
+                }
+                //이미지뷰에 비트맵을 갖다넣는거야
+            }
+
+            img_myinfo_user.setImageBitmap(photo);
+            Log.i("photo111111111111111", photo.toString());
+
+        }catch(Exception e) {
+        }
+
+
+
         btn_myinfo_back = (ImageView) findViewById(R.id.btn_myinfo_back);
         tv_myinfo_user_mail = (TextView) findViewById(R.id.tv_my_info_user_mail);
         tv_myinfo_user_mail.setText(DataUtil.getAppPreferences(getApplicationContext(), "user_email"));
@@ -236,8 +269,36 @@ public class MyInfoActivity extends ActionBarActivity {
         overridePendingTransition(0, 0);
     }
 
+    //기본이미지 함수
+    public void  doDelPhotoAcition() {
+
+        try{
+
+            File file = this.getExternalFilesDir(Environment.DIRECTORY_DCIM);
+            File[] flist = file.listFiles();
+            //Toast.makeText(getApplicationContext(), "imgcnt = " + flist.length, Toast.LENGTH_SHORT).show();
+            for(int i = 0 ; i < flist.length ; i++)
+            {
+                String fname = flist[i].getName();
+                if(fname.equals(url))
+                {
+                    flist[i].delete();
+
+                }
+
+            }
+            photo=null;
+            new NetworkImgdel().execute("");
+            img_myinfo_user.setImageBitmap(null);
+        }catch(Exception e){
+            //Toast.makeText(getApplicationContext(), "파일 삭제 실패 ", Toast.LENGTH_SHORT).show();
+            }
+
+    }
+
+
     //사진찍는 함수
-    public void doTakePhotoAction(){
+    public void doTakePhotoAction() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         mImageCaptureUri = createSaveCropFile();
@@ -246,24 +307,26 @@ public class MyInfoActivity extends ActionBarActivity {
     }
 
     //앨범에서 가져오는 함수
-    public void doTakeAlbumAction(){
+    public void doTakeAlbumAction() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, PICK_FROM_ALBUM);
     }
 
     //빈파일을 만들어서 위치를 알려줌(사진파일을 담을 파일)
-    public Uri createSaveCropFile(){
+    public Uri createSaveCropFile() {
         //경로
-        Uri uri;
+
         Log.i("uri", "in");
 
         //파일명 (현재시간의 밀리 세컨드값)
-        String url = "tmp_"+ String.valueOf(System.currentTimeMillis()) + ".jpg";
+      //  String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+
+        String url = my_id + ".jpg";
 
         //파일 생성 -> 사진찍은걸 파일로 가지고있어야 전송할 수 있어
         //외장메모리 영역에 파일생성
-        uri = Uri.fromFile(new File(Environment.getExternalStorageDirectory().getAbsolutePath(),url));
+        uri = Uri.fromFile(new File(this.getExternalFilesDir(Environment.DIRECTORY_DCIM), url));
         Log.i("uri", uri.toString());
         //파일 만든 위치를 uri
         return uri;
@@ -274,12 +337,12 @@ public class MyInfoActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //결과가 제대로 오지 않으면
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
             return;
         }
 
-        switch(requestCode){
-            case PICK_FROM_ALBUM:{
+        switch (requestCode) {
+            case PICK_FROM_ALBUM: {
                 mImageCaptureUri = data.getData();
                 File orignal_file = getImageFile(mImageCaptureUri);
                 Log.i("ori", orignal_file.getPath());
@@ -288,31 +351,29 @@ public class MyInfoActivity extends ActionBarActivity {
                 File copy_file = new File(mImageCaptureUri.getPath());
                 Log.i("copy_uri", mImageCaptureUri.getPath());
                 Log.i("copy_file", copy_file.getPath());
-                copyFile(orignal_file,copy_file);
+                copyFile(orignal_file, copy_file);
             }
-            case PICK_FROM_CAMERA:{
+            case PICK_FROM_CAMERA: {
                 //카메라 앱이 꺼지면 그 사진을 자르기 할꺼야
                 Intent intent = new Intent("com.android.camera.action.CROP");
 
                 //(img경로 crop하라)
-                intent.setDataAndType(mImageCaptureUri,"image/*");
+                intent.setDataAndType(mImageCaptureUri, "image/*");
 
-                //사이즈
-                intent.putExtra("aspectX",18);
-                //intent.putExtra("aspectY",16);
-
-                //위아래로 변형시킬 수 있게
-                intent.putExtra("scale",true);
-                //얼굴만 crop하려면 noFaceDetection 을 false로 두면된다
-                intent.putExtra("noFaceDetection",true);
-
+                // crop한 이미지를 저장할때 200x200 크기로 저장
+                intent.putExtra("outputX", 136); // crop한 이미지의 x축 크기
+                intent.putExtra("outputY", 136); // crop한 이미지의 y축 크기
+                intent.putExtra("aspectX", 1); // crop 박스의 x축 비율
+                intent.putExtra("aspectY", 1); // crop 박스의 y축 비율
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", true);
                 //crop한 output(img파일)을 다시 그 uri에 덮어씀
                 intent.putExtra("output", mImageCaptureUri);
 
                 startActivityForResult(intent, CROP_FROM_CAMERA);
                 break;
             }
-            case CROP_FROM_CAMERA:{
+            case CROP_FROM_CAMERA: {
                 //사진을 view시키는거
                 //uri 주소를 String으로 가져옴
                 String full_path = mImageCaptureUri.getPath();
@@ -322,13 +383,13 @@ public class MyInfoActivity extends ActionBarActivity {
                 String[] s_path = full_path.split("/");
 
                 //실제 사진경로만 뽑아옴
-                int index = s_path[0].length() +1;
+                int index = s_path[0].length() + 1;
                 String photo_path = full_path.substring(index, full_path.length());
 
                 Log.i("photo_path", photo_path);
                 //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
-                BitmapFactory.Options options  = new BitmapFactory.Options();
-                for(options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++){
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
                     try {
                         photo = BitmapFactory.decodeFile(photo_path, options);
                         break;
@@ -338,22 +399,23 @@ public class MyInfoActivity extends ActionBarActivity {
                     //이미지뷰에 비트맵을 갖다넣는거야
                 }
                 img_myinfo_user.setImageBitmap(photo);
+
                 new NetworkImgRegister().execute();
                 break;
             }
         }
     }
 
-    public File getImageFile(Uri uri){
-        String[] projection = { MediaStore.Images.Media.DATA};
+    public File getImageFile(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
 
-        if(uri == null){
+        if (uri == null) {
             uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         }
 
         Cursor mCursor = getContentResolver().query(uri, projection, null, null, MediaStore.Images.Media.DATE_MODIFIED + " desc");
 
-        if(mCursor == null || mCursor.getCount() <1){
+        if (mCursor == null || mCursor.getCount() < 1) {
             return null;
         }
 
@@ -362,7 +424,7 @@ public class MyInfoActivity extends ActionBarActivity {
 
         String path = mCursor.getString(column_index);
 
-        if(mCursor != null){
+        if (mCursor != null) {
             mCursor.close();
             mCursor = null;
         }
@@ -371,7 +433,7 @@ public class MyInfoActivity extends ActionBarActivity {
     }
 
     //HTTP연결 Thread 생성 클래스
-    private class NetworkImgRegister extends AsyncTask<String, String, Integer>{
+    private class NetworkImgRegister extends AsyncTask<String, String, Integer> {
         private String err_msg = "Network error.";
 
         private ProgressDialog dialog;
@@ -390,7 +452,7 @@ public class MyInfoActivity extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             //기다리라는 dialog 추가
-            dialog = ProgressDialog.show(MyInfoActivity.this, "", "잠시만 기다려주세요",true);
+            dialog = ProgressDialog.show(MyInfoActivity.this, "", "잠시만 기다려주세요", true);
 
         }
 
@@ -400,24 +462,22 @@ public class MyInfoActivity extends ActionBarActivity {
             super.onPostExecute(result);
             dialog.cancel();
 
-            if(result == 100){
+            if (result == 100) {
                 //인터넷 오류
                 Toast.makeText(getApplicationContext(), "Parsing error", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else if(result > 0){
+            } else if (result > 0) {
                 Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
                 return;
 
-            }
-            else if(result == 0){
+            } else if (result == 0) {
                 //정상처리
                 Toast.makeText(getApplicationContext(), "저장 되었습니다", Toast.LENGTH_SHORT).show();
 //                finish();
             }
         }
 
-        private Integer processing(){
+        private Integer processing() {
             try {
                 HttpClient http_client = new DefaultHttpClient();
                 //요청한 후 7초 이내에 오지 않으면 timeout 발생하므로 빠져나옴
@@ -435,15 +495,14 @@ public class MyInfoActivity extends ActionBarActivity {
                 reqEntity.addPart("user_id", new StringBody(DataUtil.getAppPreferences(MyInfoActivity.this, "user_id"), Charset.defaultCharset()));
 
                 //img 담는거
-                if (photo != null){
+                if (photo != null) {
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     photo.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
                     byte[] data = bos.toByteArray();
                     ByteArrayBody bab = new ByteArrayBody(data, "photo_img.ipeg");
                     reqEntity.addPart("img", bab);
-                }
-                else{
+                }else {
                     return 33;
                 }
 
@@ -451,7 +510,6 @@ public class MyInfoActivity extends ActionBarActivity {
 
                 //서버전송
                 HttpResponse response = http_client.execute(http_post);
-
 
 
                 // 받는 부분
@@ -467,16 +525,12 @@ public class MyInfoActivity extends ActionBarActivity {
                 //우리가 사용하는 결과
                 jObject = new JSONObject(builder.toString());
 //                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
-                Log.i("test22",builder.toString());
-
                 //err가 0이면 정상적인 처리
                 //err가 0이 아닐시 오류발생
-                Log.i("test1",jObject.getInt("err")+"");
-
-                if(jObject.getInt("err") > 0){
+                if (jObject.getInt("err") > 0) {
                     return jObject.getInt("err");
                 }
-                Log.i("test1","55555555555");
+
             } catch (Exception e) {
                 //오류발생시
                 Log.i(err_msg, e.toString());
@@ -486,7 +540,78 @@ public class MyInfoActivity extends ActionBarActivity {
         }
     }
 
+    // HTTP 연결 Login Thread 클래서
+    private class NetworkImgdel extends AsyncTask<String, String, Integer>{
+
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing(){
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout",7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/delete_img.php");
+                String user_id = DataUtil.getAppPreferences(getApplicationContext(),"user_id");
+                // 데이터 담음 키,value
+                name_value.add(new BasicNameValuePair("user_id", user_id));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
 
 
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"),8);
+                StringBuilder builder = new StringBuilder();
+                for(String line = null; (line = reader.readLine()) !=null;){
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+                // callback 오류 뜰 때
+//                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if(jObject.getInt("err") > 0){
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e){
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        // 값 받는 부분
+        @Override
+        protected void onPostExecute(Integer result) {
+            // 정상적으로 로그인
+            if(result == 0){
+                return;
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+    }
 }
 

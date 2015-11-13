@@ -5,18 +5,26 @@ package com.enterpaper.comepenny.tab.t1idea;
  */
 public class CommentItem {
 
-    private String img;
+    private String user_comment_img;
     private String comment_content;
     private String Email;
     private String comment_time;
     private int comment_id;
 
-    public String getImg() {
-        return img;
+    public CommentItem(String user_comment_img, String comment_content, String email, String comment_time, int comment_id) {
+        this.user_comment_img = user_comment_img;
+        this.comment_content = comment_content;
+        Email = email;
+        this.comment_time = comment_time;
+        this.comment_id = comment_id;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public String getUser_comment_img() {
+        return user_comment_img;
+    }
+
+    public void setUser_comment_img(String user_comment_img) {
+        this.user_comment_img = user_comment_img;
     }
 
     public String getComment_content() {
@@ -49,14 +57,5 @@ public class CommentItem {
 
     public void setComment_id(int comment_id) {
         this.comment_id = comment_id;
-    }
-
-    public CommentItem(String img, String comment_content, String email, String comment_time, int comment_id) {
-        this.img = img;
-        this.comment_content = comment_content;
-        Email = email;
-        this.comment_time = comment_time;
-        this.comment_id = comment_id;
-
     }
 }

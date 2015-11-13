@@ -61,7 +61,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
     Toolbar mToolBar;
-    ImageView btn_ideaback, iv_comment_basic,iv_boothicon;
+    ImageView btn_ideaback, iv_comment_basic, iv_boothicon;
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple, Edit_reple_adjust;
@@ -69,13 +69,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
     int pick_boolean = 0;
     View header;
     int idea_id, booth_id, comment_id;
-    String email, content, user_id, user_email, writer_email, content_idea,content_reple;
+    String email, content, user_id, user_email, writer_email, content_idea, content_reple, user_comment_img;
     AlertDialog mDialog;
     CommentAdapter adapters;
     ArrayList<CommentItem> arr_list = new ArrayList<>();
     boolean is_adjust_check = false;
     private ScrollView scrollView_mainidea_detail;
     ImageLoader loader;
+
     public static String formatTimeString(String str) throws ParseException {
 
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
@@ -159,7 +160,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         //초기화
         tv_ideaoriginal.setText("");
         arr_list.clear();
-        offset=0;
+        offset = 0;
 
 
         //쓰레드 실행
@@ -189,7 +190,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         btn_reple = (TextView) header.findViewById(R.id.btn_reple);
-        iv_boothicon = (ImageView)header.findViewById(R.id.iv_boothicon);
+        iv_boothicon = (ImageView) header.findViewById(R.id.iv_boothicon);
         // 리스트부분
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
@@ -407,7 +408,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                     //서버로부터 받아온 List개수를 count
                     //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset>3 && offset % row_cnt == 0) {
+                    if (count != 0 && offset > 3 && offset % row_cnt == 0) {
                         if (is_scroll) {
                             //스크롤 멈추게 하는거
                             is_scroll = false;
@@ -443,6 +444,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         final Dialog mDialog = ab.create();
         ///클릭리스너
+        if (!user_comment_img.equals("null") || !user_comment_img.equals("0")) {
+            loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/" + user_comment_img, iv_comment_basic);
+
+
+        } else {
+            iv_comment_basic.setBackgroundResource(R.drawable.myinfo_userimage);
+        }
+
         Edit_reple_adjust.setText(arr_list.get(commentDelPosition).getComment_content());
         Edit_reple_adjust.setSelection(Edit_reple_adjust.length()); //커서를 끝에 위치!
         Edit_reple_adjust.addTextChangedListener(new TextWatcher() {
@@ -456,7 +465,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 Log.i("content", arr_list.get(commentDelPosition).getComment_content());
                 Log.i("s Data", s.toString());
                 if (arr_list.get(commentDelPosition).getComment_content().equals(s.toString())) {
-                   // btn_reple_update.setBackgroundResource(R.drawable.);
+                    // btn_reple_update.setBackgroundResource(R.drawable.);
                     btn_reple_update.setBackgroundColor(Color.rgb(189, 189, 189));
                     is_adjust_check = false;
 
@@ -601,7 +610,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     String idea_user_id = jObject.get("user_id").toString();
                     String booth_name = jObject.get("name").toString();
                     int booth_id = jObject.getInt("booth_id");
-                    String img_url = booth_id+"";
+                    String img_url = booth_id + "";
                     content_idea = jObject.get("content").toString();
                     int hit = jObject.getInt("hit");
                     int like_num = jObject.getInt("like_num");
@@ -796,6 +805,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         content = obj_boothIdeas.getString("comment");
                         writer_email = obj_boothIdeas.getString("email");
 
+                        user_comment_img = obj_boothIdeas.getString("image_t");
 
                         byte[] mailarray = writer_email.getBytes();
                         String email_view = new String(mailarray, 0, 3);
@@ -809,14 +819,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem("img", content, hide_email, comment_time, comment_id);
+                        CommentItem items = new CommentItem(user_comment_img, content, hide_email, comment_time, comment_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         //                      arr_list.add(items);
                         arr_list.add(0, items);
                     }
 
-                    Log.i("sssssss","["+arr_list.size()+"]");
+                    Log.i("sssssss", "[" + arr_list.size() + "]");
 
                     // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                     adapters.notifyDataSetChanged();
@@ -1240,16 +1250,15 @@ public class IdeaDetailActivity extends ActionBarActivity {
                     jObject.getInt("err");
 
                     new NetworkGetIdeainfo().execute("");
-                 //   arr_list.remove(commentDelPosition);
+                    //   arr_list.remove(commentDelPosition);
 
-                    for(int i =commentDelPosition;i<arr_list.size()-1; i++){
-                        arr_list.set(i,arr_list.get(i+1));
+                    for (int i = commentDelPosition; i < arr_list.size() - 1; i++) {
+                        arr_list.set(i, arr_list.get(i + 1));
 
                     }
-                    arr_list.remove(arr_list.size()-1);
+                    arr_list.remove(arr_list.size() - 1);
                     Log.i("tttttt", "[" + arr_list.size() + "]");
                     adapters.notifyDataSetChanged();
-
 
 
                     return;
@@ -1295,10 +1304,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/modify_comment.php");
                 int id = arr_list.get(commentDelPosition).getComment_id();
-             //   int id = comment_id;
-                Log.i("comment_id",id+"");
+                //   int id = comment_id;
+                Log.i("comment_id", id + "");
                 content_reple = Edit_reple_adjust.getText().toString().trim();
-                Log.i("content_reple",content_reple);
+                Log.i("content_reple", content_reple);
 
 
                 //서버에 보낼 데이터
@@ -1353,7 +1362,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
 
                     jObject.getInt("err");
-                   // new NetworkGetCommentList().execute("");
+                    // new NetworkGetCommentList().execute("");
                     arr_list.get(commentDelPosition).setComment_content(content_reple);
                     adapters.notifyDataSetChanged();
 //                    overridePendingTransition(0, 0);

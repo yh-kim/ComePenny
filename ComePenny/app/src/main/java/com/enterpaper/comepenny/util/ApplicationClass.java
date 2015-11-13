@@ -22,9 +22,9 @@ public class ApplicationClass extends Application {
 	public void init(Context ctx){
 		//image 옵션 설정
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
-				.showImageOnLoading(R.drawable.ex11)		//loading중일때 나오는 Image
-				.showImageForEmptyUri(R.drawable.ex11)    //Image를 요청했을때 없을때 나오는 Image
-				.showImageOnFail(R.drawable.ex11)                //Image를 요청했지만 에러가 생겼을 떄 나오는 Image
+				.showImageOnLoading(R.drawable.myinfo_userimage)		//loading중일때 나오는 Image
+				.showImageForEmptyUri(R.drawable.myinfo_userimage)    //Image를 요청했을때 없을때 나오는 Image
+				.showImageOnFail(R.drawable.myinfo_userimage)                //Image를 요청했지만 에러가 생겼을 떄 나오는 Image
 				.cacheInMemory(true)            //memory cache 사용하겠다
 				.cacheOnDisc(true)                //File cache 사용
 				.considerExifParams(true)	//가로 사진이면 가로로 세로사진이면 세로로

@@ -1,6 +1,7 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
@@ -22,10 +24,7 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
     private LayoutInflater inflater = null;
     //Context -> Activity Class의 객체
     private Context context = null;
-
-
-
-
+    ImageLoader loader;
 
 
     public CommentAdapter(Context context, int resource, ArrayList<CommentItem> objects) {
@@ -35,6 +34,7 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
         //resource는 row_xxx.xml 의 정보
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        loader = ImageLoader.getInstance();
     }
 
 
@@ -72,7 +72,11 @@ public class CommentAdapter extends ArrayAdapter<CommentItem> {
         holder.UserId.setText(item.getEmail());
         holder.Comment_Content.setText(item.getComment_content());
         holder.Comment_time.setText(item.getComment_time());
-
+        if (!item.getUser_comment_img().equals("null") || !item.getUser_comment_img().equals("0")) {
+            loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/" + item.getUser_comment_img(), holder.img);
+        }else{
+            holder.img.setBackgroundResource(R.drawable.myinfo_userimage);
+        }
 
         return convertView;
     }
