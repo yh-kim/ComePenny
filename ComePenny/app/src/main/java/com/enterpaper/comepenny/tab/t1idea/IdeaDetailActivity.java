@@ -465,16 +465,14 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 Log.i("content", arr_list.get(commentDelPosition).getComment_content());
                 Log.i("s Data", s.toString());
                 if (arr_list.get(commentDelPosition).getComment_content().equals(s.toString())) {
-                    // btn_reple_update.setBackgroundResource(R.drawable.);
-                    btn_reple_update.setBackgroundColor(Color.rgb(189, 189, 189));
+                    btn_reple_update.setVisibility(View.INVISIBLE);
                     is_adjust_check = false;
 
                 } else {
-                    btn_reple_update.setBackgroundColor(Color.WHITE);
+                    btn_reple_update.setVisibility(View.VISIBLE);
                     is_adjust_check = true;
 
                 }
-                return;
             }
 
             @Override
