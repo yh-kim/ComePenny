@@ -68,9 +68,13 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
         IdeaListItem item = getItem(position);
 
-        //holder.img.setImageBitmap(item.getImg());
+
+        byte[] mailarray = item.getEmail().getBytes();
+        String email_view = new String(mailarray, 0, 3);
+        String hide_email = email_view + "*****";
+
         holder.title.setText(item.getContent());
-        holder.Email.setText(item.getEmail());
+        holder.Email.setText(hide_email);
         holder.ViewCount.setText(item.getViewCount()+"");
         holder.LikeCount.setText(item.getLikeCount()+"");
         loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);

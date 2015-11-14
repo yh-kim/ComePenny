@@ -33,25 +33,10 @@
                         android:layout_marginLeft="10dp"
                         android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="14dp"
-                            android:layout_marginTop="12dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Homo Erectus"
-                                android:textColor="#959595"
-                                android:textSize="15dp" />
-
-
-                        </LinearLayout>
 
 
                         <LinearLayout
+                            android:layout_marginTop="14dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
@@ -136,6 +121,7 @@
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
                     android:paddingRight="6dp" />
 
 

@@ -1,12 +1,9 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +13,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -52,7 +48,6 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class IdeaDetailActivity extends ActionBarActivity {
     int row_cnt = 6;
@@ -144,7 +139,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         initializeListener();
 
         //      new NetworkGetIdeainfo().execute();
-        new NetworkGetCommentList().execute();
+//        new NetworkGetCommentList().execute();
 
     }
 
@@ -163,6 +158,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_ideaoriginal.setText("");
         arr_list.clear();
         offset = 0;
+
+        adapters.notifyDataSetChanged();
 
 
         //쓰레드 실행
@@ -331,9 +328,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 commentDelPosition = position - 1;
                 user_email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
 
-                Log.i("user_email", user_email.toString());
-                Log.i("write_email", writer_email.toString());
-                if (user_email.equals(writer_email.toString())) {
+                if (user_email.equals(arr_list.get(commentDelPosition).getEmail())) {
                     final CharSequence[] items = {"댓글 수정하기", "댓글 삭제하기"};
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);     // 여기서 this는 Activity의 this
@@ -344,59 +339,36 @@ public class IdeaDetailActivity extends ActionBarActivity {
                                     // int형으로 조건 지정
                                     switch (index) {
                                         case 0:
-                                            //  Toast.makeText(getApplicationContext(), "수정", Toast.LENGTH_SHORT).show();
                                             mDialog = Comment_createDialog();
-
                                             break;
                                         case 1:
-
                                             AlertDialog.Builder builder = new AlertDialog.Builder(IdeaDetailActivity.this);
-                                            builder.setTitle("삭제 확인")        // 제목 설정
-                                                    .
-
-                                                            setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
-
-                                                    .
-
-                                                            setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
-
-                                                    .
-
-                                                            setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                                                                        // 확인 버튼 클릭시 설정
-                                                                        public void onClick(DialogInterface dialog_del, int whichButton) {
-                                                                            new NetworkCommentDel().execute();
-                                                                            // finish();
-
-                                                                        }
-                                                                    }
-
-                                                            )
-                                                    .
-
-                                                            setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                                                        // 취소 버튼 클릭시 설정
-                                                                        public void onClick(DialogInterface dialog_del, int whichButton) {
-                                                                            dialog_del.cancel();
-                                                                        }
-                                                                    }
-
-                                                            );
-
+                                            builder.setTitle("삭제 확인")
+                                                    .setMessage("이 글을 삭제하시겠습니까?")        // 메세지 설정
+                                                    .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                                                    .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                                                // 확인 버튼 클릭시 설정
+                                                                public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                                    new NetworkCommentDel().execute();
+                                                                }
+                                                            }
+                                                    )
+                                                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                                                // 취소 버튼 클릭시 설정
+                                                                public void onClick(DialogInterface dialog_del, int whichButton) {
+                                                                    dialog_del.cancel();
+                                                                }
+                                                            }
+                                                    );
                                             AlertDialog dialog_del = builder.create();    // 알림창 객체 생성
                                             dialog_del.show();    // 알림창 띄우기
-
-
                                             break;
-
                                         default:
                                             dialog.cancel();
                                             break;
                                     }
-
                                 }
                             }
-
                     );
 
                     AlertDialog dialog = builder.create();    // 알림창 객체 생성
@@ -419,7 +391,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                     //서버로부터 받아온 List개수를 count
                     //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset > 3 && offset % row_cnt == 0) {
+                    if (count != 0 && offset > 4 && offset % row_cnt == 0) {
                         if (is_scroll) {
                             //스크롤 멈추게 하는거
                             is_scroll = false;
@@ -455,10 +427,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         final Dialog mDialog = ab.create();
         ///클릭리스너
-        if (!user_comment_img.equals("null") || !user_comment_img.equals("0")) {
-            loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/" + user_comment_img, iv_comment_basic);
-
-
+        if (!arr_list.get(commentDelPosition).getUser_comment_img().contains("null")) {
+            loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/" + arr_list.get(commentDelPosition).getUser_comment_img(), iv_comment_basic);
         } else {
             iv_comment_basic.setBackgroundResource(R.drawable.myinfo_userimage);
         }
@@ -816,11 +786,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                         user_comment_img = obj_boothIdeas.getString("image_t");
 
-                        byte[] mailarray = writer_email.getBytes();
-                        String email_view = new String(mailarray, 0, 3);
-                        // int email_length = mailarray.length;
-                        String hide_email = email_view + "*****";
-
 
                         //서버에서 date받아와서 formatTimeString이용해서 값 변환
                         String reg_Time = obj_boothIdeas.getString("date");
@@ -828,14 +793,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem(user_comment_img, content, hide_email, comment_time, comment_id);
+                        CommentItem items = new CommentItem(user_comment_img, content,writer_email, comment_time, comment_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         //                      arr_list.add(items);
                         arr_list.add(0, items);
                     }
 
-                    Log.i("sssssss", "[" + arr_list.size() + "]");
 
                     // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                     adapters.notifyDataSetChanged();

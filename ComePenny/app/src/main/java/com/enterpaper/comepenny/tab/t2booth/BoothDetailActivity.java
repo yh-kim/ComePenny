@@ -119,7 +119,7 @@ public class BoothDetailActivity extends ActionBarActivity {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                     //서버로부터 받아온 List개수를 count
                     //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset % row_cnt == 0) {
+                    if (count != 0 && offset > 4 && offset % row_cnt == 0) {
                         if (is_scroll) {
                             //스크롤 멈추게 하는거
                             is_scroll = false;
@@ -373,16 +373,8 @@ public class BoothDetailActivity extends ActionBarActivity {
                         String img_url = booth_id+"";
                         String getemail = obj_boothIdeas.getString("email");
 
-
-                        byte[] mailarray = getemail.getBytes();
-                        String email_view = new String(mailarray,0,3);
-                        // int email_length = mailarray.length;
-                        String hide_email = email_view +"*****";
-
-
-
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(img_url, content, hide_email, hit, like_num,idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, getemail, hit, like_num,idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);

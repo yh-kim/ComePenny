@@ -2,20 +2,14 @@ package com.enterpaper.comepenny.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -23,11 +17,8 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularAdapter;
-import com.enterpaper.comepenny.tab.t1idea.IdeaPopularListItem;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -49,7 +40,7 @@ public class MyinfoWriteFragment extends Fragment {
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
-    boolean is_scroll = true;
+    boolean is_scroll = false;
     View rootView;
     ListView lv_mywrite;
     IdeaAdapter myadapters;
@@ -111,7 +102,7 @@ public class MyinfoWriteFragment extends Fragment {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                 //서버로부터 받아온 List개수를 count
                 //지금까지 받아온 개수를 offset
-                if (count != 0 && offset % row_cnt == 0) {
+                if (count != 0 && offset > 4 && offset % row_cnt == 0) {
                     if (is_scroll) {
                         //스크롤 멈추게 하는거
                         is_scroll = false;
@@ -167,13 +158,8 @@ public class MyinfoWriteFragment extends Fragment {
                         String img_url = booth_id+"";
                         String getemail = obj_boothIdeas.getString("email");
 
-                        byte[] mailarray = getemail.getBytes();
-                        String email_view = new String(mailarray, 0, 3);
-                        String email = email_view + "*****";
-
-
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(img_url, content, email, hit, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, getemail, hit, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         mydataList.add(items);

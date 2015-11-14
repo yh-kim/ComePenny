@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +27,7 @@ import com.enterpaper.comepenny.tab.ComePennyMyinfoFragmentPagerAdapter;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -74,6 +73,7 @@ public class MyInfoActivity extends ActionBarActivity {
     String content;
     Uri uri;
     String my_id,url;
+    ImageLoader loader;
     public static boolean copyFile(File srcFile, File destFile) {
         boolean result = false;
         try {
@@ -111,6 +111,8 @@ public class MyInfoActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
+
+        loader = ImageLoader.getInstance();
 
         // 액티비티 추가
         new BaseActivity().actList.add(MyInfoActivity.this);
@@ -184,6 +186,12 @@ public class MyInfoActivity extends ActionBarActivity {
             String full_path = uri.getPath();
             Log.i("full path", full_path);
 
+            File file = new File(full_path);
+            if(!file.isFile()){
+                // 이미지가 sd 카드에 저장돼있지 않을 때 서버에서 가져오는 작업
+                new NetworkCheckImg().execute();
+            }
+
             //"/" 를 기준으로 나누어 저장
             String[] s_path = full_path.split("/");
 
@@ -195,18 +203,11 @@ public class MyInfoActivity extends ActionBarActivity {
             //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
             BitmapFactory.Options options = new BitmapFactory.Options();
             for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
-                try {
                     photo = BitmapFactory.decodeFile(photo_path, options);
-                    break;
-                } catch (OutOfMemoryError outOfMemoryError) {
-
-                }
-                //이미지뷰에 비트맵을 갖다넣는거야
+                break;
             }
-
+            //이미지뷰에 비트맵을 갖다넣는거야
             img_myinfo_user.setImageBitmap(photo);
-            Log.i("photo111111111111111", photo.toString());
-
         }catch(Exception e) {
         }
 
@@ -605,6 +606,94 @@ public class MyInfoActivity extends ActionBarActivity {
         protected void onPostExecute(Integer result) {
             // 정상적으로 로그인
             if(result == 0){
+                return;
+            }
+
+            Toast.makeText(getApplicationContext(), "server error", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+    }
+
+
+    private class NetworkCheckImg extends AsyncTask<String, String, Integer>{
+
+        // JSON 받아오는 객체
+        private JSONObject jObject;
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            return processing();
+        }
+
+        // 서버 연결
+        private Integer processing(){
+            try {
+                HttpClient http_client = new DefaultHttpClient();
+
+                // 요청 후 7초 이내에 응답없으면 timeout 발생
+                http_client.getParams().setParameter("http.connection.timeout",7000);
+                // post 방식
+                HttpPost http_post = null;
+
+                List<NameValuePair> name_value = new ArrayList<NameValuePair>();
+
+                http_post = new HttpPost("http://54.199.176.234/api/check_img.php");
+                String user_id = DataUtil.getAppPreferences(getApplicationContext(),"user_id");
+                // 데이터 담음 키,value
+                name_value.add(new BasicNameValuePair("user_id", user_id));
+
+                UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(name_value, "UTF-8");
+                http_post.setEntity(entityRequest);
+
+
+                // 서버 전송
+                HttpResponse response = http_client.execute(http_post);
+
+                // 받는 부분
+                BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(),"UTF-8"),8);
+                StringBuilder builder = new StringBuilder();
+                for(String line = null; (line = reader.readLine()) !=null;){
+                    builder.append(line).append("\n");
+                }
+
+                // json
+                jObject = new JSONObject(builder.toString());
+                // callback 오류 뜰 때
+//                jObject = new JSONObject(builder.toString().substring(builder.toString().indexOf("{"), builder.toString().lastIndexOf("}") + 1));
+
+                // 0이면 정상, 0이 아니면 오류 발생
+                if(jObject.getInt("err") > 0){
+                    return jObject.getInt("err");
+                }
+
+            } catch (Exception e){
+                // 오류발생시
+                e.printStackTrace();
+                return 100;
+            }
+            return 0;
+        }
+
+        // 값 받는 부분
+        @Override
+        protected void onPostExecute(Integer result) {
+            // 정상처리
+            if(result == 0){
+                try {
+                    String image_o = jObject.get("image_o").toString();
+
+                    if(image_o.contains("null")){
+                        return;
+                    }
+                    else{
+                        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/" + image_o, img_myinfo_user);
+                        return;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 return;
             }
 

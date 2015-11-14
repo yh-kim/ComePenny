@@ -7,7 +7,7 @@ package com.enterpaper.comepenny.tab.t1idea;
 public class IdeaListItem {
     private String img_url;
     private String content;
-    private String Email;
+    private String email;
     private int ViewCount;
     private int LikeCount;
     private int idea_id;
@@ -15,7 +15,7 @@ public class IdeaListItem {
     public IdeaListItem(String img_url, String content, String email, int viewCount, int likeCount, int idea_id) {
         this.img_url = img_url;
         this.content = content;
-        Email = email;
+        this.email = email;
         ViewCount = viewCount;
         LikeCount = likeCount;
         this.idea_id = idea_id;
@@ -38,11 +38,11 @@ public class IdeaListItem {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public int getViewCount() {

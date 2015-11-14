@@ -7,17 +7,9 @@ public class CommentItem {
 
     private String user_comment_img;
     private String comment_content;
-    private String Email;
+    private String email;
     private String comment_time;
     private int comment_id;
-
-    public CommentItem(String user_comment_img, String comment_content, String email, String comment_time, int comment_id) {
-        this.user_comment_img = user_comment_img;
-        this.comment_content = comment_content;
-        Email = email;
-        this.comment_time = comment_time;
-        this.comment_id = comment_id;
-    }
 
     public String getUser_comment_img() {
         return user_comment_img;
@@ -36,11 +28,11 @@ public class CommentItem {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getComment_time() {
@@ -56,6 +48,15 @@ public class CommentItem {
     }
 
     public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public CommentItem(String user_comment_img, String comment_content, String email, String comment_time, int comment_id) {
+
+        this.user_comment_img = user_comment_img;
+        this.comment_content = comment_content;
+        this.email = email;
+        this.comment_time = comment_time;
         this.comment_id = comment_id;
     }
 }

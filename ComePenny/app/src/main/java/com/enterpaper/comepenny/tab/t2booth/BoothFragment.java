@@ -37,7 +37,7 @@ public class BoothFragment extends Fragment {
     int row_cnt = 8;
     int count = 0;
     int offset = 0;
-    boolean is_scroll = true;
+    boolean is_scroll = false;
     String img_url;
 
     View rootView;
