@@ -21,6 +21,7 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.WriteBoothActivity;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ScrollDirectionListener;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -127,6 +128,7 @@ public class IdeaFragment extends Fragment {
             }
         });
 
+
         // Adapter 생성
         adapters = new IdeaAdapter(rootView.getContext(), R.layout.row_idea, dataList);
 
@@ -175,27 +177,51 @@ public class IdeaFragment extends Fragment {
         });
 
         lvMainIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                fab.attachToListView(lvMainIdea);
+
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-               // if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
-                    //서버로부터 받아온 List개수를 count
-                    //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset > 3 && offset % row_cnt == 0) {
-                        if (is_scroll) {
-                            //스크롤 멈추게 하는거
-                            is_scroll = false;
-                            new NetworkGetMainIdeaList().execute("");
-                        }
+
+                fab.attachToListView(lvMainIdea, new ScrollDirectionListener() {
+                    @Override
+                    public void onScrollDown() {
+
                     }
-                }
-           // }
+
+                    @Override
+                    public void onScrollUp() {
+
+                    }
+                }, listListener);
+            }
         });
     }
+
+    AbsListView.OnScrollListener listListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+                //서버로부터 받아온 List개수를 count
+                //지금까지 받아온 개수를 offset
+                if (count != 0 && offset > 3 && offset % 6 == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetMainIdeaList().execute("");
+                    }
+                }
+            }
+        }
+    };
 
 
     // popular boothlist HTTP연결 Thread 생성 클래스
@@ -361,11 +387,8 @@ public class IdeaFragment extends Fragment {
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapters.notifyDataSetChanged();
                     }
-
-
-                    // scroll 할 수 있게함
-                    is_scroll = true;
-
+                        // scroll 할 수 있게함
+                        is_scroll = true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -431,6 +454,11 @@ public class IdeaFragment extends Fragment {
         }
 
     }
+
+
+
+
+
 
 
 }

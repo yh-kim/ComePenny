@@ -22,6 +22,7 @@ import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ScrollDirectionListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
@@ -113,27 +114,25 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-
-                fab.attachToListView(lvBoothDetailIdea);
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
-                    //서버로부터 받아온 List개수를 count
-                    //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset > 4 && offset % row_cnt == 0) {
-                        if (is_scroll) {
-                            //스크롤 멈추게 하는거
-                            is_scroll = false;
-                            new NetworkGetBoothIdeaList().execute("");
-                        }
-                    }
-                }
+                fab.attachToListView(lvBoothDetailIdea, new ScrollDirectionListener() {
+                    @Override
+                    public void onScrollDown() {
 
+                    }
+
+                    @Override
+                    public void onScrollUp() {
+
+                    }
+                }, listListener);
             }
         });
+
+
 
 //        btnBoothInfo.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -158,6 +157,28 @@ public class BoothDetailActivity extends ActionBarActivity {
         });
 
     }
+
+    AbsListView.OnScrollListener listListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+                //서버로부터 받아온 List개수를 count
+                //지금까지 받아온 개수를 offset
+                if (count != 0 && offset > 3 && offset % 6 == 0) {
+                    if (is_scroll) {
+                        //스크롤 멈추게 하는거
+                        is_scroll = false;
+                        new NetworkGetBoothIdeaList().execute("");
+                    }
+                }
+            }
+        }
+    };
 
     private void initializeToolbar() {
         //액션바 객체 생성
