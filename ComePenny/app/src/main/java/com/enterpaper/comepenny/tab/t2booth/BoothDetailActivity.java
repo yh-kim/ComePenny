@@ -16,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
+import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.SetFont;
+import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
@@ -42,6 +44,7 @@ import java.util.List;
  * Created by Kim on 2015-09-16.
  */
 public class BoothDetailActivity extends ActionBarActivity {
+    FloatingActionButton fab;
     int booth_id;
     int row_cnt = 6;
     int count = 0;
@@ -112,6 +115,7 @@ public class BoothDetailActivity extends ActionBarActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
 
 
+                fab.attachToListView(lvBoothDetailIdea);
             }
 
             @Override
@@ -174,6 +178,8 @@ public class BoothDetailActivity extends ActionBarActivity {
 
     // layout
     private void initializeLayout() {
+
+
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
        // booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
         booth_main_idea = (TextView) header.findViewById(R.id.booth_main_idea);
@@ -184,6 +190,18 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
         img_booth = (ImageView)header.findViewById(R.id.img_booth);
 
+
+        fab = (FloatingActionButton)findViewById(R.id.fab_booth);
+        fab.attachToListView(lvBoothDetailIdea);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent itWrite = new Intent(getApplicationContext(), WriteActivity.class);
+                itWrite.putExtra("booth_id", booth_id);
+                startActivity(itWrite);
+                overridePendingTransition(0, 0);
+            }
+        });
     }
 
     //취소버튼 눌렀을 때

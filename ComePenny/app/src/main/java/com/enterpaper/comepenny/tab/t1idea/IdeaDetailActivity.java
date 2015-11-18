@@ -638,6 +638,13 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 }
                 return;
             }
+            // 삭제된 아이디어일 때
+            else if(result == 5){
+                Toast.makeText(getApplicationContext(), "존재하지 않는 아이디어입니다",
+                        Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
             // Error 상황
             else {
                 Toast.makeText(getApplicationContext(), "Error",
