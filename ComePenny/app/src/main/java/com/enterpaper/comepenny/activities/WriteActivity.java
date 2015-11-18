@@ -1,6 +1,7 @@
 package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,6 +104,18 @@ public class WriteActivity extends Activity {
     private class NetworkWrite extends AsyncTask<String, String, Integer> {
         // JSON 받아오는 객체
         private JSONObject jObject;
+        private ProgressDialog dialog;
+
+        // AsyncTask 실행되기 전에 구동
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // 기다리라는 dialog 추가
+            dialog = ProgressDialog
+                    .show(WriteActivity.this, "", "잠시만 기다려주세요", true);
+
+        }
 
         @Override
         protected Integer doInBackground(String... params) {
@@ -161,6 +174,7 @@ public class WriteActivity extends Activity {
 
         @Override
         protected void onPostExecute(Integer result) {
+            dialog.cancel();
 
             // 정상적으로 글쓰기
             if (result == 0) {
