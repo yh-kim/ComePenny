@@ -1,6 +1,11 @@
 package com.enterpaper.comepenny.tab.t1idea;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Typeface;
+import android.os.Build;
+import android.text.Spannable;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +43,10 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
     //ArrayList에 저장되어있는 데이터를 fragment에 넣는 method
     //List 하나마다 getView가 한번 실행된다
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-      //  aq = new AQuery(convertView);
+        //  aq = new AQuery(convertView);
         //position -> List번호
         ViewHolder holder;
 
@@ -73,10 +79,19 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         String email_view = new String(mailarray, 0, 3);
         String hide_email = email_view + "*****";
 
-        holder.title.setText(item.getContent());
+        String contents =item.getContent();
+        holder.title.setText(contents);
+        int maxLines = 7;
+        holder.title.setMaxLines(maxLines);
+        if ( holder.title.getLineCount() > maxLines){
+            int lastCharShown =  holder.title.getLayout().getLineVisibleEnd(maxLines - 2);
+            String showString = contents.substring(0, lastCharShown);
+            holder.title.setText(showString + "\n …");
+        }
+        
         holder.Email.setText(hide_email);
-        holder.ViewCount.setText(item.getViewCount()+"");
-        holder.LikeCount.setText(item.getLikeCount()+"");
+        holder.ViewCount.setText(item.getViewCount() + "");
+        holder.LikeCount.setText(item.getLikeCount() + "");
         loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);
 
         return convertView;
@@ -84,7 +99,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
     class ViewHolder {
         ImageView img;
-        TextView title, UserId, ViewCount, LikeCount,Email;
+        TextView title, UserId, ViewCount, LikeCount, Email;
     }
 
 }

@@ -64,9 +64,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:paddingBottom="13dp"
-                    android:text="적외선으로 상대의 위치를 추적하는 적외선 탐색 추적 장비와 야간에도 적을 물리친다.  "
                     android:textSize="15dp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                   />
 
                 <ImageView
                     android:layout_width="wrap_content"
