@@ -70,6 +70,8 @@ public class IdeaFragment extends Fragment {
 
 
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    /*
+
     public void onResume() {
         super.onResume();
 
@@ -77,6 +79,7 @@ public class IdeaFragment extends Fragment {
         initializationList();
 
     }
+    */
 
     //Initlist (초기화 메소드)
     public void initializationList() {
@@ -131,6 +134,9 @@ public class IdeaFragment extends Fragment {
         lvMainIdea.setAdapter(adapters);
         adapters.notifyDataSetChanged();//값이 변경됨을 알려줌
 
+
+        initializationList();
+
         initializeListener();
 
         return rootView;
@@ -179,7 +185,7 @@ public class IdeaFragment extends Fragment {
                // if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                     //서버로부터 받아온 List개수를 count
                     //지금까지 받아온 개수를 offset
-                    if (count != 0 && offset > 4 && offset % row_cnt == 0) {
+                    if (count != 0 && offset > 3 && offset % row_cnt == 0) {
                         if (is_scroll) {
                             //스크롤 멈추게 하는거
                             is_scroll = false;

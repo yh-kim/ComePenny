@@ -200,6 +200,8 @@ public class MyInfoActivity extends ActionBarActivity {
             String photo_path = full_path.substring(index, full_path.length());
 
             Log.i("photo_path", photo_path);
+            photo = BitmapFactory.decodeFile(photo_path);
+
             //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
             BitmapFactory.Options options = new BitmapFactory.Options();
             for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
@@ -362,12 +364,12 @@ public class MyInfoActivity extends ActionBarActivity {
                 intent.setDataAndType(mImageCaptureUri, "image/*");
 
                 // crop한 이미지를 저장할때 200x200 크기로 저장
-                intent.putExtra("outputX", 136); // crop한 이미지의 x축 크기
-                intent.putExtra("outputY", 136); // crop한 이미지의 y축 크기
+//                intent.putExtra("outputX", 136); // crop한 이미지의 x축 크기
+//                intent.putExtra("outputY", 136); // crop한 이미지의 y축 크기
                 intent.putExtra("aspectX", 1); // crop 박스의 x축 비율
                 intent.putExtra("aspectY", 1); // crop 박스의 y축 비율
                 intent.putExtra("scale", true);
-                intent.putExtra("return-data", true);
+//                intent.putExtra("return-data", true);
                 //crop한 output(img파일)을 다시 그 uri에 덮어씀
                 intent.putExtra("output", mImageCaptureUri);
 
@@ -388,6 +390,11 @@ public class MyInfoActivity extends ActionBarActivity {
                 String photo_path = full_path.substring(index, full_path.length());
 
                 Log.i("photo_path", photo_path);
+
+                photo = BitmapFactory.decodeFile(photo_path);
+
+                new NetworkImgRegister().execute();
+
                 //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 for (options.inSampleSize = 1; options.inSampleSize <= 32; options.inSampleSize++) {
@@ -401,7 +408,6 @@ public class MyInfoActivity extends ActionBarActivity {
                 }
                 img_myinfo_user.setImageBitmap(photo);
 
-                new NetworkImgRegister().execute();
                 break;
             }
         }
