@@ -66,8 +66,6 @@
                     android:paddingBottom="13dp"
                     android:textSize="15dp"
                     android:textStyle="normal"
-                    android:maxLines="7"
-                    android:ellipsize="end"
                    />
 
                 <ImageView
