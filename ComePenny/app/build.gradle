@@ -49,6 +49,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.android.support:cardview-v7:23.0.1'
     compile files('lib/universal-image-loader-1.9.4.jar')
+    compile project(':gcm')
+    compile project(':google-play-services')
     compile project(':httpmime-4.1.2')
 }
 
