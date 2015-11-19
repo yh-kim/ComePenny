@@ -1,12 +1,10 @@
 package com.enterpaper.comepenny.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -17,20 +15,12 @@ import com.enterpaper.comepenny.tab.ComePennyFragmentPagerAdapter;
 import com.enterpaper.comepenny.util.BackPressCloseHandler;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.SetFont;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-
-
-import java.io.IOException;
 
 
 public class MainActivity extends ActionBarActivity {
     Toolbar mToolBar;
     private BackPressCloseHandler backPressCloseHandler;
     ImageView imgMyInfo,imgSetting;
-
-    private String SENDER_ID = "536972355978";
-    private GoogleCloudMessaging gcm;
-    private String regid;
 
     static public ViewPager pager;
     PagerSlidingTabStrip tabsStrip;
@@ -39,10 +29,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        gcm = GoogleCloudMessaging.getInstance(this);
-        registerInBackground();
 
         // 액티비티 추가
         new BaseActivity().actList.add(MainActivity.this);
@@ -63,9 +49,6 @@ public class MainActivity extends ActionBarActivity {
 
         // 탭 생성
         initializeTab();
-
-
-
     }
 
 
@@ -80,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent itMyInfo = new Intent(getApplicationContext(), MyInfoActivity.class);
                 startActivity(itMyInfo);
-                overridePendingTransition(0, 0);
+                overridePendingTransition(0,0);
             }
         });
 
@@ -110,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         mToolBar.setContentInsetsAbsolute(0, 0);
     }
 
-    private void initializeTab() {
+    private void initializeTab(){
         pager = (ViewPager) this.findViewById(R.id.pager);
         pager.setAdapter(new ComePennyFragmentPagerAdapter(getSupportFragmentManager()));
 
@@ -118,6 +101,7 @@ public class MainActivity extends ActionBarActivity {
         */
         tabsStrip = (PagerSlidingTabStrip)this.findViewById(R.id.tabsStrip);
         tabsStrip.setViewPager(pager);
+
 
 
         tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -139,6 +123,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
     }
+
     //취소버튼 눌렀을 때
     @Override
     public void onBackPressed() {
@@ -147,29 +132,4 @@ public class MainActivity extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "한 번 더 누르면 앱이 종료됩니다", Toast.LENGTH_SHORT)
                 .show();
     }
-    private void registerInBackground() {
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    regid = gcm.register(SENDER_ID);
-                    sendRegistrationIdToBackend();
-                } catch (IOException ex) {
-                }
-                return "";
-            }
-
-            @Override
-            protected void onPostExecute(String msg) {
-            }
-        }.execute(null, null, null);
-    }
-    private void sendRegistrationIdToBackend() {
-        // Your implementation here.
-
-        Log.d(null, "RegId = "+regid);
-    }
-
-
-
 }

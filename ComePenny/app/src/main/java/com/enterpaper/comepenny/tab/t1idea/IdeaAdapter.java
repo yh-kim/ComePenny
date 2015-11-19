@@ -88,7 +88,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
             String showString = contents.substring(0, lastCharShown);
             holder.title.setText(showString + "\n …");
         }
-
+        
         holder.Email.setText(hide_email);
         holder.ViewCount.setText(item.getViewCount() + "");
         holder.LikeCount.setText(item.getLikeCount() + "");
