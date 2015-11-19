@@ -42,11 +42,6 @@
                     android:layout_gravity="right|center"
                     android:src="@drawable/main_setting"/>
             </android.support.v7.widget.Toolbar>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:id="@+id/mdisplay"
-                android:text="test"/>
 
             <!--
                 app:pstsActivateTextColor="#0c2044"

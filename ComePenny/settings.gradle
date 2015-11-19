@@ -1,1 +1,1 @@
-include ':app', ':picasso-2.3.4', ':gcm', ':google-play-services', ':httpclient-4.1.2', ':httpmime-4.1.2', ':apache-mime4j-0.6'
+include ':apache-mime4j-0.6', ':httpclient-4.1.2', ':httpmime-4.1.2', ':app', ':picasso-2.3.4'
