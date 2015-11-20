@@ -4,8 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.AdjustWriteActivity;
+import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -44,9 +48,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class IdeaDetailActivity extends ActionBarActivity {
@@ -62,7 +73,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ListView lvIdeaDetailComment;
     ImageButton btn_pick;
     EditText Edit_reple, Edit_reple_adjust;
-    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time, btn_reple, btn_del, btn_reple_update, btn_reple_cancel;
+    TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time,
+            btn_reple, btn_del, btn_reple_update, btn_reple_cancel, btn_share;
     int pick_boolean = 0;
     View header;
     int idea_id, booth_id, comment_id;
@@ -73,7 +85,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
     boolean is_adjust_check = false;
     private ScrollView scrollView_mainidea_detail;
     ImageLoader loader;
-    LinearLayout layout_bg,layout_write_bg,layout_reple;
+    LinearLayout layout_bg, layout_write_bg, layout_reple;
+    String save;
+
+
     public static String formatTimeString(String str) throws ParseException {
 
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(
@@ -186,7 +201,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 //        int idx = (int) (Math.random() * background.length);
 //       // layout_bg.setBackgroundResource(background[idx]);
 //        layout_reple.setBackgroundResource(background[idx]);
-       // layout_write_bg.setBackgroundResource(background[idx]);
+        // layout_write_bg.setBackgroundResource(background[idx]);
         ////////////////////
         scrollView_mainidea_detail = (ScrollView) header.findViewById(R.id.scrollView_mainidea_detail);
         btn_pick = (ImageButton) header.findViewById(R.id.btn_pick);
@@ -203,6 +218,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
+        btn_share = (TextView) findViewById(R.id.btn_share);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
     }
@@ -223,6 +239,72 @@ public class IdeaDetailActivity extends ActionBarActivity {
     }
 
     private void initializeListener() {
+//        btn_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String folder = "HomoThinkus"; // 폴더 이름
+//
+//                try {
+//                    // 현재 날짜로 파일을 저장하기
+//                    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//                    // 년월일시분초
+//                    Date currentTime_1 = new Date();
+//                    String dateString = formatter.format(currentTime_1);
+//                    File sdCardPath = Environment.getExternalStorageDirectory();
+//                    File dirs = new File(Environment.getExternalStorageDirectory(), folder);
+//
+//                    if (!dirs.exists()) { // 원하는 경로에 폴더가 있는지 확인
+//                        dirs.mkdirs(); // Test 폴더 생성
+//                        Log.d("CAMERA_TEST", "Directory Created");
+//                    }
+//                    layout_bg.buildDrawingCache();
+//                    Bitmap captureView = layout_bg.getDrawingCache();
+//                    FileOutputStream fos;
+//             //       String save;
+//
+//                    try {
+//                        save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
+//                        // 저장 경로
+//                        fos = new FileOutputStream(save);
+//                        captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos); // 캡쳐
+//
+//                        // 미디어 스캐너를 통해 모든 미디어 리스트를 갱신시킨다.
+//                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+//                                Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Toast.makeText(getApplicationContext(), dateString + ".jpg 저장",
+//                            Toast.LENGTH_LONG).show();
+//                } catch (Exception e) {
+//                    // TODO: handle exception
+//                    Log.e("Screen", "" + e.toString());
+//                }
+//
+//
+//                Intent it3 = getIntent();    //파일명을 가져오기 위한 인텐트(에디트텍스트에서 이름입력받은 걸 파일명으로 쓰기 위해)
+//                String str_name = it3.getStringExtra("it3_name");    //이름을 가져온다.
+//                //File fileRoute = null;
+//               // fileRoute = Environment.getExternalStorageDirectory(); //sdcard 파일경로 선언
+//
+//               // File files = new File(fileRoute, "/temp/" + str_name + "-.jpeg"); //temp폴더에 이름으로 저장된 jpeg파일 경로 선언
+////                if (files.exists() == true)  //파일유무확인
+////                {
+//                    Intent intentSend = new Intent(Intent.ACTION_SEND);
+////                uri = Uri.fromFile(new File(this.getExternalFilesDir(Environment.DIRECTORY_DCIM), url));
+////                Log.i("uri", uri.toString());
+//
+//
+//
+//                    intentSend.setType("image/*");//이름으로 저장된 파일의 경로를 넣어서 공유하기
+//                    intentSend.putExtra(Intent.EXTRA_STREAM, Uri.parse(save));
+//                    startActivity(Intent.createChooser(intentSend, "공유")); //공유하기 창 띄우기
+////                } else {//파일이 없다면 저장을 해달라는 토스트메세지를 띄운다.
+////                    Toast.makeText(getApplicationContext(), "저장을 먼저 해주세요", Toast.LENGTH_LONG).show();
+////                }
+//
+//            }
+//        });
         btn_ideaback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -639,7 +721,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 return;
             }
             // 삭제된 아이디어일 때
-            else if(result == 5){
+            else if (result == 5) {
                 Toast.makeText(getApplicationContext(), "존재하지 않는 아이디어입니다",
                         Toast.LENGTH_SHORT).show();
                 finish();
@@ -800,7 +882,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
                         // Item 객체로 만들어야함
-                        CommentItem items = new CommentItem(user_comment_img, content,writer_email, comment_time, comment_id);
+                        CommentItem items = new CommentItem(user_comment_img, content, writer_email, comment_time, comment_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         //                      arr_list.add(items);
@@ -1361,6 +1443,36 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         Toast.LENGTH_SHORT).show();
             }
         }
+
+    }
+
+    public void screenshot(View view)throws Exception {
+
+        view.setDrawingCacheEnabled(true);
+
+        Bitmap screenshot = view.getDrawingCache();
+
+        String filename = "screenshot.png";
+
+        try {
+
+            File f = new File(Environment.getExternalStorageDirectory(), filename);
+
+            f.createNewFile();
+
+            OutputStream outStream = new FileOutputStream(f);
+
+            screenshot.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+            outStream.close();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        view.setDrawingCacheEnabled(false);
 
     }
 

@@ -8,14 +8,16 @@ public class IdeaListItem {
     private String img_url;
     private String content;
     private String email;
+    private String booth_name;
     private int ViewCount;
     private int LikeCount;
     private int idea_id;
 
-    public IdeaListItem(String img_url, String content, String email, int viewCount, int likeCount, int idea_id) {
+    public IdeaListItem(String img_url, String content, String email, String booth_name, int viewCount, int likeCount, int idea_id) {
         this.img_url = img_url;
         this.content = content;
         this.email = email;
+        this.booth_name = booth_name;
         ViewCount = viewCount;
         LikeCount = likeCount;
         this.idea_id = idea_id;
@@ -43,6 +45,14 @@ public class IdeaListItem {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBooth_name() {
+        return booth_name;
+    }
+
+    public void setBooth_name(String booth_name) {
+        this.booth_name = booth_name;
     }
 
     public int getViewCount() {

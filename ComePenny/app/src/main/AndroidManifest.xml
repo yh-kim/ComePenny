@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.enterpaper.comepenny"
-    android:versionCode = "2"
-    android:versionName = "1.0.1">
+    android:versionCode="2"
+    android:versionName="1.0.1">
 
-<uses-permission android:name="android.permission.INTERNET" /><uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /><uses-permission android:name="android.intent.action.MEDIA_MOUNTED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.intent.action.MEDIA_MOUNTED" />
 
 
-<application
-android:name="com.enterpaper.comepenny.util.ApplicationClass"
-android:allowBackup="true"
-android:icon="@mipmap/homo_appicon"
-android:label="호모띵쿠스"
-android:theme="@style/AppTheme">
-<activity
-    android:name=".activities.MainActivity"
-    android:label="@string/app_name"></activity>
+    <application
+        android:name="com.enterpaper.comepenny.util.ApplicationClass"
+        android:allowBackup="true"
+        android:icon="@mipmap/homo_appicon"
+        android:label="호모띵쿠스"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"></activity>
 
-<activity android:name=".activities.MyInfoActivity"></activity>
-<activity android:name=".activities.SettingActivity"></activity>
-<activity android:name=".activities.WriteBoothActivity"></activity>
-<activity
-    android:name=".activities.WriteActivity"
-    android:windowSoftInputMode="adjustPan"></activity>
-<activity android:name=".activities.LoadingActivity">
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activities.MyInfoActivity"></activity>
+        <activity android:name=".activities.SettingActivity"></activity>
+        <activity android:name=".activities.WriteBoothActivity"></activity>
+        <activity
+            android:name=".activities.WriteActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".activities.LoadingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
-<activity android:name=".tab.t2booth.BoothDetailActivity"></activity>
-<activity android:name=".tab.t1idea.IdeaDetailActivity"></activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".tab.t2booth.BoothDetailActivity"></activity>
+        <activity android:name=".tab.t1idea.IdeaDetailActivity"></activity>
 
-<fragement android:name=".tab.t1idea.IdeaFragment"></fragement>
+        <fragement android:name=".tab.t1idea.IdeaFragment"></fragement>
 
-<activity
-    android:name=".activities.LoginActivity"
-    android:windowSoftInputMode="stateHidden"></activity>
-<activity
-    android:name=".activities.SignUpActivity"
-    android:windowSoftInputMode="stateHidden"></activity>
-<activity android:name=".activities.AdjustWriteActivity"></activity>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activities.AdjustWriteActivity"></activity>
 
-</application>
+    </application>
 
-    </manifest>
+</manifest>
