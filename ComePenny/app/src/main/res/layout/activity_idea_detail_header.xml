@@ -156,8 +156,8 @@
 
             <ImageButton
                 android:id="@+id/btn_pick"
-                android:layout_width="84dp"
-                android:layout_height="47dp"
+                android:layout_width="56dp"
+                android:layout_height="31dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/detail_pickbutton_before" />
