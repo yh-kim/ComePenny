@@ -39,6 +39,17 @@
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
 
+          <!--  <TextView
+                android:id="@+id/btn_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:paddingRight="10dp"
+                android:text="공유"
+                android:textColor="#ffffff"
+                android:textSize="15dp" />
+                -->
+
         </android.support.v7.widget.Toolbar>
     </RelativeLayout>
 

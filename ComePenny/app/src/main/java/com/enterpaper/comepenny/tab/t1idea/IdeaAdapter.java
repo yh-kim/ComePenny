@@ -61,11 +61,12 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
             //row에 있는 정보들을 holder로 가져옴
 
-            holder.img = (ImageView) convertView.findViewById(R.id.iv_company);
+          //  holder.img = (ImageView) convertView.findViewById(R.id.iv_company);
             holder.title = (TextView) convertView.findViewById(R.id.tv_idea);
             holder.Email = (TextView) convertView.findViewById(R.id.tv_UserId);
             holder.ViewCount = (TextView) convertView.findViewById(R.id.tv_count_view);
             holder.LikeCount = (TextView) convertView.findViewById(R.id.tv_count_like);
+            holder.Booth_name=(TextView)convertView.findViewById(R.id.tv_row_booth_name);
             convertView.setTag(holder);
         }
 
@@ -88,18 +89,18 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
             String showString = contents.substring(0, lastCharShown);
             holder.title.setText(showString + "\n …");
         }
-        
+        holder.Booth_name.setText(item.getBooth_name());
         holder.Email.setText(hide_email);
         holder.ViewCount.setText(item.getViewCount() + "");
         holder.LikeCount.setText(item.getLikeCount() + "");
-        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);
+//        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);
 
         return convertView;
     }
 
     class ViewHolder {
         ImageView img;
-        TextView title, UserId, ViewCount, LikeCount, Email;
+        TextView title, UserId, ViewCount, LikeCount, Email,Booth_name;
     }
 
 }
