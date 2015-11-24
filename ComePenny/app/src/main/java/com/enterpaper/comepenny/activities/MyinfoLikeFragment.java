@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyinfoLikeFragment extends Fragment {
+    int selectedItem;
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
@@ -70,7 +71,7 @@ public class MyinfoLikeFragment extends Fragment {
         // Adapter와 GirdView를 연결 
         lv_mylike.setAdapter(myadapters);
         myadapters.notifyDataSetChanged();
-//        new NetworkGetMylikeList().execute("");
+        initializationList();
 
 
         return rootView;
@@ -81,10 +82,12 @@ public class MyinfoLikeFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position;
+
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", mydataList.get(position).getIdea_id());
                 intent.putExtra("email", mydataList.get(position).getEmail());
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 getActivity().overridePendingTransition(0, 0);
             }
 
@@ -114,6 +117,8 @@ public class MyinfoLikeFragment extends Fragment {
 
 
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    /*
+
     public void onResume() {
         super.onResume();
 
@@ -121,6 +126,7 @@ public class MyinfoLikeFragment extends Fragment {
         initializationList();
 
     }
+    */
 
     //Initlist (초기화 메소드)
     public void initializationList() {
@@ -133,6 +139,32 @@ public class MyinfoLikeFragment extends Fragment {
 
         new NetworkGetMylikeList().execute("");
         return;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
+            case 1:
+                String backContent = data.getStringExtra("backContent");
+                int backView = data.getIntExtra("backView", 0);
+                int backLike = data.getIntExtra("backLike",0);
+
+                IdeaListItem backItem = mydataList.get(selectedItem);
+                backItem.setContent(backContent);
+                backItem.setViewCount(backView);
+                backItem.setLikeCount(backLike);
+
+                myadapters.notifyDataSetChanged();
+                break;
+
+            // 삭제된 상황 (아이템 지우기)
+            case 2:
+                mydataList.remove(selectedItem);
+                myadapters.notifyDataSetChanged();
+                break;
+        }
     }
 
 

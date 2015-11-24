@@ -43,6 +43,7 @@ import java.util.List;
  * Created by Kim on 2015-09-26.
  */
 public class IdeaFragment extends Fragment {
+    int selectedItem;
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
@@ -168,10 +169,12 @@ public class IdeaFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position - 1;
+
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", dataList.get(position - 1).getIdea_id());
                 intent.putExtra("email", dataList.get(position - 1).getEmail());
-                startActivity(intent);
+                startActivityForResult(intent,0);
                 getActivity().overridePendingTransition(0, 0);
             }
 
@@ -224,6 +227,31 @@ public class IdeaFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
+            case 1:
+                String backContent = data.getStringExtra("backContent");
+                int backView = data.getIntExtra("backView", 0);
+                int backLike = data.getIntExtra("backLike",0);
+
+                IdeaListItem backItem = dataList.get(selectedItem);
+                backItem.setContent(backContent);
+                backItem.setViewCount(backView);
+                backItem.setLikeCount(backLike);
+
+                adapters.notifyDataSetChanged();
+                break;
+
+            // 삭제된 상황 (아이템 지우기)
+            case 2:
+                dataList.remove(selectedItem);
+                adapters.notifyDataSetChanged();
+                break;
+        }
+    }
 
     // popular boothlist HTTP연결 Thread 생성 클래스
     class NetworkGetPopularBoothList extends AsyncTask<String, String, Integer> {

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyinfoWriteFragment extends Fragment {
+    int selectedItem;
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
@@ -70,7 +71,8 @@ public class MyinfoWriteFragment extends Fragment {
         // Adapter와 GirdView를 연결 
         lv_mywrite.setAdapter(myadapters);
         myadapters.notifyDataSetChanged();
-        //  new NetworkGetMyWriteList().execute("");
+
+        initializationList();
 
 
         return rootView;
@@ -82,10 +84,11 @@ public class MyinfoWriteFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position;
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", mydataList.get(position).getIdea_id());
                 intent.putExtra("email", mydataList.get(position).getEmail());
-                startActivity(intent);
+                startActivityForResult(intent, 0);
                 getActivity().overridePendingTransition(0, 0);
             }
 
@@ -100,17 +103,44 @@ public class MyinfoWriteFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
-                //서버로부터 받아온 List개수를 count
-                //지금까지 받아온 개수를 offset
-                if (count != 0 && offset > 4 && offset % row_cnt == 0) {
-                    if (is_scroll) {
-                        //스크롤 멈추게 하는거
-                        is_scroll = false;
-                        new NetworkGetMyWriteList().execute("");
+                    //서버로부터 받아온 List개수를 count
+                    //지금까지 받아온 개수를 offset
+                    if (count != 0 && offset > 4 && offset % row_cnt == 0) {
+                        if (is_scroll) {
+                            //스크롤 멈추게 하는거
+                            is_scroll = false;
+                            new NetworkGetMyWriteList().execute("");
+                        }
                     }
                 }
-            }}
+            }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
+            case 1:
+                String backContent = data.getStringExtra("backContent");
+                int backView = data.getIntExtra("backView", 0);
+                int backLike = data.getIntExtra("backLike",0);
+
+                IdeaListItem backItem = mydataList.get(selectedItem);
+                backItem.setContent(backContent);
+                backItem.setViewCount(backView);
+                backItem.setLikeCount(backLike);
+
+                myadapters.notifyDataSetChanged();
+                break;
+
+            // 삭제된 상황 (아이템 지우기)
+            case 2:
+                mydataList.remove(selectedItem);
+                myadapters.notifyDataSetChanged();
+                break;
+        }
     }
 
 
@@ -256,6 +286,7 @@ public class MyinfoWriteFragment extends Fragment {
 
     }
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    /*
     public void onResume() {
         super.onResume();
 
@@ -263,6 +294,7 @@ public class MyinfoWriteFragment extends Fragment {
         initializationList();
 
     }
+    */
 
     //Initlist (초기화 메소드)
     public void initializationList() {

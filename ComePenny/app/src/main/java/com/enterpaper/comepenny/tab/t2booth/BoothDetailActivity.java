@@ -45,6 +45,7 @@ import java.util.List;
  * Created by Kim on 2015-09-16.
  */
 public class BoothDetailActivity extends ActionBarActivity {
+    int selectedItem;
     FloatingActionButton fab;
     int booth_id;
     int row_cnt = 6;
@@ -87,6 +88,8 @@ public class BoothDetailActivity extends ActionBarActivity {
         // 레이아웃 객체 생성
         initializeLayout();
 
+        initializationList();
+
         // 헤더 설정, 헤더에 리스트뷰리스너막음 + position-1
         lvBoothDetailIdea.addHeaderView(header, adapters, false);
 
@@ -101,10 +104,12 @@ public class BoothDetailActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedItem = position - 1;
+
                 Intent booth_ideas = new Intent(getApplicationContext(), IdeaDetailActivity.class);
                 booth_ideas.putExtra("idea_id", dataList.get(position-1).getIdea_id());//헤더를 position0으로인식하기때문
                 booth_ideas.putExtra("email",dataList.get(position-1).getEmail());
-                startActivity(booth_ideas);
+                startActivityForResult(booth_ideas, 0);
                 overridePendingTransition(0, 0);
             }
 
@@ -219,7 +224,7 @@ public class BoothDetailActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent itWrite = new Intent(getApplicationContext(), WriteActivity.class);
                 itWrite.putExtra("booth_id", booth_id);
-                startActivity(itWrite);
+                startActivityForResult(itWrite, 3);
                 overridePendingTransition(0, 0);
             }
         });
@@ -241,8 +246,41 @@ public class BoothDetailActivity extends ActionBarActivity {
         overridePendingTransition(0, 0);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (resultCode){
+            // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
+            case 1:
+                String backContent = data.getStringExtra("backContent");
+                int backView = data.getIntExtra("backView", 0);
+                int backLike = data.getIntExtra("backLike",0);
+
+                IdeaListItem backItem = dataList.get(selectedItem);
+                backItem.setContent(backContent);
+                backItem.setViewCount(backView);
+                backItem.setLikeCount(backLike);
+
+                adapters.notifyDataSetChanged();
+                break;
+
+            // 삭제된 상황 (아이템 지우기)
+            case 2:
+                dataList.remove(selectedItem);
+                adapters.notifyDataSetChanged();
+                break;
+
+            // 글 쓰기 했을 때
+            case 3:
+                initializationList();
+                break;
+        }
+    }
+
 
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
+    /*
+
     public void onResume() {
         super.onResume();
 
@@ -250,6 +288,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         initializationList();
 
     }
+    */
 
     //Initlist (초기화 메소드)
     private void initializationList() {
