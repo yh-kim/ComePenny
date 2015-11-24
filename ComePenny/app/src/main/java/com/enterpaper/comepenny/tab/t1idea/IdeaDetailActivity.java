@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.AdjustWriteActivity;
-import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,15 +47,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class IdeaDetailActivity extends ActionBarActivity {
@@ -218,7 +213,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-        btn_share = (TextView) findViewById(R.id.btn_share);
+//        btn_share = (TextView) findViewById(R.id.btn_share);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
 
     }
