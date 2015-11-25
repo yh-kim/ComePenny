@@ -256,7 +256,9 @@ public class WriteBoothActivity extends ActionBarActivity{
                         BoothItem item = new BoothItem(img_url,booth_name,booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
-                        arr_list.add(item);
+                        // 브랜드 카테고리는 제외
+                        if(booth_id != 7)
+                            arr_list.add(item);
 
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapter_sel_booth.notifyDataSetChanged();
