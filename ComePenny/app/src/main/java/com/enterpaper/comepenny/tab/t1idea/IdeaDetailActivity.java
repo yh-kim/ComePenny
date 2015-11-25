@@ -31,7 +31,6 @@ import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.AdjustWriteActivity;
-import com.enterpaper.comepenny.activities.MainActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -61,6 +60,7 @@ import java.util.Date;
 import java.util.List;
 
 public class IdeaDetailActivity extends ActionBarActivity {
+    int resultCode = 1;
     int row_cnt = 6;
     int count = 0;
     int offset = 0;
@@ -219,7 +219,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-        btn_share = (TextView) findViewById(R.id.btn_share);
+//        btn_share = (TextView) findViewById(R.id.btn_share);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
         layout_write_bg = (LinearLayout) header.findViewById(R.id.layout_write_bg);
 
@@ -241,6 +241,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     }
 
     private void initializeListener() {
+
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,6 +291,15 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 }
             }
         });
+
+
+        Edit_reple.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
+
         btn_ideaback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -340,8 +350,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
                                                     // 확인 버튼 클릭시 설정
                                                     public void onClick(DialogInterface dialog, int whichButton) {
                                                         new NetworkIdeaDel().execute();
-                                                        finish();
-
                                                     }
                                                 })
                                                 .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -473,6 +481,27 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     @Override
     public void finish() {
+        // 수정, 일반일 때
+        if(resultCode == 1){
+            Intent backIntent = new Intent();
+
+            String backContent = tv_ideaoriginal.getText().toString();
+            Integer backView = Integer.valueOf(tv_view.getText().toString().trim());
+            Integer backComment = Integer.valueOf(tv_commentcount.getText().toString().trim());
+            Integer backLike = Integer.valueOf(tv_like.getText().toString().trim());
+
+            backIntent.putExtra("backContent", backContent);
+            backIntent.putExtra("backView", backView);
+            backIntent.putExtra("backComment", backComment);
+            backIntent.putExtra("backLike", backLike);
+
+            setResult(1, backIntent);
+        }
+        // 삭제일 때
+        else if(resultCode == 2){
+            setResult(resultCode);
+        }
+
         super.finish();
 
         overridePendingTransition(0, 0);
@@ -709,6 +738,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
             else if (result == 5) {
                 Toast.makeText(getApplicationContext(), "존재하지 않는 아이디어입니다",
                         Toast.LENGTH_SHORT).show();
+
+                resultCode = 2;
                 finish();
                 return;
             }
@@ -1110,7 +1141,9 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 try {
                     jObject.getInt("err");
 
-                    IdeaDetailActivity.this.finish();
+                    resultCode = 2;
+                    finish();
+
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();

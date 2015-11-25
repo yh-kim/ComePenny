@@ -97,6 +97,7 @@ public class WriteActivity extends Activity {
 
     @Override
     public void finish() {
+        setResult(3);
         super.finish();
         overridePendingTransition(0, 0);
     }

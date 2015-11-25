@@ -2,10 +2,7 @@ package com.enterpaper.comepenny.tab.t1idea;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.Build;
-import android.text.Spannable;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +62,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
             holder.title = (TextView) convertView.findViewById(R.id.tv_idea);
             holder.Email = (TextView) convertView.findViewById(R.id.tv_UserId);
             holder.ViewCount = (TextView) convertView.findViewById(R.id.tv_count_view);
+            holder.commentCount = (TextView) convertView.findViewById(R.id.tv_count_comment);
             holder.LikeCount = (TextView) convertView.findViewById(R.id.tv_count_like);
             holder.Booth_name=(TextView)convertView.findViewById(R.id.tv_row_booth_name);
             convertView.setTag(holder);
@@ -92,6 +90,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
         holder.Booth_name.setText(item.getBooth_name());
         holder.Email.setText(hide_email);
         holder.ViewCount.setText(item.getViewCount() + "");
+        holder.commentCount.setText(item.getCommentCount() + "");
         holder.LikeCount.setText(item.getLikeCount() + "");
 //        loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/" + item.getImg_url() + ".png", holder.img);
 
@@ -100,7 +99,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
     class ViewHolder {
         ImageView img;
-        TextView title, UserId, ViewCount, LikeCount, Email,Booth_name;
+        TextView title, UserId, ViewCount,commentCount, LikeCount, Email,Booth_name;
     }
 
 }
