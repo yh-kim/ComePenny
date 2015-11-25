@@ -81,7 +81,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea = (ListView)findViewById(R.id.lv_booth_detail_idea);
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_booth_detail_header, null, false);
-       // header.selec
+        // header.selec
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
         SetFont.setGlobalFont(header.getContext(), header);
@@ -211,12 +211,12 @@ public class BoothDetailActivity extends ActionBarActivity {
 
 
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-       // booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
+        // booth_explanation = (TextView) header.findViewById(R.id.booth_explanation);
         booth_main_idea = (TextView) header.findViewById(R.id.booth_main_idea);
-       // lyBoothInfo = (LinearLayout) header.findViewById(R.id.booth_info);
+        // lyBoothInfo = (LinearLayout) header.findViewById(R.id.booth_info);
         btnBoothBack = (ImageView) findViewById(R.id.btn_booth_back);
-       // btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
-       // btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
+        // btnBoothInfo = (ImageView) header.findViewById(R.id.btn_booth_info);
+        // btnBoothInfoClose = (ImageView) header.findViewById(R.id.btn_booth_info_close);
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
         img_booth = (ImageView)header.findViewById(R.id.img_booth);
 
@@ -340,11 +340,11 @@ public class BoothDetailActivity extends ActionBarActivity {
 
                     String logo_name = jObject.get("name").toString();
                     tv_logo_name.setText(logo_name);
-                  //  String explanation = jObject.getString("explanation");
-                   // booth_explanation.setText(explanation);
+                    //  String explanation = jObject.getString("explanation");
+                    // booth_explanation.setText(explanation);
                     String idea_num = jObject.getString("idea_num");
                     booth_main_idea.setText(idea_num);
-                        img_url = booth_id+"";
+                    img_url = booth_id+"";
 
                     loader.displayImage("https://s3-ap-northeast-1.amazonaws.com/comepenny/booth/"+img_url+".png",img_booth);
 

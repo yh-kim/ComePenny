@@ -19,14 +19,14 @@
             android:layout_gravity="left"
 
             android:gravity="left"
-            android:src="@drawable/booth_back"/>
+            android:src="@drawable/booth_back" />
 
 
         <TextView
+            android:id="@+id/img_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:id="@+id/img_logo"
             android:clickable="false"
             android:focusable="false"
             android:longClickable="false"
@@ -42,37 +42,37 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:layout_marginRight="6dp"
-            android:src="@drawable/write_write"/>
+            android:src="@drawable/write_write" />
     </android.support.v7.widget.Toolbar>
 
 
-
-     <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
-         <LinearLayout
-             android:id="@+id/write_top_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/write_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff">
 
-             <EditText
-                 android:id="@+id/edit_content"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 android:layout_marginTop="10dp"
-                 android:layout_marginBottom="10dp"
-                 android:gravity="top"
-                 android:layout_marginLeft="5dp"
-                 android:layout_marginRight="5dp"
-                 android:background="#ffffff"
-                 android:hint=" 당신의 특별한 글을 적어보세요."
-                 android:textColor="#000000"
-                 android:textColorHint="#b6b6b6"
-                 android:textSize="15dp" />
-         </LinearLayout>
-     </RelativeLayout>
+            <EditText
+                android:id="@+id/edit_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"
+                android:background="#ffffff"
+                android:gravity="center_horizontal"
+                android:hint="당신의 특별한 글을 적어보세요."
+                android:textColor="#000000"
+                android:textColorHint="#b6b6b6"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </RelativeLayout>
 
- </LinearLayout>
+</LinearLayout>

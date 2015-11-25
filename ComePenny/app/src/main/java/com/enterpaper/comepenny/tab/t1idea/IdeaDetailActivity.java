@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -211,6 +212,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_time = (TextView) header.findViewById(R.id.tv_time);
         btn_del = (TextView) header.findViewById(R.id.btn_del);
+
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         btn_reple = (TextView) header.findViewById(R.id.btn_reple);
@@ -219,7 +221,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-//        btn_share = (TextView) findViewById(R.id.btn_share);
+        btn_share = (TextView) findViewById(R.id.btn_share);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
         layout_write_bg = (LinearLayout) header.findViewById(R.id.layout_write_bg);
 
@@ -245,53 +247,11 @@ public class IdeaDetailActivity extends ActionBarActivity {
         btn_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String folder = "HomoThinkus"; // 폴더 이름
-                // 현재 날짜로 파일을 저장하기
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-                // 년월일시분초
-                Date currentTime_1 = new Date();
-                String dateString = formatter.format(currentTime_1);
-                sdCardPath = Environment.getExternalStorageDirectory();
-                File dirs = new File(Environment.getExternalStorageDirectory(), folder);
 
-                if (!dirs.exists()) { // 원하는 경로에 폴더가 있는지 확인
-                    dirs.mkdirs(); // Test 폴더 생성
-                    Log.d("CAMERA_TEST", "Directory Created");
-                }
-                layout_write_bg.buildDrawingCache();
-                Bitmap captureView = layout_write_bg.getDrawingCache();
+                screenshot();
 
-
-                try {
-                    save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
-
-                    // 저장 경로
-                    fos = new FileOutputStream(save);
-                    captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos); // 캡쳐
-
-                    // 미디어 스캐너를 통해 모든 미디어 리스트를 갱신시킨다.
-                    Log.i("111", "111111111111111111111111111");
-//                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse(save)));
-
-                    File files = new File(save);
-                    if (files.exists() == true)  //파일유무확인
-                    {
-                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(files.toString())));
-                        Log.i("111", "2222222222222222222");
-                        Intent intentSend = new Intent(Intent.ACTION_SEND);
-                        intentSend.setType("image/*");
-                        //이름으로 저장된 파일의 경로를 넣어서 공유하기
-
-                        intentSend.putExtra(Intent.EXTRA_STREAM, Uri.parse(files.toString()));
-                        Log.i("111", "2222222222222222222");
-                        startActivity(Intent.createChooser(intentSend, "공유하기")); //공유하기 창 띄우기
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
             }
         });
-
 
         Edit_reple.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -482,7 +442,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     @Override
     public void finish() {
         // 수정, 일반일 때
-        if(resultCode == 1){
+        if (resultCode == 1) {
             Intent backIntent = new Intent();
 
             String backContent = tv_ideaoriginal.getText().toString();
@@ -498,7 +458,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
             setResult(1, backIntent);
         }
         // 삭제일 때
-        else if(resultCode == 2){
+        else if (resultCode == 2) {
             setResult(resultCode);
         }
 
@@ -1464,34 +1424,55 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-    public void screenshot(View view) throws Exception {
+    public void screenshot() {
 
-        view.setDrawingCacheEnabled(true);
+        String folder = "HomoThinkus"; // 폴더 이름
+        // 현재 날짜로 파일을 저장하기
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        // 년월일시분초
+        Date currentTime_1 = new Date();
+        String dateString = formatter.format(currentTime_1);
+        sdCardPath = Environment.getExternalStorageDirectory();
+        File dirs = new File(Environment.getExternalStorageDirectory(), folder);
 
-        Bitmap screenshot = view.getDrawingCache();
-
-        String filename = "screenshot.png";
-
-        try {
-
-            File f = new File(Environment.getExternalStorageDirectory(), filename);
-
-            f.createNewFile();
-
-            OutputStream outStream = new FileOutputStream(f);
-
-            screenshot.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-
-            outStream.close();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
+        if (!dirs.exists()) { // 원하는 경로에 폴더가 있는지 확인
+            dirs.mkdirs(); // Test 폴더 생성
+            Log.d("CAMERA_TEST", "Directory Created");
         }
 
-        view.setDrawingCacheEnabled(false);
+        //     int width_container = layout_write_bg.getWidth() ;//캡쳐할 레이아웃 크기
+        //     int height_container = layout_write_bg.getHeight() ;//캡쳐할 레이아웃 크기
 
+        layout_write_bg.setDrawingCacheEnabled(true);
+        layout_write_bg.buildDrawingCache(true);
+
+        Bitmap captureView = Bitmap.createBitmap(layout_write_bg.getMeasuredWidth(),
+                layout_write_bg.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas screenShotCanvas = new Canvas(captureView);
+        layout_write_bg.draw(screenShotCanvas);
+        try {
+            save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
+            // 저장 경로
+            fos = new FileOutputStream(save);
+            captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos); // 캡쳐
+            layout_write_bg.setDrawingCacheEnabled(false);
+
+            File files = new File(save);
+            if (files.exists() == true)  //파일유무확인
+            {
+                Uri uri = Uri.fromFile(new File(save));
+                // 미디어 스캐너를 통해 모든 미디어 리스트를 갱신시킨다. // 미디어 스캐너를 통해 모든 미디어 리스트를 갱신시킨다.
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                Intent intentSend = new Intent(Intent.ACTION_SEND);
+                intentSend.setType("image/*");
+                //이름으로 저장된 파일의 경로를 넣어서 공유하기
+                intentSend.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(Intent.createChooser(intentSend, "공유하기")); //공유하기 창 띄우기
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
+
 
 }

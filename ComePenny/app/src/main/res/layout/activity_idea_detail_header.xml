@@ -34,12 +34,11 @@
                         android:orientation="vertical">
 
 
-
                         <LinearLayout
-                            android:layout_marginTop="14dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
+                            android:layout_marginTop="14dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -119,9 +118,9 @@
                     android:layout_height="65dp"
                     android:layout_alignParentRight="true"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp"
                     android:paddingRight="6dp" />
 
 
@@ -135,24 +134,26 @@
                 android:src="@drawable/line" />
 
             <LinearLayout
+                android:id="@+id/layout_write_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_write_bg"
-                android:background="#ffffff">
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:background="#ffffff"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_ideaoriginal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="14dp"
+                    android:gravity="top"
                     android:lineSpacingExtra="13dp"
-                    android:paddingBottom="31dp"
                     android:text=""
                     android:textColor="#313131"
                     android:textSize="15dp" />
+
             </LinearLayout>
 
             <ImageButton
