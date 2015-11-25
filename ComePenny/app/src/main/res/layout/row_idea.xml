@@ -67,6 +67,7 @@
                     android:textSize="15dp"
                     android:textStyle="normal"
                     android:layout_marginLeft="3dp"
+                    android:layout_marginRight="3dp"
                    />
 
                 <ImageView

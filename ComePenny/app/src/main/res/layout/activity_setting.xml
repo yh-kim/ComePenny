@@ -92,7 +92,7 @@
                 android:layout_marginRight="9dp"
                 android:layout_marginTop="13dp"
                 android:gravity="right"
-                android:text="1.0.2"
+                android:text="1.1.0"
                 android:textColor="#959595"
                 android:textSize="17sp" />
 
