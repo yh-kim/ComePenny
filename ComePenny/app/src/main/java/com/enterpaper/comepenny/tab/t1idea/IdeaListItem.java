@@ -10,18 +10,9 @@ public class IdeaListItem {
     private String email;
     private String booth_name;
     private int ViewCount;
+    private int commentCount;
     private int LikeCount;
     private int idea_id;
-
-    public IdeaListItem(String img_url, String content, String email, String booth_name, int viewCount, int likeCount, int idea_id) {
-        this.img_url = img_url;
-        this.content = content;
-        this.email = email;
-        this.booth_name = booth_name;
-        ViewCount = viewCount;
-        LikeCount = likeCount;
-        this.idea_id = idea_id;
-    }
 
     public String getImg_url() {
         return img_url;
@@ -63,6 +54,14 @@ public class IdeaListItem {
         ViewCount = viewCount;
     }
 
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
     public int getLikeCount() {
         return LikeCount;
     }
@@ -76,6 +75,18 @@ public class IdeaListItem {
     }
 
     public void setIdea_id(int idea_id) {
+        this.idea_id = idea_id;
+    }
+
+    public IdeaListItem(String img_url, String content, String email, String booth_name, int viewCount, int commentCount, int likeCount, int idea_id) {
+
+        this.img_url = img_url;
+        this.content = content;
+        this.email = email;
+        this.booth_name = booth_name;
+        ViewCount = viewCount;
+        this.commentCount = commentCount;
+        LikeCount = likeCount;
         this.idea_id = idea_id;
     }
 }

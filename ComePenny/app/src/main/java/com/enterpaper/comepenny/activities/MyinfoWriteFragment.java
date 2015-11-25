@@ -47,6 +47,9 @@ public class MyinfoWriteFragment extends Fragment {
     IdeaAdapter myadapters;
     String booth_name;
     ArrayList<IdeaListItem> mydataList = new ArrayList<>();
+    String name[] = {"게임","공부","도전","독서","애니","예술","브랜드","사랑",
+            "스포츠","시간","여행","영화","오글오글","음악","이별","인생","종교","창업",
+            "취업","친구","희망","기타"};
 
     private Intent intent = new Intent();
 
@@ -125,11 +128,13 @@ public class MyinfoWriteFragment extends Fragment {
             case 1:
                 String backContent = data.getStringExtra("backContent");
                 int backView = data.getIntExtra("backView", 0);
+                int backComment = data.getIntExtra("backComment", 0);
                 int backLike = data.getIntExtra("backLike",0);
 
                 IdeaListItem backItem = mydataList.get(selectedItem);
                 backItem.setContent(backContent);
                 backItem.setViewCount(backView);
+                backItem.setCommentCount(backComment);
                 backItem.setLikeCount(backLike);
 
                 myadapters.notifyDataSetChanged();
@@ -183,28 +188,16 @@ public class MyinfoWriteFragment extends Fragment {
                         int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
                         int hit = obj_boothIdeas.getInt("hit");
+                        int comment_num = obj_boothIdeas.getInt("comment_num");
                         int like_num = obj_boothIdeas.getInt("like_num");
                         int booth_id = obj_boothIdeas.getInt("booth_id");
                         String img_url = booth_id+"";
                         String getemail = obj_boothIdeas.getString("email");
-                        String name[] = {"게임","공부","도전","독서","애니","예술","브랜드","사랑",
-                                "스포츠","시간","여행","영화","오글오글","음악","이별","인생","종교","창업",
-                                "취업","친구","희망","기타"};
 
-                        if(booth_id==1){booth_name=name[0];}else if(booth_id==2){booth_name=name[1];}
-                        else if(booth_id==3){booth_name=name[2];}else if(booth_id==4){booth_name=name[3];}
-                        else if(booth_id==5){booth_name=name[4];}else if(booth_id==6){booth_name=name[5];}
-                        else if(booth_id==7){booth_name=name[6];}else if(booth_id==8){booth_name=name[7];}
-                        else if(booth_id==9){booth_name=name[8];}else if(booth_id==10){booth_name=name[9];}
-                        else if(booth_id==11){booth_name=name[10];}else if(booth_id==12){booth_name=name[11];}
-                        else if(booth_id==13){booth_name=name[12];}else if(booth_id==14){booth_name=name[13];}
-                        else if(booth_id==15){booth_name=name[14];}else if(booth_id==16){booth_name=name[15];}
-                        else if(booth_id==17){booth_name=name[16];}else if(booth_id==18){booth_name=name[17];}
-                        else if(booth_id==19){booth_name=name[18];}else if(booth_id==20){booth_name=name[19];}
-                        else if(booth_id==21){booth_name=name[20];}else if(booth_id==22){booth_name=name[21];}
+                        booth_name = name[booth_id - 1];
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(img_url, content, getemail,booth_name, hit, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, getemail,booth_name, hit,comment_num, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         mydataList.add(items);

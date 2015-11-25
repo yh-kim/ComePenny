@@ -496,10 +496,12 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             String backContent = tv_ideaoriginal.getText().toString();
             Integer backView = Integer.valueOf(tv_view.getText().toString().trim());
+            Integer backComment = Integer.valueOf(tv_commentcount.getText().toString().trim());
             Integer backLike = Integer.valueOf(tv_like.getText().toString().trim());
 
             backIntent.putExtra("backContent", backContent);
             backIntent.putExtra("backView", backView);
+            backIntent.putExtra("backComment", backComment);
             backIntent.putExtra("backLike", backLike);
 
             setResult(1, backIntent);
