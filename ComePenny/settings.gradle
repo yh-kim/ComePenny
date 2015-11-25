@@ -1,1 +1,1 @@
-include ':apache-mime4j-0.6', ':httpclient-4.1.2', ':httpmime-4.1.2', ':app', ':picasso-2.3.4'
+include ':httpclient-4.1.2', ':httpmime-4.1.2', ':picasso-2.3.4', ':apache-mime4j-0.6', ':app'

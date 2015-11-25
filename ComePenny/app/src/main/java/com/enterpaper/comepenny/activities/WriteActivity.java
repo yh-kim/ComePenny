@@ -40,6 +40,7 @@ public class WriteActivity extends Activity {
     ImageView btn_write_back, btn_write_write;
     EditText edit_content;
     String content, user_id,content1;
+    String sharedText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class WriteActivity extends Activity {
         //writebooth에서 intent할때 보낸 값 받기
         Intent intent = getIntent();
         booth_id = intent.getExtras().getInt("booth_id");
+        sharedText = intent.getExtras().getString("sharedText");
 
         user_id = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
 
@@ -57,6 +59,8 @@ public class WriteActivity extends Activity {
 
         // layout 생성
         initializeLayout();
+
+        edit_content.setText(sharedText);
 
         initializeListener();
     }

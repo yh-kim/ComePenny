@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t2booth.BoothItem;
 import com.enterpaper.comepenny.tab.t2booth.WriteBoothAdapter;
+import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -36,6 +37,7 @@ import java.util.List;
  * Created by kimmiri on 2015. 10. 30..
  */
 public class WriteBoothActivity extends ActionBarActivity{
+    String sharedText;
     int row_cnt = 8;
     int count = 0;
     int offset = 0;
@@ -58,6 +60,27 @@ public class WriteBoothActivity extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_booth_select);
+
+        // 로그인이 안 돼있는 유저라면
+        String userId = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
+        if(userId.equals("")){
+            Intent itMain = new Intent(WriteBoothActivity.this, LoginActivity.class);
+            startActivity(itMain);
+            overridePendingTransition(0, 0);
+            finish();
+        }
+
+        // 인텐트를 얻어오고, 액션과 MIME 타입을 가져온다
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        // 인텐트 정보가 있는 경우 실행
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);    // 가져온 인텐트의 텍스트 정보
+            }
+        }
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -132,6 +155,10 @@ public class WriteBoothActivity extends ActionBarActivity{
                 if(selected){
                     Intent company = new Intent(getApplicationContext(), WriteActivity.class);
                     company.putExtra("booth_id", booth_id);
+                    if(sharedText != null){
+                        company.putExtra("sharedText", sharedText);
+                        Toast.makeText(getApplicationContext(), "데이터있음", Toast.LENGTH_SHORT).show();
+                    }
                     startActivity(company);
                     overridePendingTransition(0, 0);
                     finish();
@@ -229,7 +256,9 @@ public class WriteBoothActivity extends ActionBarActivity{
                         BoothItem item = new BoothItem(img_url,booth_name,booth_id,ideaNum,likeNum);
 
                         // Item 객체를 ArrayList에 넣는다
-                        arr_list.add(item);
+                        // 브랜드 카테고리는 제외
+                        if(booth_id != 7)
+                            arr_list.add(item);
 
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapter_sel_booth.notifyDataSetChanged();

@@ -20,6 +20,7 @@ import com.enterpaper.comepenny.activities.WriteActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
+import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
@@ -45,6 +46,7 @@ import java.util.List;
  * Created by Kim on 2015-09-16.
  */
 public class BoothDetailActivity extends ActionBarActivity {
+    String userId;
     int selectedItem;
     FloatingActionButton fab;
     int booth_id;
@@ -77,6 +79,8 @@ public class BoothDetailActivity extends ActionBarActivity {
         //boothFragment에서 intent할때 보낸 값 받기
         Intent intent = getIntent();
         booth_id = intent.getExtras().getInt("booth_id");
+
+        userId = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
         //리스트부분
         lvBoothDetailIdea = (ListView)findViewById(R.id.lv_booth_detail_idea);
         // 리스트 헤더 부분
@@ -127,19 +131,38 @@ public class BoothDetailActivity extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                fab.attachToListView(lvBoothDetailIdea, new ScrollDirectionListener() {
-                    @Override
-                    public void onScrollDown() {
+                if(booth_id == 7 && !userId.equals("0")){
+                    // 브랜드 카테고리인데 일반 유저라면
+                    // 숨기기
+                    fab.hide();
 
+                    if ((firstVisibleItem + visibleItemCount) == totalItemCount - 2) {
+                        //서버로부터 받아온 List개수를 count
+                        //지금까지 받아온 개수를 offset
+                        if (count != 0 && offset > 3 && offset % 6 == 0) {
+                            if (is_scroll) {
+                                //스크롤 멈추게 하는거
+                                is_scroll = false;
+                                new NetworkGetBoothIdeaList().execute("");
+                            }
+                        }
                     }
+                }else{
+                    fab.attachToListView(lvBoothDetailIdea, new ScrollDirectionListener() {
+                        @Override
+                        public void onScrollDown() {
 
-                    @Override
-                    public void onScrollUp() {
+                        }
 
-                    }
-                }, listListener);
+                        @Override
+                        public void onScrollUp() {
+
+                        }
+                    }, listListener);
+                }
             }
         });
+
 
 
 
@@ -175,7 +198,7 @@ public class BoothDetailActivity extends ActionBarActivity {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount - 2) {
                 //서버로부터 받아온 List개수를 count
                 //지금까지 받아온 개수를 offset
                 if (count != 0 && offset > 3 && offset % 6 == 0) {
@@ -220,18 +243,22 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea = (ListView) findViewById(R.id.lv_booth_detail_idea);
         img_booth = (ImageView)header.findViewById(R.id.img_booth);
 
-
-        fab = (FloatingActionButton)findViewById(R.id.fab_booth);
+        fab = (FloatingActionButton) findViewById(R.id.fab_booth);
         fab.attachToListView(lvBoothDetailIdea);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(booth_id == 7 && !userId.equals("0")){
+                    return;
+                }
+
                 Intent itWrite = new Intent(getApplicationContext(), WriteActivity.class);
                 itWrite.putExtra("booth_id", booth_id);
                 startActivityForResult(itWrite, 3);
                 overridePendingTransition(0, 0);
             }
         });
+
     }
 
     //취소버튼 눌렀을 때
