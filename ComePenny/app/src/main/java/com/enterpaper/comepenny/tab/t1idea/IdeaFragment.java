@@ -216,7 +216,7 @@ public class IdeaFragment extends Fragment {
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount - 2) {
                 //서버로부터 받아온 List개수를 count
                 //지금까지 받아온 개수를 offset
                 if (count != 0 && offset > 3 && offset % 6 == 0) {

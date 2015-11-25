@@ -22,7 +22,20 @@
 
         <activity android:name=".activities.MyInfoActivity"></activity>
         <activity android:name=".activities.SettingActivity"></activity>
-        <activity android:name=".activities.WriteBoothActivity"></activity>
+
+        <activity android:name=".activities.WriteBoothActivity">
+            <!--
+            텍스트 공유
+            -->
+            <intent-filter>
+               <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+
+        </activity>
+
+
         <activity
             android:name=".activities.WriteActivity"
             android:windowSoftInputMode="adjustPan"></activity>
