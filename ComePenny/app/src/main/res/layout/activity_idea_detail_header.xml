@@ -85,7 +85,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="16dp"
-                                android:text="like : "
+                                android:text="pick : "
                                 android:textColor="#959595"
                                 android:textSize="11dp" />
 
@@ -137,7 +137,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_write_bg">
+                android:id="@+id/layout_write_bg"
+                android:background="#ffffff">
 
                 <TextView
                     android:id="@+id/tv_ideaoriginal"

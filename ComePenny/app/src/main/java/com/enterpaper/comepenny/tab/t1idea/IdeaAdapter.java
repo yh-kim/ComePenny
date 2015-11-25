@@ -82,7 +82,7 @@ public class IdeaAdapter extends ArrayAdapter<IdeaListItem> {
 
         String contents =item.getContent();
         holder.title.setText(contents);
-        int maxLines = 7;
+        int maxLines = 14;
         holder.title.setMaxLines(maxLines);
         if ( holder.title.getLineCount() > maxLines){
             int lastCharShown =  holder.title.getLayout().getLineVisibleEnd(maxLines - 2);
