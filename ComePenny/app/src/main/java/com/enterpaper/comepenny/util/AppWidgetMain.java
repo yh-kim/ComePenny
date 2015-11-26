@@ -1,9 +1,11 @@
 package com.enterpaper.comepenny.util;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.widget.RemoteViews;
 
 import com.enterpaper.comepenny.R;
@@ -13,6 +15,8 @@ import com.enterpaper.comepenny.R;
  * Implementation of App Widget functionality.
  */
 public class AppWidgetMain extends AppWidgetProvider {
+    static final String ACTION_CLICK = "CLICK";
+    static int rgbGet = Color.rgb(168,168,168);
 
     /**
      * 브로드 캐스트를 수신할 때, overrid된 콜백 메소드가 호출되기 직전에 호출됨
@@ -21,6 +25,20 @@ public class AppWidgetMain extends AppWidgetProvider {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+
+
+        // 해당 버튼이 클릭 되었는지 판별하고 로직 수행
+        if(action != null && action.equals(ACTION_CLICK)){
+            int id = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+
+            rgbGet = intent.getIntExtra("rgb", Color.rgb(0,0,0));
+
+            updateAppWidget(context, AppWidgetManager.getInstance(context), id);   // 버튼이 클릭되면 새로고침 수행
+
+        }
+
         super.onReceive(context, intent);
     }
 
@@ -87,15 +105,25 @@ public class AppWidgetMain extends AppWidgetProvider {
      */
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        CharSequence widgetText = "아무것도 못 먹었다. 배가 고프다.";
-
+        String widgetText = "아무것도 못 먹었다. 배가 고프다.";
         // RemoteViews를 이용해 Text 설정
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget_main);
-        views.setTextViewText(R.id.main_widget_tv_content, widgetText);
+
+        views.setTextViewText(R.id.main_widget_tv_content, widgetText + rgbGet);
+        views.setTextColor(R.id.main_widget_tv_content, rgbGet);
+
+        // intent 달기
+        Intent intent = new Intent(context, WidgetConfigureActivity.class);
+        intent.setAction(ACTION_CLICK);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,appWidgetId);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        views.setOnClickPendingIntent(R.id.main_widget_tv_content, pendingIntent);
 
         // 위젯 업데이트
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
     }
 }
 
