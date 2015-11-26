@@ -164,6 +164,7 @@ public class LoadingActivity extends Activity {
 
             }
             String appVersion = pi.versionName;
+
             if (mVer.equals(appVersion)) {
                 // Toast.makeText(getApplicationContext(), "최신버전", Toast.LENGTH_SHORT).show();
                 TimerTask();
