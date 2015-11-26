@@ -61,9 +61,9 @@ public class IdeaFragment extends Fragment {
     List<IdeaPopularListItem> items = new ArrayList<>();
     LinearLayoutManager layoutmanager;
     private Intent intent = new Intent();
-    String name[] = {"게임","공부","도전","독서","애니","예술","브랜드","사랑",
-            "스포츠","시간","여행","영화","오글오글","음악","이별","인생","종교","창업",
-            "취업","친구","희망","기타"};
+    String name[] = {"게임", "공부", "도전", "독서", "애니", "예술", "브랜드", "사랑",
+            "스포츠", "시간", "여행", "영화", "오글오글", "음악", "이별", "인생", "종교", "창업",
+            "취업", "친구", "희망", "기타"};
 
     public static Fragment newInstance() {
         Fragment fragment = new IdeaFragment();
@@ -71,8 +71,6 @@ public class IdeaFragment extends Fragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
-
 
 
     //다른 activity에 갔다가 돌아왔을때 실행되는 코드, onCreate()실행되고 뭐 실행되고 뭐실행되고 실행되는게 onResume()
@@ -113,7 +111,7 @@ public class IdeaFragment extends Fragment {
         popular_view = inflater.inflate(R.layout.fragment_idea_header, null, false);
         recycler_info = (LinearLayout) popular_view.findViewById(R.id.recycler_info);
         recyclerView = (RecyclerView) popular_view.findViewById(R.id.recyclerview);
-        tv_name = (TextView)popular_view.findViewById(R.id.tv_name);
+        tv_name = (TextView) popular_view.findViewById(R.id.tv_name);
 
         // 헤더레이아웃 객체 생성
         initializeLayout();
@@ -177,7 +175,7 @@ public class IdeaFragment extends Fragment {
                 intent.setClass(rootView.getContext(), IdeaDetailActivity.class);
                 intent.putExtra("idea_id", dataList.get(position - 1).getIdea_id());
                 intent.putExtra("email", dataList.get(position - 1).getEmail());
-                startActivityForResult(intent,0);
+                startActivityForResult(intent, 0);
                 getActivity().overridePendingTransition(0, 0);
             }
 
@@ -233,13 +231,17 @@ public class IdeaFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode){
+        if (dataList.size() == 0) {
+            initializationList();
+            return;
+        }
+        switch (resultCode) {
             // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
             case 1:
                 String backContent = data.getStringExtra("backContent");
                 int backView = data.getIntExtra("backView", 0);
                 int backComment = data.getIntExtra("backComment", 0);
-                int backLike = data.getIntExtra("backLike",0);
+                int backLike = data.getIntExtra("backLike", 0);
 
                 IdeaListItem backItem = dataList.get(selectedItem);
                 backItem.setContent(backContent);
@@ -280,7 +282,6 @@ public class IdeaFragment extends Fragment {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network popluar Data", jObject.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -290,12 +291,12 @@ public class IdeaFragment extends Fragment {
                         JSONObject obj = ret_arr.getJSONObject(index);
 
                         int booth_id = obj.getInt("id");
-                         String img_url = booth_id+"";
+                        String img_url = booth_id + "";
                         String booth_name = obj.getString("name");
 
 
                         //Item 객체로 만들어야함
-                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex11,img_url,booth_name);
+                        IdeaPopularListItem item = new IdeaPopularListItem(booth_id, R.drawable.ex11, img_url, booth_name);
 
                         //Item 객체를 ArrayList에 넣는다
                         items.add(item);
@@ -390,7 +391,6 @@ public class IdeaFragment extends Fragment {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObjects.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -403,7 +403,7 @@ public class IdeaFragment extends Fragment {
                     for (int index = 0; index < ret_arr.length(); index++) {
                         JSONObject obj_boothIdeas = ret_arr.getJSONObject(index);
                         int booth_id = obj_boothIdeas.getInt("booth_id");
-                        String img_url = booth_id+"";
+                        String img_url = booth_id + "";
 
                         int idea_id = obj_boothIdeas.getInt("id");
                         String content = obj_boothIdeas.getString("content");
@@ -415,7 +415,7 @@ public class IdeaFragment extends Fragment {
                         booth_name = name[booth_id - 1];
 
                         // Item 객체로 만들어야함
-                        IdeaListItem items = new IdeaListItem(img_url, content, getemail,booth_name, hit,comment_num, like_num, idea_id);
+                        IdeaListItem items = new IdeaListItem(img_url, content, getemail, booth_name, hit, comment_num, like_num, idea_id);
 
                         // Item 객체를 ArrayList에 넣는다
                         dataList.add(items);
@@ -424,8 +424,8 @@ public class IdeaFragment extends Fragment {
                         // Adapter에게 데이터를 넣었으니 갱신하라고 알려줌
                         adapters.notifyDataSetChanged();
                     }
-                        // scroll 할 수 있게함
-                        is_scroll = true;
+                    // scroll 할 수 있게함
+                    is_scroll = true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -491,11 +491,6 @@ public class IdeaFragment extends Fragment {
         }
 
     }
-
-
-
-
-
 
 
 }

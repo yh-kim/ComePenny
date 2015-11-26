@@ -71,12 +71,12 @@ public class IdeaDetailActivity extends ActionBarActivity {
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
     Toolbar mToolBar;
-    ImageView btn_ideaback, iv_comment_basic, iv_boothicon;
+    ImageView btn_ideaback, iv_comment_basic, iv_boothicon, logo_capture;
     ListView lvIdeaDetailComment;
-    ImageButton btn_pick;
+    ImageButton btn_pick, btn_share;
     EditText Edit_reple, Edit_reple_adjust;
     TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time,
-            btn_reple, btn_del, btn_reple_update, btn_reple_cancel, btn_share, tv_test;
+            btn_reple, btn_del, btn_reple_update, btn_reple_cancel;
     int pick_boolean = 0;
     View header;
     int idea_id, booth_id, comment_id;
@@ -204,7 +204,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_time = (TextView) header.findViewById(R.id.tv_time);
         btn_del = (TextView) header.findViewById(R.id.btn_del);
-        tv_test = (TextView) header.findViewById(R.id.tv_test);
+        logo_capture = (ImageView) header.findViewById(R.id.logo_capture);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         btn_reple = (TextView) header.findViewById(R.id.btn_reple);
@@ -213,7 +213,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         lvIdeaDetailComment = (ListView) findViewById(R.id.lv_idea_detail_comments);
         btn_ideaback = (ImageView) findViewById(R.id.btn_ideaback);
         tv_logo_name = (TextView) findViewById(R.id.tv_logo_name);
-        btn_share = (TextView) findViewById(R.id.btn_share);
+        btn_share = (ImageButton) header.findViewById(R.id.btn_share);
         Edit_reple = (EditText) header.findViewById(R.id.Edit_reple);
         layout_write_bg = (LinearLayout) header.findViewById(R.id.layout_write_bg);
 
@@ -1417,6 +1417,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
     }
 
     public void screenshot() {
+        btn_share.setClickable(false);
+        btn_pick.setClickable(false);
 
         String folder = "HomoThinkus"; // 폴더 이름
         // 현재 날짜로 파일을 저장하기
@@ -1431,11 +1433,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
             dirs.mkdirs(); // Test 폴더 생성
             Log.d("CAMERA_TEST", "Directory Created");
         }
-
         //     int width_container = layout_write_bg.getWidth() ;//캡쳐할 레이아웃 크기
         //     int height_container = layout_write_bg.getHeight() ;//캡쳐할 레이아웃 크기
-        tv_test.setVisibility(View.VISIBLE);
-        //layout_write_bg.setBackgroundResource(R.drawable.loading);
+        logo_capture.setVisibility(View.VISIBLE);
+        layout_write_bg.setBackgroundResource(R.drawable.test1);
         //배경랜덤
 //        int background[] = {R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4};
 //        int idx = (int) (Math.random() * background.length);
@@ -1447,8 +1448,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 layout_write_bg.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas screenShotCanvas = new Canvas(captureView);
         layout_write_bg.draw(screenShotCanvas);
-        tv_test.setVisibility(View.INVISIBLE);
-       // layout_write_bg.setBackgroundResource(0);
+        logo_capture.setVisibility(View.INVISIBLE);
+        layout_write_bg.setBackgroundResource(0);
         try {
             save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
             // 저장 경로
@@ -1468,6 +1469,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 intentSend.putExtra(Intent.EXTRA_STREAM, uri);
                 startActivity(Intent.createChooser(intentSend, "공유하기")); //공유하기 창 띄우기
             }
+            btn_share.setClickable(true);
+            btn_pick.setClickable(true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

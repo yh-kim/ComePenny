@@ -123,6 +123,10 @@ public class MyinfoWriteFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (mydataList.size() == 0) {
+            initializationList();
+            return;
+        }
         switch (resultCode){
             // 일반적 상황 (조회수, 좋아요수, 댓글수, 컨텐츠 업데이트)
             case 1:

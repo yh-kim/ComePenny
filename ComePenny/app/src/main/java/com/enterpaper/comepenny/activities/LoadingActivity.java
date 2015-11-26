@@ -28,7 +28,7 @@ import java.util.TimerTask;
  * Created by Kim on 2015-08-08.
  */
 public class LoadingActivity extends Activity {
-    private long splashDelay = 400;
+    private long splashDelay = 200;
 
     String mData = "", mVer = null;
 

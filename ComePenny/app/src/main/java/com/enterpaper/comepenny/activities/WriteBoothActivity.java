@@ -157,7 +157,7 @@ public class WriteBoothActivity extends ActionBarActivity{
                     company.putExtra("booth_id", booth_id);
                     if(sharedText != null){
                         company.putExtra("sharedText", sharedText);
-                        Toast.makeText(getApplicationContext(), "데이터있음", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(getApplicationContext(), "데이터있음", Toast.LENGTH_SHORT).show();
                     }
                     startActivity(company);
                     overridePendingTransition(0, 0);

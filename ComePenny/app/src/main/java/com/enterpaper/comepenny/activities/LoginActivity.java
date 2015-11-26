@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
+
 import com.enterpaper.comepenny.util.SetFont;
 
 import org.apache.http.HttpResponse;
@@ -57,6 +58,7 @@ public class LoginActivity extends Activity {
         initializeLayout();
 
         initializeListener();
+
     }
 
     private void initializeLayout(){
@@ -235,4 +237,8 @@ public class LoginActivity extends Activity {
         }
 
     }
-}
+
+
+    }
+
+
