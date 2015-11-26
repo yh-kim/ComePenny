@@ -149,7 +149,6 @@ public class BoothFragment extends Fragment {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObject.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -208,18 +207,6 @@ public class BoothFragment extends Fragment {
 
                 http_post = new HttpPost(
                         "http://54.199.176.234/api/get_booth_list.php");
-
-//                        //서버에 보낼 데이터
-//                        // data를 담음
-//                        name_value.add(new BasicNameValuePair("booth_id", id));
-//                        // 받아올개수 row_cnt 는 int형이니까 뒤에 ""를 붙이면 String이 되겠지
-//                        name_value.add(new BasicNameValuePair("row_cnt", row_cnt + ""));
-//                        // 데이터를 받아올 시작점
-//                        name_value.add(new BasicNameValuePair("offset", offset + ""));
-//
-//                        UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(
-//                                name_value, "UTF-8");
-//                        http_post.setEntity(entityRequest);
 
                 // 실행
                 HttpResponse response = http_client.execute(http_post);

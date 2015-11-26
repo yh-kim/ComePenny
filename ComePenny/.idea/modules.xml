@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/MarketVersionChecker/MarketVersionChecker.iml" filepath="$PROJECT_DIR$/MarketVersionChecker/MarketVersionChecker.iml" />
       <module fileurl="file://$PROJECT_DIR$/apache-mime4j-0.6/apache-mime4j-0.6.iml" filepath="$PROJECT_DIR$/apache-mime4j-0.6/apache-mime4j-0.6.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gcm/gcm.iml" filepath="$PROJECT_DIR$/gcm/gcm.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpclient-4.1.2/httpclient-4.1.2.iml" filepath="$PROJECT_DIR$/httpclient-4.1.2/httpclient-4.1.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/httpmime-4.1.2/httpmime-4.1.2.iml" filepath="$PROJECT_DIR$/httpmime-4.1.2/httpmime-4.1.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/jsoup-1.7.3/jsoup-1.7.3.iml" filepath="$PROJECT_DIR$/jsoup-1.7.3/jsoup-1.7.3.iml" />
