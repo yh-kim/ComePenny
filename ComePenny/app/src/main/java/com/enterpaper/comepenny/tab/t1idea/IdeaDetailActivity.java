@@ -66,6 +66,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     int count = 0;
     int offset = 0;
     int commentDelPosition;
+
     boolean is_scroll = true;
     //  private String msg, reg_Time, regTime_str;
     InputMethodManager keyboard;
@@ -75,7 +76,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
     ImageButton btn_pick;
     EditText Edit_reple, Edit_reple_adjust;
     TextView tv_logo_name, tv_Writer, tv_view, tv_like, tv_ideaoriginal, tv_commentcount, tv_time,
-            btn_reple, btn_del, btn_reple_update, btn_reple_cancel, btn_share;
+            btn_reple, btn_del, btn_reple_update, btn_reple_cancel, btn_share, tv_test;
     int pick_boolean = 0;
     View header;
     int idea_id, booth_id, comment_id;
@@ -195,16 +196,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         // 리스트 헤더 부분
         header = getLayoutInflater().inflate(R.layout.activity_idea_detail_header, null, false);
-        //////배경 랜덤 설정///////////
-//        layout_bg = (LinearLayout)header.findViewById(R.id.layout_bg);
-//        layout_write_bg = (LinearLayout) header.findViewById(R.id.layout_write_bg);
-//        layout_reple = (LinearLayout)findViewById(R.id.layout_reple);
-//        int background[] = {R.drawable.bg1,R.drawable.bg2,R.drawable.bg3,R.drawable.bg4};
-//        int idx = (int) (Math.random() * background.length);
-//       // layout_bg.setBackgroundResource(background[idx]);
-//        layout_reple.setBackgroundResource(background[idx]);
-        // layout_write_bg.setBackgroundResource(background[idx]);
-        ////////////////////
+
         scrollView_mainidea_detail = (ScrollView) header.findViewById(R.id.scrollView_mainidea_detail);
         btn_pick = (ImageButton) header.findViewById(R.id.btn_pick);
         tv_Writer = (TextView) header.findViewById(R.id.tv_Writer);
@@ -212,7 +204,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         tv_like = (TextView) header.findViewById(R.id.tv_like);
         tv_time = (TextView) header.findViewById(R.id.tv_time);
         btn_del = (TextView) header.findViewById(R.id.btn_del);
-
+        tv_test = (TextView) header.findViewById(R.id.tv_test);
         tv_ideaoriginal = (TextView) header.findViewById(R.id.tv_ideaoriginal);
         tv_commentcount = (TextView) header.findViewById(R.id.tv_comment_view);
         btn_reple = (TextView) header.findViewById(R.id.btn_reple);
@@ -1442,7 +1434,12 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         //     int width_container = layout_write_bg.getWidth() ;//캡쳐할 레이아웃 크기
         //     int height_container = layout_write_bg.getHeight() ;//캡쳐할 레이아웃 크기
-
+        tv_test.setVisibility(View.VISIBLE);
+        //layout_write_bg.setBackgroundResource(R.drawable.loading);
+        //배경랜덤
+//        int background[] = {R.drawable.bg1, R.drawable.bg2, R.drawable.bg3, R.drawable.bg4};
+//        int idx = (int) (Math.random() * background.length);
+//        layout_write_bg.setBackgroundResource(background[idx]);
         layout_write_bg.setDrawingCacheEnabled(true);
         layout_write_bg.buildDrawingCache(true);
 
@@ -1450,6 +1447,8 @@ public class IdeaDetailActivity extends ActionBarActivity {
                 layout_write_bg.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas screenShotCanvas = new Canvas(captureView);
         layout_write_bg.draw(screenShotCanvas);
+        tv_test.setVisibility(View.INVISIBLE);
+       // layout_write_bg.setBackgroundResource(0);
         try {
             save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
             // 저장 경로
