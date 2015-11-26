@@ -2,9 +2,7 @@ package com.enterpaper.comepenny.util;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -36,18 +34,6 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
     private int red, green, blue;
     int seekBarLeft;
     Rect thumbRect;
-    int id;
-
-
-    public ColorPickerDialog(Activity activity, int id) {
-        super(activity);
-        this.id = id;
-
-        this.activity = activity;
-        this.red = 0;
-        this.green = 0;
-        this.blue = 0;
-    }
 
     public ColorPickerDialog(Activity activity) {
         super(activity);
@@ -156,13 +142,17 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, activity, AppWidgetMain.class);
+                /*
+                위젯 하다 말았음
+                Log.e("nnnnnnnnnnn", id + "");
+
                 intent.setAction("CLICK");
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,id);
+                intent.putExtra("id",id);
                 intent.putExtra("rgb", getColor());
                 activity.sendBroadcast(intent);
                 dismiss();
                 activity.finish();
+                 */
             }
         });
     }
@@ -290,13 +280,7 @@ public class ColorPickerDialog extends Dialog implements SeekBar.OnSeekBarChange
 
     // 다이얼로그 닫을 때
     private void dialogClose(){
-        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, activity, AppWidgetMain.class);
-        intent.setAction("CLICK");
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
-        intent.putExtra("rgb", Color.rgb(0, 0, 0));
-        activity.sendBroadcast(intent);
-        dismiss();
-        activity.finish();
+
     }
 
     @Override
