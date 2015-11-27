@@ -44,7 +44,7 @@ public class GCMIntentService extends IntentService {
 
                 //단말기 깨운후 wakeLock해제를 해줘야하기때문에 시간을 두고 wakelock해제
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(4000);
                 } catch (InterruptedException e) {
                 }
 
