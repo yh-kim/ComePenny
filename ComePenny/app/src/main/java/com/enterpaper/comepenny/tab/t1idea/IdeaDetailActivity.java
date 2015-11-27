@@ -1411,10 +1411,10 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
         String folder = "HomoThinkus"; // 폴더 이름
         // 현재 날짜로 파일을 저장하기
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        //SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         // 년월일시분초
-        Date currentTime_1 = new Date();
-        String dateString = formatter.format(currentTime_1);
+        //Date currentTime_1 = new Date();
+       // String dateString = formatter.format(currentTime_1);
         sdCardPath = Environment.getExternalStorageDirectory();
         File dirs = new File(Environment.getExternalStorageDirectory(), folder);
 
@@ -1440,7 +1440,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
         logo_capture.setVisibility(View.INVISIBLE);
         layout_write_bg.setBackgroundResource(0);
         try {
-            save = sdCardPath.getPath() + "/" + folder + "/" + dateString + ".jpg";
+            save = sdCardPath.getPath() + "/" + folder + "/" + idea_id + ".jpg";
             // 저장 경로
             fos = new FileOutputStream(save);
             captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos); // 캡쳐
