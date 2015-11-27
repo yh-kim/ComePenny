@@ -94,27 +94,6 @@
             android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".activities.AdjustWriteActivity"></activity>
 
-        <!--
-        위젯 리시버
-        -->
-        <receiver android:name=".util.AppWidgetMain">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="com.enterpaper.comepenny.android.appwidget.CLICK" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_main_info" />
-        </receiver>
-
-        <activity android:name=".util.WidgetConfigureActivity"
-            android:theme="@style/Translucent_Dialog">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>
