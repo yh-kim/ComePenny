@@ -152,17 +152,15 @@ public class MyInfoActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int index) {
                         switch (index) {
                             case 0:
-
                                 doDelPhotoAcition();
-                                // Toast.makeText(getApplicationContext(), "기본이미지", Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
-                                // Toast.makeText(getApplicationContext(), "사진앨범", Toast.LENGTH_SHORT).show();
+
                                 doTakeAlbumAction();
 
                                 break;
                             case 2:
-                                // Toast.makeText(getApplicationContext(), "카메라", Toast.LENGTH_SHORT).show();
+
                                 doTakePhotoAction();
                                 break;
                         }
@@ -184,7 +182,6 @@ public class MyInfoActivity extends ActionBarActivity {
             url = my_id + ".jpg";
             uri = Uri.fromFile(new File(this.getExternalFilesDir(Environment.DIRECTORY_DCIM), url));
             String full_path = uri.getPath();
-            Log.i("full path", full_path);
 
             File file = new File(full_path);
             if(!file.isFile()){
@@ -199,7 +196,6 @@ public class MyInfoActivity extends ActionBarActivity {
             int index = s_path[0].length() + 1;
             String photo_path = full_path.substring(index, full_path.length());
 
-            Log.i("photo_path", photo_path);
             photo = BitmapFactory.decodeFile(photo_path);
 
             //사진을 바로쓰지말고 bitmap으로 사이즈를 줄여서 처리하자
@@ -279,7 +275,7 @@ public class MyInfoActivity extends ActionBarActivity {
 
             File file = this.getExternalFilesDir(Environment.DIRECTORY_DCIM);
             File[] flist = file.listFiles();
-            //Toast.makeText(getApplicationContext(), "imgcnt = " + flist.length, Toast.LENGTH_SHORT).show();
+
             for(int i = 0 ; i < flist.length ; i++)
             {
                 String fname = flist[i].getName();
@@ -319,9 +315,6 @@ public class MyInfoActivity extends ActionBarActivity {
     //빈파일을 만들어서 위치를 알려줌(사진파일을 담을 파일)
     public Uri createSaveCropFile() {
         //경로
-
-        Log.i("uri", "in");
-
         //파일명 (현재시간의 밀리 세컨드값)
       //  String url = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
 
@@ -330,7 +323,7 @@ public class MyInfoActivity extends ActionBarActivity {
         //파일 생성 -> 사진찍은걸 파일로 가지고있어야 전송할 수 있어
         //외장메모리 영역에 파일생성
         uri = Uri.fromFile(new File(this.getExternalFilesDir(Environment.DIRECTORY_DCIM), url));
-        Log.i("uri", uri.toString());
+
         //파일 만든 위치를 uri
         return uri;
     }
@@ -348,12 +341,11 @@ public class MyInfoActivity extends ActionBarActivity {
             case PICK_FROM_ALBUM: {
                 mImageCaptureUri = data.getData();
                 File orignal_file = getImageFile(mImageCaptureUri);
-                Log.i("ori", orignal_file.getPath());
+
                 //이 파일을 카피하겠다
                 mImageCaptureUri = createSaveCropFile();
                 File copy_file = new File(mImageCaptureUri.getPath());
-                Log.i("copy_uri", mImageCaptureUri.getPath());
-                Log.i("copy_file", copy_file.getPath());
+
                 copyFile(orignal_file, copy_file);
             }
             case PICK_FROM_CAMERA: {
@@ -380,7 +372,7 @@ public class MyInfoActivity extends ActionBarActivity {
                 //사진을 view시키는거
                 //uri 주소를 String으로 가져옴
                 String full_path = mImageCaptureUri.getPath();
-                Log.i("full path", full_path);
+
 
                 //"/" 를 기준으로 나누어 저장
                 String[] s_path = full_path.split("/");
@@ -388,8 +380,6 @@ public class MyInfoActivity extends ActionBarActivity {
                 //실제 사진경로만 뽑아옴
                 int index = s_path[0].length() + 1;
                 String photo_path = full_path.substring(index, full_path.length());
-
-                Log.i("photo_path", photo_path);
 
                 photo = BitmapFactory.decodeFile(photo_path);
 

@@ -36,10 +36,10 @@ import java.util.List;
  */
 public class WriteActivity extends Activity {
     Toolbar mToolBar;
-    int booth_id,idea_id_re;
+    int booth_id;
     ImageView btn_write_back, btn_write_write;
     EditText edit_content;
-    String content, user_id,content1;
+    String content, user_id;
     String sharedText;
 
     @Override

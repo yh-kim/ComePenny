@@ -238,8 +238,6 @@ public class WriteBoothActivity extends ActionBarActivity{
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObject.toString());
-
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
                 try {

@@ -28,7 +28,7 @@ public class SetFont {
 
             }
         } else {
-            Log.e("err","This is null");
+           // Log.e("err","This is null");
         }
 
     }
