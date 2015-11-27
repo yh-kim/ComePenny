@@ -20,8 +20,8 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.each {
                     output ->
-                      //  def file = output.outputFile
-                       // output.outputFile = new File(file.parent,
+                        //  def file = output.outputFile
+                        // output.outputFile = new File(file.parent,
                         //        file.name.replace("app", "appname." + defaultConfig.versionName))
 
                         def date = new Date();
@@ -53,10 +53,14 @@ dependencies {
     compile project(':jsoup-1.7.3')
     compile project(':MarketVersionChecker')
     compile project(':gcm')
-    compile 'com.google.android.gms:play-services:8.3.0'
-}
 
-configurations {
-    all*.exclude group: 'commons-logging', module: 'commons-logging'
-    all*.exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    compile 'com.google.android.gms:play-services:8.3.0'
+
+    compile files('lib/FlurryAnalytics-6.2.0.jar')
+
+
+    configurations {
+        all*.exclude group: 'commons-logging', module: 'commons-logging'
+        all*.exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
 }
