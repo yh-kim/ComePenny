@@ -933,7 +933,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     }
 
-    //
+    //댓글 달기 http연결
     private class NetworkaddComment extends AsyncTask<String, String, Integer> {
         String comment;
         // JSON 받아오는 객체
@@ -1025,7 +1025,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
 
     }
-//    ///아이디어 수정
+
 
     //아이디어 삭제
     private class NetworkIdeaDel extends AsyncTask<String, String, Integer> {
