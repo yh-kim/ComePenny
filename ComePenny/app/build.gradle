@@ -52,8 +52,8 @@ dependencies {
     compile project(':httpmime-4.1.2')
     compile project(':jsoup-1.7.3')
     compile project(':MarketVersionChecker')
-    compile 'com.google.android.gms:play-services:8.3.0'
     compile project(':gcm')
+    compile 'com.google.android.gms:play-services:8.3.0'
 }
 
 configurations {
