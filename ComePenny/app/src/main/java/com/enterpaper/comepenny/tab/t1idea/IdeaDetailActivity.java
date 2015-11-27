@@ -433,27 +433,31 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
     @Override
     public void finish() {
-        // 수정, 일반일 때
-        if (resultCode == 1) {
-            Intent backIntent = new Intent();
+        try {
+            // 수정, 일반일 때
+            if (resultCode == 1) {
+                Intent backIntent = new Intent();
 
-            String backContent = tv_ideaoriginal.getText().toString();
-            Integer backView = Integer.valueOf(tv_view.getText().toString().trim());
-            Integer backComment = Integer.valueOf(tv_commentcount.getText().toString().trim());
-            Integer backLike = Integer.valueOf(tv_like.getText().toString().trim());
+                String backContent = tv_ideaoriginal.getText().toString();
+                Integer backView = Integer.valueOf(tv_view.getText().toString().trim());
+                Integer backComment = Integer.valueOf(tv_commentcount.getText().toString().trim());
+                Integer backLike = Integer.valueOf(tv_like.getText().toString().trim());
 
-            backIntent.putExtra("backContent", backContent);
-            backIntent.putExtra("backView", backView);
-            backIntent.putExtra("backComment", backComment);
-            backIntent.putExtra("backLike", backLike);
+                backIntent.putExtra("backContent", backContent);
+                backIntent.putExtra("backView", backView);
+                backIntent.putExtra("backComment", backComment);
+                backIntent.putExtra("backLike", backLike);
 
-            setResult(1, backIntent);
+                setResult(1, backIntent);
+            }
+            // 삭제일 때
+            else if (resultCode == 2) {
+                setResult(resultCode);
+            }
+        }catch (Exception e){
+            resultCode = 3;
+            super.finish();
         }
-        // 삭제일 때
-        else if (resultCode == 2) {
-            setResult(resultCode);
-        }
-
         super.finish();
 
         overridePendingTransition(0, 0);
@@ -491,8 +495,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("content", arr_list.get(commentDelPosition).getComment_content());
-                Log.i("s Data", s.toString());
+
                 if (arr_list.get(commentDelPosition).getComment_content().equals(s.toString())) {
                     btn_reple_update.setVisibility(View.INVISIBLE);
                     is_adjust_check = false;
@@ -629,8 +632,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network IdeaHeader Data", jObject.toString());
-
 
                 // jObject에서 데이터를 뽑아내자
                 try {
@@ -780,8 +781,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network Data", jObject.toString());
-
                 // jObject에서 데이터를 뽑아내자
                 int like_num = 0;
                 try {
@@ -823,7 +822,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network like Data", jObjects.toString());
 
                 // JSON에서 받은 객체를 가지고 List에 뿌려줘야해
                 // jObject에서 데이터를 뽑아내자
@@ -1183,9 +1181,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network 수정 할 Data", jObject.toString());
-
-
                 // jObject에서 데이터를 뽑아내자
                 try {
 
@@ -1289,7 +1284,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
                     }
                     arr_list.remove(arr_list.size() - 1);
-                    Log.i("tttttt", "[" + arr_list.size() + "]");
                     adapters.notifyDataSetChanged();
 
 
@@ -1337,10 +1331,7 @@ public class IdeaDetailActivity extends ActionBarActivity {
                         "http://54.199.176.234/api/modify_comment.php");
                 int id = arr_list.get(commentDelPosition).getComment_id();
                 //   int id = comment_id;
-                Log.i("comment_id", id + "");
                 content_reple = Edit_reple_adjust.getText().toString().trim();
-                Log.i("content_reple", content_reple);
-
 
                 //서버에 보낼 데이터
                 // data를 담음
@@ -1387,8 +1378,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             // 지금 코드에서는 result가 0이면 정상적인 상황
             if (result == 0) {
-                Log.i("Network 수정 할 reple Data", jObject.toString());
-
 
                 // jObject에서 데이터를 뽑아내자
                 try {

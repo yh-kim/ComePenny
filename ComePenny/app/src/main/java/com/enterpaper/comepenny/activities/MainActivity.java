@@ -116,9 +116,6 @@ public class MainActivity extends ActionBarActivity {
 
     private void sendRegistrationIdToBackend() {
         // Your implementation here.
-        ///서버에 regid 등록하는 형식 만들어야함
-
-        Log.d(null, "RegId = " + regid);
         new NetworkaddGCMID().execute("");
     }
 

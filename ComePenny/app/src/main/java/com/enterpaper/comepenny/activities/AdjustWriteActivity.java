@@ -88,8 +88,7 @@ public class AdjustWriteActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i("s Data", s.toString());
-                Log.i("contentold Data", content_old);
+
                 if (content_old.equals(s.toString())) {
 
                     btn_adjust_write.setBackgroundResource(R.drawable.write_gray);
@@ -211,17 +210,9 @@ public class AdjustWriteActivity extends Activity {
             // 정상적으로 글쓰기
             if (result == 0) {
                 try {
-                    //idea_id받기
-                    // int idea_id = jObject.getInt("idea_id");
-                    // String email = DataUtil.getAppPreferences(getApplicationContext(), "user_email");
+
                     jObject.getInt("err");
 
-
-//              //   여기서인텐트하기
-//                Intent itIdeaDetail = new Intent(getApplicationContext(), IdeaDetailActivity.class);
-//                itIdeaDetail.putExtra("idea_id", idea_id);//booth_id를어떻게넘겨줄지
-//                itIdeaDetail.putExtra("email", email);
-//                startActivity(itIdeaDetail);
 
                     finish();
                     overridePendingTransition(0, 0);

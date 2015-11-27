@@ -401,7 +401,7 @@ public class CircularImageView extends ImageView {
         if (drawable == null)   // Don't do anything without a proper drawable
             return null;
         else if (drawable instanceof BitmapDrawable) {  // Use the getBitmap() method instead if BitmapDrawable
-            Log.i(TAG, "Bitmap drawable!");
+
             return ((BitmapDrawable) drawable).getBitmap();
         }
 
@@ -420,7 +420,7 @@ public class CircularImageView extends ImageView {
             return bitmap;
         } catch (OutOfMemoryError e) {
             // Simply return null of failed bitmap creations
-            Log.e(TAG, "Encountered OutOfMemoryError while generating bitmap!");
+
             return null;
         }
     }

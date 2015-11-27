@@ -35,17 +35,6 @@ public class BoothAdapter extends ArrayAdapter<BoothItem> {
         this.inflater = LayoutInflater.from(context);
         //Image Loader (Application에서 초기화를 다해줌)
         loader = ImageLoader.getInstance();
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-//                .threadPriority(Thread.NORM_PRIORITY - 2)
-//                .memoryCacheSize(2 * 1024 * 1024) // 2 Mb
-//                .denyCacheImageMultipleSizesInMemory()
-//                .discCacheFileNameGenerator(new Md5FileNameGenerator())
-//                .imageDownloader(new ExtendedImageDownloader(getApplicationContext()))
-//                .tasksProcessingOrder(QueueProcessingType.LIFO)
-//                .enableLogging() // Not necessary in common
-//                .build();
-//
-//        ImageLoader.getInstance().init(config);
 
 
     }
