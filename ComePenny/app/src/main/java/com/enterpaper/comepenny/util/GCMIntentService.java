@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.view.WindowManager;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.MainActivity;
@@ -41,6 +42,16 @@ public class GCMIntentService extends IntentService {
 
                 sendNotification(message);
 
+                //단말기 깨운후 wakeLock해제를 해줘야하기때문에 시간을 두고 wakelock해제
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                }
+
+
+                // WakeLock 해제.
+                PushWakeLock.releaseCpuLock();
+
             }
         }
 
@@ -48,6 +59,8 @@ public class GCMIntentService extends IntentService {
     }
 
     private void sendNotification(String msg) {
+        // 잠든 단말을 깨워라.
+        PushWakeLock.acquireCpuWakeLock(this);
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         //push 눌럿을떄 이동하는 페이지 설정
