@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.DataUtil;
@@ -39,8 +37,9 @@ public class LoadingActivity extends Activity {
         setContentView(R.layout.activity_loading);
         getMarketVersionFast();
 
-
     }
+
+
 
     public void TimerTask() {
         //Logo를 보여주는 쓰레드 (타이머)

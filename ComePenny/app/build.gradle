@@ -54,6 +54,7 @@ dependencies {
     compile project(':MarketVersionChecker')
     compile 'com.google.android.gms:play-services:8.3.0'
     compile project(':gcm')
+    compile files('lib/FlurryAnalytics-6.2.0.jar')
 }
 
 configurations {
