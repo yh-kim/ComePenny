@@ -22,6 +22,7 @@ import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.tab.t1idea.IdeaListItem;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.flurry.android.FlurryAgent;
 import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ScrollDirectionListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,7 +41,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Kim on 2015-09-16.
@@ -70,6 +73,12 @@ public class BoothDetailActivity extends ActionBarActivity {
     LinearLayout lyBoothInfo;
     View header;
 
+    private void addLog(){
+        Map<String, String> boothParams = new HashMap<String, String>();
+        boothParams.put("booth_name", name[booth_id-1]);
+
+        FlurryAgent.logEvent("Booth_view", boothParams, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +88,9 @@ public class BoothDetailActivity extends ActionBarActivity {
         //boothFragment에서 intent할때 보낸 값 받기
         Intent intent = getIntent();
         booth_id = intent.getExtras().getInt("booth_id");
+
+        // 로그저장
+        addLog();
 
         userId = DataUtil.getAppPreferences(getApplicationContext(), "user_id");
         //리스트부분
@@ -102,7 +114,7 @@ public class BoothDetailActivity extends ActionBarActivity {
         lvBoothDetailIdea.addHeaderView(header, adapters, false);
 
         // Adapter 생성
-        adapters = new IdeaAdapter(getApplicationContext(), R.layout.row_idea, dataList);
+        adapters = new IdeaAdapter(this, R.layout.row_idea, dataList);
 
         // Adapter와 GirdView를 연결
         lvBoothDetailIdea.setAdapter(adapters);
@@ -136,7 +148,7 @@ public class BoothDetailActivity extends ActionBarActivity {
                     // 숨기기
                     fab.hide();
 
-                    if ((firstVisibleItem + visibleItemCount) == totalItemCount - 2) {
+                    if ((firstVisibleItem + visibleItemCount) > totalItemCount - 2) {
                         //서버로부터 받아온 List개수를 count
                         //지금까지 받아온 개수를 offset
                         if (count != 0 && offset > 3 && offset % 6 == 0) {
@@ -273,6 +285,7 @@ public class BoothDetailActivity extends ActionBarActivity {
 
     @Override
     public void finish() {
+        FlurryAgent.endTimedEvent("Booth_view");
         super.finish();
         overridePendingTransition(0, 0);
     }

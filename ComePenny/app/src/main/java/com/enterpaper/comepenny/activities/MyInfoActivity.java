@@ -27,6 +27,7 @@ import com.enterpaper.comepenny.tab.ComePennyMyinfoFragmentPagerAdapter;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.flurry.android.FlurryAgent;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.HttpResponse;
@@ -107,10 +108,17 @@ public class MyInfoActivity extends ActionBarActivity {
         }
     }
 
+    private void addLog(){
+        FlurryAgent.logEvent("MyInfo_view");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myinfo);
+
+        // 로그저장
+        addLog();
 
         loader = ImageLoader.getInstance();
 

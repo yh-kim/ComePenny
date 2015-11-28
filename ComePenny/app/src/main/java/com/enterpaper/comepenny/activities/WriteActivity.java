@@ -15,6 +15,7 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaDetailActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.flurry.android.FlurryAgent;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -42,10 +43,15 @@ public class WriteActivity extends Activity {
     String content, user_id;
     String sharedText;
 
+    private void addLog(){
+        FlurryAgent.logEvent("write_idea");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write);
+        addLog();
 
         //writebooth에서 intent할때 보낸 값 받기
         Intent intent = getIntent();

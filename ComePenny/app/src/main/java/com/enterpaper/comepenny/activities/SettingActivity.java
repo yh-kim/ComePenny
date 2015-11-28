@@ -17,6 +17,7 @@ import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
+import com.flurry.android.FlurryAgent;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -42,10 +43,16 @@ public class SettingActivity extends Activity {
     LinearLayout btn_logout, btn_version;
     TextView tvVersion;
 
+    private void addLog(){
+        FlurryAgent.logEvent("Setting_view");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        addLog();
 
         //TextView 폰트 지정
         SetFont.setGlobalFont(this, getWindow().getDecorView());
@@ -171,6 +178,7 @@ public class SettingActivity extends Activity {
             // 정상적으로 글쓰기
             if (result == 0) {
                 try {
+                    FlurryAgent.logEvent("logout");
                     jObject.getInt("err");
 
                     DataUtil.setAppPreferences(SettingActivity.this, "user_id", null);
