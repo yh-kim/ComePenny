@@ -2,12 +2,15 @@ package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
@@ -37,6 +40,7 @@ public class SettingActivity extends Activity {
     Toolbar mToolBar;
     ImageView btn_setting_back;
     LinearLayout btn_logout, btn_version;
+    TextView tvVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,18 @@ public class SettingActivity extends Activity {
         // layout 생성
         initializeLayout();
 
+        // 어플 버전 가져오기
+        PackageInfo pi = null;
+
+        try {
+            pi = getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+
+        }
+        String appVersion = pi.versionName;
+
+        tvVersion.setText(appVersion);
+
         initializeListener();
     }
 
@@ -60,6 +76,7 @@ public class SettingActivity extends Activity {
         btn_setting_back = (ImageView) findViewById(R.id.btn_setting_back);
         btn_logout = (LinearLayout) findViewById(R.id.btn_logout);
         btn_version = (LinearLayout) findViewById(R.id.btn_version);
+        tvVersion = (TextView)findViewById(R.id.tv_setting_version);
     }
 
     private void initializeListener() {

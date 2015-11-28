@@ -17,10 +17,8 @@ import com.enterpaper.comepenny.util.BackPressCloseHandler;
 import com.enterpaper.comepenny.util.BaseActivity;
 import com.enterpaper.comepenny.util.DataUtil;
 import com.enterpaper.comepenny.util.SetFont;
-
 import com.flurry.android.FlurryAgent;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

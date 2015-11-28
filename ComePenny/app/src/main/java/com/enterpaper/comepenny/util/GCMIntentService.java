@@ -8,11 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.view.WindowManager;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.activities.MainActivity;
-
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 public class GCMIntentService extends IntentService {
@@ -37,7 +35,7 @@ public class GCMIntentService extends IntentService {
         if (!extras.isEmpty()) {
             if (GoogleCloudMessaging.
                     MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                // String title = intent.getStringExtra("title");
+//                 String title = intent.getStringExtra("title");
                 String message = intent.getStringExtra("message");
 
                 sendNotification(message);
