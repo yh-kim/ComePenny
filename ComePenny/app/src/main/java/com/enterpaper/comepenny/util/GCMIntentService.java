@@ -73,7 +73,7 @@ public class GCMIntentService extends IntentService {
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg)
                                 .setSummaryText("더보기"))
-//                        .setContentText(msg)
+                        .setContentText("당겨서 살펴보세요")
                         .setWhen(System.currentTimeMillis())
                         .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                         .setAutoCancel(true);
