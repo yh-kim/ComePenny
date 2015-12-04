@@ -17,10 +17,13 @@ public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter implemen
     private int switch_Icons[] = {R.drawable.selector_tab_homo, R.drawable.selector_tab_category};
     Fragment frag =null;
     final int PAGE_COUNT = 2;
+    Fragment ideaFrag, boothFrag;
 
 
     public ComePennyFragmentPagerAdapter(FragmentManager fm){
         super(fm);
+        ideaFrag = IdeaFragment.newInstance();
+        boothFrag = BoothFragment.newInstance();
 
     }
 
@@ -36,9 +39,9 @@ public class ComePennyFragmentPagerAdapter extends FragmentPagerAdapter implemen
 
         switch (position){
             case 0:
-                return IdeaFragment.newInstance();
+                return ideaFrag;
             case 1:
-                return BoothFragment.newInstance();
+                return boothFrag;
 
 
         }

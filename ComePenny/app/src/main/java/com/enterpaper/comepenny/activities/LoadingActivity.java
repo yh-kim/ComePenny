@@ -1,13 +1,16 @@
 package com.enterpaper.comepenny.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 
 import com.enterpaper.comepenny.R;
@@ -35,8 +38,6 @@ public class LoadingActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-        getMarketVersionFast();
-
     }
 
 
@@ -159,9 +160,6 @@ public class LoadingActivity extends Activity {
             PackageInfo pi = null;
             try {
                 pi = getPackageManager().getPackageInfo(getPackageName(), 0);
-            } catch (PackageManager.NameNotFoundException e) {
-
-            }
             String appVersion = pi.versionName;
 
             if (mVer.equals(appVersion)) {
@@ -194,10 +192,56 @@ public class LoadingActivity extends Activity {
                 dialog.show();    // 알림창 띄우기
 
             }
+
+            } catch (Exception e) {
+                dataCheck();
+            }
             return;
 
 
         }
+    }
 
+    // 인터넷 연결 체크
+    private void dataCheck() {
+        ConnectivityManager manager = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if(mobile.isConnected() || wifi.isConnected()) {
+
+        } else {
+            dataSettingsAlert();
+        }
+    }
+
+    // 인터넷 연결 다이얼로그
+    private void dataSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setTitle("Data 세팅");
+        alertDialog.setMessage("Data 세팅이 되지 않았습니다.\n 설정창으로 가시겠습니까?");
+        alertDialog.setPositiveButton("설정", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
+            }
+        });
+
+        alertDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                finish();
+            }
+        });
+
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMarketVersionFast();
     }
 }

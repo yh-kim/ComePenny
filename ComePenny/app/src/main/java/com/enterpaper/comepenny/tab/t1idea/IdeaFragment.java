@@ -116,7 +116,6 @@ public class IdeaFragment extends Fragment {
         // 헤더레이아웃 객체 생성
         initializeLayout();
 
-
         //헤더설정
         lvMainIdea.addHeaderView(popular_view);
 

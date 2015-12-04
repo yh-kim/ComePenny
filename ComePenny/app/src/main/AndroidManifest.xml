@@ -84,7 +84,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".tab.t2booth.BoothDetailActivity"></activity>
-        <activity android:name=".tab.t1idea.IdeaDetailActivity"></activity>
+        <activity android:name=".tab.t1idea.IdeaDetailActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
 
         <fragement android:name=".tab.t1idea.IdeaFragment"></fragement>
 

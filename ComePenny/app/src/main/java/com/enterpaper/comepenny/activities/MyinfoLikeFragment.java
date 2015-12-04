@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.enterpaper.comepenny.R;
 import com.enterpaper.comepenny.tab.t1idea.IdeaAdapter;
@@ -246,8 +245,6 @@ public class MyinfoLikeFragment extends Fragment {
             }
             // Error 상황
             else {
-                Toast.makeText(getContext(), "Error",
-                        Toast.LENGTH_SHORT).show();
             }
         }
 

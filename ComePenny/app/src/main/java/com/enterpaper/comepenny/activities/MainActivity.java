@@ -41,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
     private String SENDER_ID = "536972355978";//프로젝트번호
     private GoogleCloudMessaging gcm;
     private String regid;
+    ComePennyFragmentPagerAdapter cpPageAdapter;
 
 
     Toolbar mToolBar;
@@ -173,13 +174,13 @@ public class MainActivity extends ActionBarActivity {
 
     private void initializeTab() {
         pager = (ViewPager) this.findViewById(R.id.pager);
-        pager.setAdapter(new ComePennyFragmentPagerAdapter(getSupportFragmentManager()));
+        cpPageAdapter = new ComePennyFragmentPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(cpPageAdapter);
 
         /* 큰아이콘 탭
         */
         tabsStrip = (PagerSlidingTabStrip) this.findViewById(R.id.tabsStrip);
         tabsStrip.setViewPager(pager);
-
 
         tabsStrip.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -189,6 +190,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
+
             }
 
             @Override
