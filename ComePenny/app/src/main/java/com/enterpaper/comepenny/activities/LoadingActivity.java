@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 
 import com.enterpaper.comepenny.R;
@@ -219,16 +218,18 @@ public class LoadingActivity extends Activity {
     private void dataSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Data 세팅");
-        alertDialog.setMessage("Data 세팅이 되지 않았습니다.\n 설정창으로 가시겠습니까?");
+        alertDialog.setTitle("잠깐!!");
+        alertDialog.setMessage("인터넷 연결이 되어 있지 않아요");
+        /*
         alertDialog.setPositiveButton("설정", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS));
             }
         });
+        */
 
-        alertDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("키고 다시 들어오기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

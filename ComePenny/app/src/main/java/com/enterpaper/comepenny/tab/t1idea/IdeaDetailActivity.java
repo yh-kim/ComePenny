@@ -51,13 +51,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class IdeaDetailActivity extends ActionBarActivity {
@@ -415,7 +411,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                     //서버로부터 받아온 List개수를 count
                     //지금까지 받아온 개수를 offset
                     if (count != 0 && offset > 4 && offset % row_cnt == 0) {
@@ -425,7 +420,6 @@ public class IdeaDetailActivity extends ActionBarActivity {
                             new NetworkGetCommentList().execute("");
                         }
                     }
-                }
             }
         });
 
